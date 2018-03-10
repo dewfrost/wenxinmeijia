@@ -1,49 +1,3 @@
-<style lang="scss">
-  .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    .footer-but {
-      display: flex;
-      div {
-        flex-grow: 1;
-        text-align: center;
-        line-height: 80px;
-      }
-    }
-    .footer-nav{
-    	border-top:1px solid #e6e6e6;
-    	background-color:#fff;
-    	height:100px;
-    	padding-top:15px;
-    	display: flex;
-    	text-align:center;
-    	
-    	.footerNav{
-    		flex-grow: 1;
-    		color:#666;
-    		.iconfont{
-    			font-size:40px;
-    			display:block;
-    		}
-    		
-    		.icon-shouye2,.icon-gouwuche2,.icon-yonghu2{
-    			color:#e01016;
-    		}
-        .icon-saoyisao.active{
-          color:#e01016;
-        }
-    		.nav-title{
-    			font-size:22px;
-    		}
-    	}
-    	.navTitle-xz{
-  			color:#e01016;
-  		}
-    }
-  }
-</style>
-
 <template>
   <div class="footer" v-show="show">
     <div class="footer-but">
@@ -85,15 +39,15 @@ export default {
           title: '首页',
           router: 'index'
         }, {
-          class: 'icon-news_hot_light',
-          class1: 'icon-news_hot_fill_light',
-          title: '报单中心',
-          router: 'declarationCenter'
-        }, {
           class: 'icon-cart_light',
           class1: 'icon-cart_fill_light',
           title: '购物车',
           router: 'goodsCar'
+        }, {
+          class: 'icon-Information_light',
+          class1: 'icon-Information_fill_lig',
+          title: '消息',
+          router: 'info'
         }, {
           class: 'icon-my_light',
           class1: 'icon-my_fill_light',
@@ -109,7 +63,11 @@ export default {
   },
   watch: {
     $route (to, from) {
-      this.navRoute = to.name;
+      if (to.name === 'index1') {
+        this.navRoute = 'index';
+      } else {
+        this.navRoute = to.name;
+      }
     }
   },
   methods: {
@@ -134,3 +92,49 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+  @import '../assets/css/base.scss';
+  .footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    .footer-but {
+      display: flex;
+      div {
+        flex-grow: 1;
+        text-align: center;
+        line-height: 80px;
+      }
+    }
+    .footer-nav{
+    	border-top:1px solid #e6e6e6;
+    	background-color:#fff;
+    	height:100px;
+    	padding-top:15px;
+    	display: flex;
+    	text-align:center;
+    	
+    	.footerNav{
+    		flex-grow: 1;
+    		color:#666;
+    		.iconfont{
+    			font-size:40px;
+    			display:block;
+    		}
+    		
+    		.icon-shouye2,.icon-gouwuche2,.icon-yonghu2{
+    			color:$color;
+    		}
+        .icon-saoyisao.active{
+          color:$color;
+        }
+    		.nav-title{
+    			font-size:22px;
+    		}
+    	}
+    	.navTitle-xz{
+  			color:$color;
+  		}
+    }
+  }
+</style>

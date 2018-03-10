@@ -40,6 +40,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  @import '../assets/css/base.scss';
   html, body {
     height: 100%;
   }
@@ -57,7 +58,7 @@ export default {
       left: calc(50% - #{60px / 2});
       animation: rotator 1.4s linear infinite;
       .path {
-        stroke: #E01016;
+        stroke: $color;
         stroke-dasharray: 126;
         stroke-dashoffset: 0;
         transform-origin: center;

@@ -48,6 +48,7 @@ export default {
 };
 </script>
 <style lang="scss">
+  @import '../assets/css/base.scss';
   .footer {
     position: absolute;
     bottom: 0;

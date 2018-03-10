@@ -24,29 +24,29 @@ Vue.prototype.axios = axios.create({
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 });
 
-const Other = ['index', 'login', 'register', 'findPassword', 'setting', 'registrantionProtocol', 'platformIntroduction', 'beginnerGuide', 'newProclamation', 'customCenter', 'afterMarket', 'aftermarketDetails', 'goodsDetails', 'newGoodsArea', 'newProclamationDetail', 'saleArea', 'promotionsArea', 'panicBuyingArea'];
-router.beforeEach((to, from, next) => {
-  // 跳转前判断是否登录
-  if (Other.join('*').match(to.fullPath.replace('/', '')) || Other.join('*').match(to.name) !== null) {
-    next();
-  } else {
-    Vue.prototype.axios.post('/login/userLoginStatus')
-      .then(({data}) => {
-        // 如果返回值为2000，则跳转到登录页
-        if (data.status === 2000) {
-          router.push('login');
-        // } else if (data.status === 4000) {
-        //   // 微信登录
-        //   window.location.href = data.data;
-        } else {
-          next();
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-});
+// const Other = ['index', 'login', 'register', 'findPassword', 'setting', 'registrantionProtocol', 'platformIntroduction', 'beginnerGuide', 'newProclamation', 'customCenter', 'afterMarket', 'aftermarketDetails', 'goodsDetails', 'newGoodsArea', 'newProclamationDetail', 'saleArea', 'promotionsArea', 'panicBuyingArea'];
+// router.beforeEach((to, from, next) => {
+//   // 跳转前判断是否登录
+//   if (Other.join('*').match(to.fullPath.replace('/', '')) || Other.join('*').match(to.name) !== null) {
+//     next();
+//   } else {
+//     Vue.prototype.axios.post('/login/userLoginStatus')
+//       .then(({data}) => {
+//         // 如果返回值为2000，则跳转到登录页
+//         if (data.status === 2000) {
+//           router.push('login');
+//         // } else if (data.status === 4000) {
+//         //   // 微信登录
+//         //   window.location.href = data.data;
+//         } else {
+//           next();
+//         }
+//       })
+//       .catch(function (error) {
+//         console.log(error);
+//       });
+//   }
+// });
 
 // 添加一个请求拦截器
 Vue.prototype.axios.interceptors.request.use(function (config) {

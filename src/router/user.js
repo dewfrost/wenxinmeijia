@@ -17,4 +17,12 @@
 // 110,111,112 支付宝绑定/解绑/微信绑定 bind.vue?type=zhifubao/unbundle/wechat
 // 113,115 修改登录密码/支付密码 edit-password.vue?type=login/pay
 
-export default[];
+import userCenter from '../page/user-center.vue';
+
+export default[
+  {
+    path: '/userCenter',
+    component: userCenter,
+    name: 'userCenter'
+  }
+];

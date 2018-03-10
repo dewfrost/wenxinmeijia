@@ -2,9 +2,8 @@
   <div class="index">
     <p @click="showToast">{{toastMsg}}</p>
     <p @click="showModal">{{modalMsg}}</p>
-    <p @click="showLoading">loading</p>
+    <p @click="showLoading">loading 组件</p>
   </div>
-    
 </template>
 
 <script>
@@ -12,8 +11,8 @@ export default {
   name: 'index',
   data () {
     return {
-      toastMsg: 'toast',
-      modalMsg: 'modal'
+      toastMsg: 'toast 组件',
+      modalMsg: 'modal 组件'
     };
   },
   beforeCreate: function () { // 创建之前
@@ -21,44 +20,43 @@ export default {
   created: function () { // 创建之后
   },
   beforeMount: function () { // 挂载之前
-    eventBus.$emit('header', {
-      title: '标题'
-    });
   },
-  mounted: function () { // 挂载之后
-    eventBus.$emit('footer', {
-      button: [],
-      navShow: true
-    });
+  mounted: function () {
+    this.getFooter();
+    this.getHeader();
   },
   methods: {
+    getHeader () {
+      eventBus.$emit('header', {
+        title: '首页'
+      });
+    },
+    getFooter () {
+      eventBus.$emit('footer', {
+        button: [],
+        navShow: true
+      });
+    },
     showToast: function () {
+      // 引用toast组件
       eventBus.$emit('toast', {
-        time: 3000,
         icon: 'icon-chenggong',
-        message: 'toast提示'
+        message: 'toast提示文字'
       });
     },
     showModal: function () {
+      // 引用弹窗组件
       eventBus.$emit('modal', {
-        modal: true,
-        content: '标收费高科技的生物化工路收费价格被罚款矛盾开始讲故事的激动啥题',
-        btnTitle: '现在上传',
-        type: 'download',
+        title: '这是弹窗标题',
+        content: '这是弹窗正文',
         callback: function () {
-          eventBus.$emit('toast', {
-            show: true,
-            icon: 'icon-chenggong',
-            toastMsg: '成功'
-          });
+          console.log('调用弹窗成功');
         }
       });
     },
     showLoading: function () {
-      eventBus.$emit('loading', {
-        loadShow: true,
-        timeOut: 1000
-      });
+      // 引用弹窗组件
+      eventBus.$emit('loading', true);
     }
   }
 };

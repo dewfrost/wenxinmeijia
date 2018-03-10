@@ -46,7 +46,7 @@ export default {
     changeShow: function () {
       eventBus.$on('modal', (data) => {
         console.log(data);
-        this.modal = data.modal;
+        this.modal = true;
         this.modalClass = data.modalClass;
         this.width = data.width;
         this.show = data.show;

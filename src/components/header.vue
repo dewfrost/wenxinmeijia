@@ -57,6 +57,7 @@ export default {
 };
 </script>
 <style lang="scss">
+  @import '../assets/css/base.scss';
   .header-top {
     width: 100%;
     height: 90px;
