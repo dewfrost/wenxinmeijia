@@ -20,21 +20,24 @@ export default {
   created: function () {
   },
   beforeMount: function () {
-    eventBus.$on('loading', (boolean) => {
-      clearTimeout(this.timeOut);
-      if (boolean) {
-        this.timeOut = setTimeout(() => {
-          this.loadShow = boolean;
-        }, 300);
-      } else {
-        clearTimeout(this.timeOut);
-        this.loadShow = boolean;
-      }
-    });
+    this.getEvent();
   },
   methods: {
     stopLoading () {
       this.loadShow = false;
+    },
+    getEvent () {
+      eventBus.$on('loading', (boolean) => {
+        clearTimeout(this.timeOut);
+        if (boolean) {
+          this.timeOut = setTimeout(() => {
+            this.loadShow = boolean;
+          }, 300);
+        } else {
+          clearTimeout(this.timeOut);
+          this.loadShow = boolean;
+        }
+      });
     }
   }
 };

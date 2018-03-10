@@ -29,11 +29,11 @@ export default {
     };
   },
   beforeMount: function () {
-    this.linsEvent();
+    this.getEvent();
   },
   methods: { // 大杂烩,开心就好
     // 监听事件函数
-    linsEvent: function () {
+    getEvent () {
       eventBus.$on('footer', (data) => {
         if (!data) {
           this.show = false;

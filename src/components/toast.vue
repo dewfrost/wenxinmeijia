@@ -1,10 +1,10 @@
 <template>
   <div class="toast">
-    <div class="toast-wrap" :class="{'show-toast': show, 'toast-none': !show}">
-      <div class="icon" :class="{'show-icon': icon, 'icon-none': !icon}">
+    <div class="toast_wrap" :class="{'show_toast': show, 'toast_none': !show}">
+      <div class="icon" :class="{'show_icon': icon, 'icon_none': !icon}">
         <i class="iconfont" :class="icon"></i>
       </div>
-      <div class="text">{{toastMsg}}</div>
+      <div class="text">{{message}}</div>
     </div>
   </div>
 </template>
@@ -14,28 +14,36 @@ export default {
   name: 'toast',
   data () {
     return {
-      toastMsg: '',
+      message: '',
       show: false,
       time: null,
       icon: null
     };
   },
   beforeMount: function () {
-    let toast = this;
-    eventBus.$on('toast', function (data) {
-      toast.show = true;
-      toast.toastMsg = data.message;
-      toast.icon = data.icon;
-      toast.time = data.time;
-      if (toast.show) {
-        setTimeout(() => {
-          toast.show = false;
-        }, toast.time || 2000);
-      }
-    });
+    this.getEvent();
   },
   beforeDestroy: function () {
     this.show = false;
+  },
+  methods: {
+    getEvent () {
+      let toast = this;
+      eventBus.$on('toast', function (data) {
+        if (toast.show) {
+          return false;
+        }
+        toast.show = true;
+        toast.message = data.message;
+        toast.icon = data.icon;
+        toast.time = data.time;
+        if (toast.show) {
+          setTimeout(() => {
+            toast.show = false;
+          }, toast.time || 2000);
+        }
+      });
+    }
   }
 };
 </script>
@@ -44,16 +52,17 @@ export default {
   @import '../assets/css/base.scss';
   .toast {
     z-index: 100;
-    .toast-wrap {
+    .toast_wrap {
+      width: 50%;
       position: fixed;
       line-height: 120px;
-      padding: 0 30px;
+      padding: 0 14px;
       left: 50%;
       bottom: 50%;
       transform: translate(-50%, -50%);
       transition: all .4s;
-      border-radius: 15px;
-      background: rgba(0,0,0,0.6);
+      border-radius: 10px;
+      background: rgba(0,0,0,0.5);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -61,27 +70,28 @@ export default {
       z-index: 1002;
       box-sizing: border-box;
       text-align: center;
-      &.toast-none{
+      &.toast_none{
         opacity: 0;
         z-index: -1;
       }
-      .icon.show-icon{
+      .icon.show_icon{
         min-width: 150px;
         z-index: 3;
       }
-      .icon.icon-none{
+      .icon.icon_none{
         opacity: 0;
         z-index: -1;
       }
       .iconfont{
-        font-size: 34px;
+        font-size: 28px;
         color: #fff;
         line-height: 1.4;
+        margin-top: 10px;
       }
       .text {
         font-size: 14px;
+        line-height: 2.6;
         color: #fff;
-        max-width: 80vw;
       }
     }
   }

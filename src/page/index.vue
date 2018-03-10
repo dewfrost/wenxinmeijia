@@ -28,7 +28,8 @@ export default {
   methods: {
     getHeader () {
       eventBus.$emit('header', {
-        title: '首页'
+        title: '首页',
+        right: 'denglk'
       });
     },
     getFooter () {
@@ -40,15 +41,16 @@ export default {
     showToast: function () {
       // 引用toast组件
       eventBus.$emit('toast', {
-        icon: 'icon-chenggong',
-        message: 'toast提示文字'
+        // icon: 'icon-chenggong1',
+        message: '提示文字'
       });
     },
     showModal: function () {
       // 引用弹窗组件
       eventBus.$emit('modal', {
         title: '这是弹窗标题',
-        content: '这是弹窗正文',
+        content: '这是弹窗服饰股份的供热一个头特化工股份合格的合格合格分数高富帅正文',
+        btnTitle: '这是按钮',
         callback: function () {
           console.log('调用弹窗成功');
         }
