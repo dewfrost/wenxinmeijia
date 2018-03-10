@@ -4,3 +4,12 @@
 }
 
 $color : #FF517B;
+// 引用  color: $color;
+@mixin border {
+  border-bottom: 1px solid #e6e6e6;
+}
+// 引用  
+// div {
+// 　@include border;
+// }
+

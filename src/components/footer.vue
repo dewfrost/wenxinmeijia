@@ -58,7 +58,7 @@ export default {
     };
   },
   beforeMount: function () {
-    this.linsEvent();
+    this.getEvent();
     this.getRoute();
   },
   watch: {
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     // 监听事件函数
-    linsEvent: function () {
+    getEvent () {
       eventBus.$on('footer', (data) => {
         if (!data) {
           this.show = false;
