@@ -2,7 +2,7 @@
   <div class="footer" v-show="show">
     <div v-if="other" v-html="other.inner" :class="other.class"></div>
     <div class="footer_but">
-      <div v-for="item in button" :key="item.id" v-html="item.inner" :class="item.class" @click="item.callback"></div>
+      <div v-for="(item,index) in button" :key="index" v-html="item.inner" :class="item.class" @click="item.callback"></div>
     </div>
     <div v-if="nav.length"></div>
   </div>
