@@ -1,8 +1,8 @@
 <template>
   <div class="footer" v-show="show">
     <div class="footer-but">
-      <div v-for="(item,index) in button" :key="item.id" :class="item.class" @click="item.callback" >
-      	<span class="iconfont" v-show="item.isShow"  :class="{ 'icon-shenhe2' : item.state,'icon-weigouxuan' : !item.state }"></span>
+      <div v-for="(item,index) in button" :key="index" :class="item.class" @click="item.callback" >
+      	<span class="iconfont" v-show="item.isShow" :class="{ 'icon-shenhe2' : item.state,'icon-weigouxuan' : !item.state }"></span>
       	<span v-html="item.inner"></span>
       </div>
     </div>
