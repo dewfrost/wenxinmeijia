@@ -137,7 +137,7 @@
 </script>
 
 <style lang="scss">
-  @import url("//at.alicdn.com/t/font_577847_0xj4zcsiocpzxgvi.css");
+  @import url("//at.alicdn.com/t/font_577847_lrj1ej4orvi2uik9.css");
   /* 样式重置reset */
   *, ::before, ::after {
     box-sizing: border-box
