@@ -2,7 +2,7 @@
   <div class="index">
     <p @click="showToast">{{toastMsg}}</p>
     <p @click="showModal">{{modalMsg}}</p>
-    <p @click="showLoading">loading 组件</p>
+    <p @click="loading">loading 组件{{hidePhone(15644444444)}}</p>
   </div>
 </template>
 
@@ -23,15 +23,9 @@ export default {
   },
   mounted: function () {
     this.getFooter();
-    this.getHeader();
+    this.getHeader('首页', null, '右边');  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
-    getHeader () {
-      eventBus.$emit('header', {
-        title: '首页',
-        right: 'denglk'
-      });
-    },
     getFooter () {
       eventBus.$emit('footer', {
         button: [],
@@ -40,25 +34,15 @@ export default {
     },
     showToast: function () {
       // 引用toast组件
-      eventBus.$emit('toast', {
-        // icon: 'icon-chenggong1',
-        message: '提示文字'
-      });
+      this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
     },
     showModal: function () {
+      let that = this; // 如果回调函数中用到this，则这行代码必须有
       // 引用弹窗组件
-      eventBus.$emit('modal', {
-        title: '这是弹窗标题',
-        content: '这是弹窗服饰股份的供热一个头特化工股份合格的合格合格分数高富帅正文',
-        btnTitle: '这是按钮',
-        callback: function () {
-          console.log('调用弹窗成功');
-        }
+      this.toast('这是弹窗标题', '这是弹窗服饰股份的供热一个头特化工股份合格的合格合格分数高富帅正文', '这是按钮', function () {
+        console.log('调用弹窗成功');
+        console.log(that.modalMsg);
       });
-    },
-    showLoading: function () {
-      // 引用弹窗组件
-      eventBus.$emit('loading', true);
     }
   }
 };

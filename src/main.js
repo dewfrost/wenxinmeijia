@@ -10,6 +10,9 @@ Vue.config.productionTip = false;
 window.eventBus = new Vue();
 // 缓存组件
 window.eventCookie = new Vue();
+
+// 公共函数
+
 // 创建ajax
 Vue.prototype.axios = axios.create({
   baseURL: '',
@@ -23,6 +26,58 @@ Vue.prototype.axios = axios.create({
   // 设置Content-Type
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 });
+
+// 加载头部
+Vue.prototype.getHeader = function (title, topClass, rightName, rightCallback) {
+  eventBus.$emit('header', {
+    title: title,
+    topClass: topClass,
+    right: rightName,
+    rightBack: rightCallback
+  });
+};
+
+// 加载头部
+Vue.prototype.modal = function (title, content, btnTitle, callback) {
+  eventBus.$emit('modal', {
+    title: title,
+    content: content,
+    btnTitle: btnTitle,
+    callback: callback
+  });
+};
+
+// 是否是微信浏览器
+Vue.prototype.isWechat = function () {
+  if (navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// loading加载
+Vue.prototype.loading = function (boolean) {
+  if (!boolean) {
+    eventBus.$emit('loading', false);
+  } else {
+    eventBus.$emit('loading', true);
+  }
+};
+
+// toast弹窗
+Vue.prototype.toast = function (message, icon) {
+  eventBus.$emit('toast', {
+    message: message,
+    icon: icon
+  });
+};
+
+// 手机号码隐藏中间四位
+Vue.prototype.hidePhone = function (phone) {
+  let phoneStr = phone.toString();
+  return phoneStr.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+};
 
 // const Other = ['index', 'login', 'register', 'findPassword', 'setting', 'registrantionProtocol', 'platformIntroduction', 'beginnerGuide', 'newProclamation', 'customCenter', 'afterMarket', 'aftermarketDetails', 'goodsDetails', 'newGoodsArea', 'newProclamationDetail', 'saleArea', 'promotionsArea', 'panicBuyingArea'];
 // router.beforeEach((to, from, next) => {
