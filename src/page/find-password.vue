@@ -101,8 +101,7 @@ export default {
       } else {
         this.$router.push('login');
       }
-    },
-    
+    }
   }
 };
 </script>
