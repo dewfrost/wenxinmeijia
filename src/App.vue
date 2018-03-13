@@ -2,7 +2,7 @@
   <div id="app">
     <div id="app-height" ref="appHeight"></div>
     <!-- 头部 -->
-    <headerTem id="headerTem"></headerTem>
+    <headerTem id="headerTem"></headerTem> 
     <div id="content" @scroll="toggleHead" ref="appContent">
         <transition :name="transitionName">
             <router-view class="child-view"></router-view>
@@ -137,7 +137,7 @@
 </script>
 
 <style lang="scss">
-  @import url("//at.alicdn.com/t/font_577847_lrj1ej4orvi2uik9.css");
+  @import url("//at.alicdn.com/t/font_577847_36dv9t21ru8ilik9.css");
   /* 样式重置reset */
   *, ::before, ::after {
     box-sizing: border-box

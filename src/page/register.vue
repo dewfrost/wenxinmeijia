@@ -95,7 +95,7 @@ export default {
     // 点击登录跳转页面
     registerSubmit: function () {
       if (!this.select) {
-        this.toast('同意注册协议才可以注册')
+        this.toast('同意注册协议才可以注册');
       } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
         this.toast('密码格式不正确');
       } else if (!this.user.code) {
