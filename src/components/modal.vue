@@ -15,8 +15,6 @@
 </template>
 
 <script>
-// 引入文件
-
 export default {
   name: 'modal',
   data () {
@@ -43,7 +41,11 @@ export default {
   methods: {
     getEvent () {
       eventBus.$on('modal', (data) => {
-        this.modal = true;
+        if (!data) {
+          this.modal = false;
+        } else {
+          this.modal = true;
+        }
         this.modalClass = data.modalClass;
         this.width = data.width;
         this.show = data.show;

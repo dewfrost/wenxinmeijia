@@ -17,7 +17,6 @@ export default {
   beforeMount: function () { // 挂载之前
   },
   mounted: function () {
-    this.getFooter();
     this.getHeader('消息详情');
   },
   methods: {

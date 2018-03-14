@@ -35,6 +35,7 @@ export default {
     // 创建之前
   },
   created: function () {
+    this.readPass();
     // 创建之后
   },
   beforeMount: function () {
@@ -130,6 +131,9 @@ export default {
         padding: 20px;
         display: flex;
         align-items: center;
+        &::before{
+          margin-top: 4px;
+        }
       }
       input {
         display: flex;
@@ -177,6 +181,8 @@ export default {
       display: flex;
       justify-content: space-between;
       p {
+        display: flex;
+        align-items: center;
         font-size: 22px;
         line-height: 30px;
         height: 28px;
@@ -185,6 +191,7 @@ export default {
             color: $color;
             padding-right: 8px;
             font-size: 28px;
+            margin-top: 4px;;
           }
           &.icon-30xuanzhongyuanxing::before {
             color: $color;

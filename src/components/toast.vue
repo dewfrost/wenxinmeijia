@@ -17,7 +17,8 @@ export default {
       message: '',
       show: false,
       time: null,
-      icon: null
+      icon: null,
+      timeout: null
     };
   },
   beforeMount: function () {
@@ -30,17 +31,22 @@ export default {
     getEvent () {
       let toast = this;
       eventBus.$on('toast', function (data) {
+        // 如果toast还没消失
         if (toast.show) {
           return false;
         }
-        toast.show = true;
+        if (!data) {
+          toast.show = false;
+        } else {
+          toast.show = true;
+        }
         toast.message = data.message;
         toast.icon = data.icon;
-        toast.time = data.time;
         if (toast.show) {
-          setTimeout(() => {
+          toast.timeout = setTimeout(() => {
             toast.show = false;
-          }, toast.time || 2000);
+            clearTimeout(toast.timeout);
+          }, 2000);
         }
       });
     }
@@ -62,7 +68,7 @@ export default {
       transform: translate(-50%, -50%);
       transition: all .4s;
       border-radius: 10px;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.7);
       display: flex;
       justify-content: center;
       align-items: center;

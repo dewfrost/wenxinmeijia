@@ -1,6 +1,6 @@
 <template>
-  <div class="header_top" :class="topClass" v-show="flag">
-    <span class="iconfont icon-zuo back" @click="leftMethod"></span>
+  <div class="header_top" :class="headerClass" v-show="show">
+    <span class="iconfont back" @click="leftMethod" :class="{'icon-zuo': !left, 'left_name': left}">{{left}}</span>
     <h1 class="title">{{title}}</h1>
     <span class="header_right" v-if="right" @click="rightMethod">{{right}}</span>
   </div>
@@ -11,8 +11,9 @@ export default {
   name: 'headerBox',
   data () {
     return {// 数据
-      topClass: '', // 头部类名
-      flag: true, // 是否需要头部
+      headerClass: '', // 头部类名
+      show: true, // 是否需要头部
+      left: '',
       title: '', // 标题
       right: '', // 右侧字
       leftBack: '', // 左侧事件(默认返回上一级)
@@ -27,27 +28,24 @@ export default {
     this.getEvent();
   },
   beforeDestroy: function () { // 实例销毁前调用,解绑中间层的数据传输
-    eventBus.$off('headerBox');
+    eventBus.$off('header');
   },
   methods: {
     getEvent () {
       let box = this;
       eventBus.$on('header', function (data) {
-        box.topClass = data.topClass; // 头部类名
-        box.flag = !data.flag; // 是否显示头部(默认显示)
-        box.title = data.title; // 标题
-        box.right = data.right; // 右侧字
-        box.leftBack = data.leftBack; // 左侧事件(默认返回上一级)
-        box.rightBack = data.rightBack; // 右侧事件
+        if (!data) {
+          box.show = false;
+        } else {
+          box.headerClass = data.class; // 头部类名
+          box.show = !data.show; // 是否显示头部(默认显示)
+          box.left = data.left; // 标题
+          box.title = data.title; // 标题
+          box.right = data.right; // 右侧字
+          box.leftBack = data.leftBack; // 左侧事件(默认返回上一级)
+          box.rightBack = data.rightBack; // 右侧事件
+        }
       });
-    },
-    headerDefault: function () {
-      this.topClass = ''; // 头部类名
-      this.flag = true; // 是否需要头部
-      this.title = ''; // 标题
-      this.right = ''; // 右侧字
-      this.leftBack = ''; // 左侧事件(默认返回上一级)
-      this.rightBack = ''; // 右侧事件
     },
     leftMethod: function () {
       if (!this.leftBack) return this.$router.go(-1);
@@ -78,6 +76,9 @@ export default {
       height: 90px;
       font-size: 32px;
       color: inherit;
+      &.left_name{
+        font-size: 24px;
+      }
     }
     .title {
       font-size: 30px;
