@@ -126,7 +126,7 @@ export default {
 .register {
   min-height: 100%;
   padding: 220px 70px 85px;
-  background: url(../assets/images/register.png) no-repeat #ffffff center 20%;
+  background: url(../assets/images/register.png) no-repeat #ffffff center top;
   .register_main {
     img {
       display: block;

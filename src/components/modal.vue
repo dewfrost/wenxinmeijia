@@ -58,7 +58,8 @@ export default {
       this.modal = false;
     },
     buttonBox: function () {
-      return this.callback();
+      this.callback();
+      this.modal = false;
     }
   }
 };
