@@ -8,13 +8,13 @@
       </label>
       <label for="sms" class="iconfont icon-xinxi">
         <input type="number" id="sms" v-model="user.code" placeholder="请输入短信验证码" />
-        <button @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
+        <button class="button" @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
       </label>
       <label for="password" class="iconfont icon-suo">
         <input type="password" id="password" v-model="user.password" placeholder="请设置您的密码（字母+数字）" />
       </label>
       <label for="pwd" class="iconfont icon-suo">
-        <input type="password" id="pwd" v-model="user.pwd" placeholder="请确认您的密码" />
+        <input type="password" id="pwd" v-model="user.pad" placeholder="请确认您的密码" />
       </label>
       <button class="findPassword_btn" @click="findPasswordSubmit">提交</button>
     </div>
@@ -94,10 +94,10 @@ export default {
         this.toast('验证码不能为空');
       } else if (!this.user.phone) {
         this.toast('手机号不能为空');
-      } else if (!this.password) {
+      } else if (!this.user.password) {
         this.toast('密码不能为空');
-      } else if (!this.pad) {
-        this.toast('密码不能为空');
+      } else if (!this.user.pad) {
+        this.toast('新密码不能为空');
       } else {
         this.$router.push('login');
       }
@@ -123,25 +123,23 @@ export default {
       margin-left: -30px;
       background: #f5f5f5;
     }
-    > label.iconfont {
-      margin-bottom: 40px;
-      line-height: 110px;
-      display: inline-block;
-      width: 100%;
-      border: 1px solid $color;
-      border-radius: 34px;
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #e6e6e6;
+    > label {
+        padding-top: 40px;
+        line-height: 110px;
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        border-bottom: 1px solid #e6e6e6;
       &:before {
         color: $color;
         font-size: 40px;
         padding-left: 41px;
         padding-right: 29px;
+        line-height: 65px;
       }
       > input {
         font-size: 24px;
-        line-height: 72px;
+        line-height: 68px;
         display: flex;
         width: 100%;
         justify-content: center;
@@ -159,82 +157,26 @@ export default {
           color: #999;
         } /* IE浏览器 */
       }
+      .button{
+        min-width: 140px;
+        height: 40px;
+        color: $color;
+        border-left: 1px solid $color;
+        background: transparent;
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
     }
-    // .sms-box {
-    //   margin-bottom: 40px;
-    //   display: flex;
-    //   justify-content: space-between;
-    //   width: 100%;
-    //   border: 1px solid $color;
-    //   border-radius: 34px;
-    //   > label.iconfont {
-    //     height: 72px;
-    //     line-height: 72px;
-    //     display: inline-block;
-    //     display: flex;
-    //     align-items: center;
-    //     &:before {
-    //       color: $color;
-    //       font-size: 36px;
-    //       padding-left: 41px;
-    //       padding-right: 29px;
-    //     }
-    //     > input {
-    //       font-size: 24px;
-    //       line-height: 72px;
-    //       display: flex;
-    //       width: 100%;
-    //       justify-content: center;
-    //       background-color: rgba(0, 0, 0, 0);
-    //       &::-webkit-input-placeholder {
-    //         color: #999999;
-    //       } /* 使用webkit内核的浏览器 */
-    //       :-moz-placeholder {
-    //         color: #999;
-    //       } /* Firefox版本4-18 */
-    //       ::-moz-placeholder {
-    //         color: #999;
-    //       } /* Firefox版本19+ */
-    //       :-ms-input-placeholder {
-    //         color: #999;
-    //       } /* IE浏览器 */
-    //     }
-    //   }
-    //   button {
-    //     background: #fff;
-    //     color: #ff517b;
-    //     border: none;
-    //     font-size: 20px;
-    //     padding-left: 20px;
-    //     margin-right: 32px;
-    //     width: 150px;
-    //     border-left: 1px solid #ff517b;
-    //   }
-    // }
     .findPassword_btn {
-      margin-top: 40px;
       width: 500px;
-      height: 72px;
-      border-radius: 34px;
+      height: 68px;
+      display: block;
+      margin: 170px auto 0;
+      border-radius: 4px;
       line-height: 72px;
       color: #fff;
       background: $color;
       font-size: 26px;
-    }
-  }
-  p {
-    margin-top: 26px;
-    color: $color;
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    .span {
-      color: #666666;
-      font-size: 22px;
-    }
-    span {
-      color: $color;
-      font-size: 22px;
     }
   }
 }

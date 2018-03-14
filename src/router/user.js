@@ -20,15 +20,13 @@
 // 59 编辑收货地址 edit-address.vue
 // 60 添加新地址/62 选择所在地区 add-address.vue
 // 63 客服中心 customer-center.vue
-// 64/65 更换手机号 change-phone.vue
-// 66 手机号修改成功 phone-success.vue
+// 64/65 更换手机号/66 手机号修改成功 change-phone.vue
 // 67 账户绑定 account-bind.vue
 // 68 微信绑定 weixin-bind.vue
 // 69 支付宝绑定 zfb-bind.vue
 // 70 支付宝解绑 zfb-unbind.vue
 // 71 账户设置/75 退出登录 setting-account.vue
-// 72 修改登录密码/74 修改支付密码 revise-password.vue
-// 73 登录密码修改成功 setting-success.vue
+// 72 修改登录密码/73 登录密码修改成功/74 修改支付密码 revise-password.vue
 // 76 销售排行/77 本月收入 rank-list.vue
 
 import userCenter from '../page/user-center.vue';
@@ -54,14 +52,12 @@ import editAddress from '../page/edit-address.vue';
 import addAddress from '../page/add-address.vue';
 import customerCenter from '../page/customer-center.vue';
 import changePhone from '../page/change-phone.vue';
-import phoneSuccess from '../page/phone-success.vue';
 import accountBind from '../page/account-bind.vue';
 import weixinBind from '../page/weixin-bind.vue';
 import zfbBind from '../page/zfb-bind.vue';
 import zfbUnbind from '../page/zfb-unbind.vue';
 import settingAccount from '../page/setting-account.vue';
 import revisePassword from '../page/revise-password.vue';
-import settingSuccess from '../page/setting-success.vue';
 import rankList from '../page/rank-list.vue';
 
 export default[
@@ -181,11 +177,6 @@ export default[
     name: 'changePhone'
   },
   {
-    path: '/phoneSuccess',
-    component: phoneSuccess,
-    name: 'phoneSuccess'
-  },
-  {
     path: '/accountBind',
     component: accountBind,
     name: 'accountBind'
@@ -214,11 +205,6 @@ export default[
     path: '/revisePassword',
     component: revisePassword,
     name: 'revisePassword'
-  },
-  {
-    path: '/settingSuccess',
-    component: settingSuccess,
-    name: 'settingSuccess'
   },
   {
     path: '/rankList',

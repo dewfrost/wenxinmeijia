@@ -107,6 +107,7 @@ export default {
 @import "../assets/css/base.scss";
 .login_top {
   background: transparent;
+  border: none;
 }
 .login {
   background: url(../assets/images/login.png) no-repeat;
