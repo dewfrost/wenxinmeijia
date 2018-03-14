@@ -18,7 +18,7 @@
 // 57 我的二维码 qr-code.vue
 // 58 管理收货地址/61 删除收货地址 manage-address.vue
 // 59 编辑收货地址 edit-address.vue
-// 60 添加新地址/61 删除收货地址/62 选择所在地区 add-address.vue
+// 60 添加新地址/62 选择所在地区 add-address.vue
 // 63 客服中心 customer-center.vue
 // 64/65 更换手机号 change-phone.vue
 // 66 手机号修改成功 phone-success.vue
