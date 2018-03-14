@@ -119,73 +119,73 @@ export default {
 .recommendAwards {
   background: url(../assets/images/recommend.png) no-repeat;
   min-height: 100%;
-.top{
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 22px;
-  margin-top: 160px;
-  line-height: 66px;
-  .all_sum{
-    font-size: 50px;
-    line-height: 50px;
+  .top{
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 22px;
+    margin-top: 160px;
+    line-height: 66px;
+    .all_sum{
+      font-size: 50px;
+      line-height: 50px;
+    }
   }
- }
-.center{
-  span{
-    display: inline-block;
-    padding: 0 8px;
-    padding-top: 40px;
-    font-size: 20px;
-    color: #999;
-    &.icon-web__jiangli{
-      font-size: 25px;
-      padding-left: 25px;
-     }
-    }
-  ul{
-    padding-top: 25px;
-    margin-bottom: 20px;
-    .recommend_li:first-child{
-      border-top: 1px solid #e6e6e6;
-    }
-    .recommend_li{
-      width: 92%;
-      margin: auto;
-      border-bottom: 1px solid #e6e6e6;
-      img{
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        margin:20px 25px 20px 5px;
+  .center{
+    span{
+      display: inline-block;
+      padding: 0 8px;
+      padding-top: 40px;
+      font-size: 20px;
+      color: #999;
+      &.icon-web__jiangli{
+        font-size: 25px;
+        padding-left: 25px;
       }
-      .user{
-        display: flex;
-        flex-direction: column;
       }
-      div{
+    ul{
+      padding-top: 25px;
+      margin-bottom: 20px;
+      .recommend_li:first-child{
+        border-top: 1px solid #e6e6e6;
+      }
+      .recommend_li{
+        width: 92%;
+        margin: auto;
+        border-bottom: 1px solid #e6e6e6;
+        img{
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          margin:20px 25px 20px 5px;
+        }
+        .user{
+          display: flex;
+          flex-direction: column;
+        }
+        div{
+          display: flex;
+          justify-content: space-between;
+          .recommend_div{
+            margin-top: 15px;
+            color: #333;
+            font-size: 24px;
+          }
+          .recommend_time{
+            margin-bottom: 15px;
+            color: #999;
+            font-size: 20px;
+          }
+        }
         display: flex;
         justify-content: space-between;
-        .recommend_div{
-          margin-top: 15px;
-          color: #333;
-          font-size: 24px;
-        }
-        .recommend_time{
-          margin-bottom: 15px;
-          color: #999;
-          font-size: 20px;
-        }
       }
-      display: flex;
-      justify-content: space-between;
+      .recommend_span{
+        font-size: 24px;
+        color: #333;
+      }
     }
-    .recommend_span{
-      font-size: 24px;
-      color: #333;
-    }
-  }
   }
 }
 </style>

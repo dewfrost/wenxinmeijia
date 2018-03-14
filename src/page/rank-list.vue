@@ -9,7 +9,19 @@
       <ul>
         <li class="rank_li" v-for="(item, index) in user">
           <div class="rank_one">
-            <span>{{index+1}} .  </span>
+            <!-- <span>{{index+1}}.</span> -->
+            <span v-if="index == 0">
+              <img src="../assets/images/index_1.png" alt="">
+            </span>
+            <span v-if="index == 1">
+              <img src="../assets/images/index_2.png" alt="">
+            </span>
+            <span v-if="index == 2">
+              <img src="../assets/images/index_3.png" alt="">
+            </span>
+            <span v-if="index >= 3">
+             {{index+1}}.
+            </span>
             <img :src="item.imgurl" alt="头像">
             <div class="rank_div">{{item.name}}</div>
           </div>
@@ -127,30 +139,29 @@ export default {
 .rankList {
   background: url(../assets/images/account.png) no-repeat;
   min-height: 100%;
-.top{
-  width: 50%;
-  margin: auto;
-  color: #ffd5dd;
-  display: flex;
-  justify-content: space-between;
-  font-size: 24px;
-  margin-top: 130px;
-  line-height: 45px;
-   .active{
-    border-bottom: 3px solid #fff;
-    color: #fff;
+  .top{
+    width: 50%;
+    margin: auto;
+    color: #ffd5dd;
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    margin-top: 130px;
+    line-height: 45px;
+    .active{
+      border-bottom: 3px solid #fff;
+      color: #fff;
+    }
+    .all_sum{
+      font-size: 50px;
+      line-height: 50px;
+    }
   }
-  .all_sum{
-    font-size: 50px;
-    line-height: 50px;
-  }
- }
  .center{
    .iconfont{
     display: inline-block;
-    padding:0 8px 10px  8px;
+    padding:0 10px 10px  8px;
     padding-top: 40px;
-    font-size: 20px;
     color: #999;
     &.icon-ranking{
       font-size: 23px;
@@ -158,9 +169,10 @@ export default {
      }
      .paihang{
        font-size: 20px;
+       margin-left: 5px;
      }
     }
-  .rank_li{
+     .rank_li{
         color: #333;
         font-size: 24px;
         height: 95px;
@@ -177,16 +189,24 @@ export default {
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            margin: auto 20px auto 0;
+            margin: auto 20px auto 5px;
           }
         .rank_one{
           span{
+            display: block;
             color: $color;
+            width: 55px;
+            margin: auto;
+            text-align: center;
+            img{ 
+              height: 54px;
+              width: 45px;
+            }
           }
           width: 40%;
           display: flex;
         }
       }
- }
+  }
 }
 </style>

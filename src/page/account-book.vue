@@ -131,92 +131,92 @@ export default {
 .accountBook {
   background: url(../assets/images/account.png) no-repeat;
   min-height: 100%;
-.top{
-  width: 50%;
-  margin: auto;
-  color: #ffd5dd;
-  display: flex;
-  justify-content: space-between;
-  font-size: 24px;
-  margin-top: 130px;
-  line-height: 45px;
-   .active{
-    border-bottom: 3px solid #fff;
-    color: #fff;
-  }
-  .all_sum{
-    font-size: 50px;
-    line-height: 50px;
-  }
- }
-.center{
-  span{
-    display: inline-block;
-    padding: 0 8px;
-    padding-top: 40px;
-    font-size: 20px;
-    color: #999;
-    &.icon-xinzi{
-      font-size: 23px;
-      padding-left: 25px;
-     }
+  .top{
+    width: 50%;
+    margin: auto;
+    color: #ffd5dd;
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    margin-top: 130px;
+    line-height: 45px;
+    .active{
+      border-bottom: 3px solid #fff;
+      color: #fff;
     }
-  ul{
-    padding-top: 60px;
-    margin-bottom: 20px;
-    .account_li{
-      width: 92%;
-      margin: auto;
-      border-bottom: 1px solid #e6e6e6;
-      .iconfont{
-        font-size: 30px;
-        margin: 18px 18px 0 0;
-          &.icon-jiankangshangcheng{
-            color: #24a5fe;
-          }
-          &.icon-tixian{
-            color: #ff517b;
-          }
-          &.icon-web__jiangli{
-            color: #31aafe;
-          }
-          &.icon-huokuanyifu{
-            color: #a755f4;
-          }
-          &.icon-huojian{
-            color: #fd465e;
-          }
-          &.icon-xinzi{
-            color: #fd9611;
-          }
+    .all_sum{
+      font-size: 50px;
+      line-height: 50px;
+    }
+  }
+  .center{
+    span{
+      display: inline-block;
+      padding: 0 8px;
+      padding-top: 40px;
+      font-size: 20px;
+      color: #999;
+      &.icon-xinzi{
+        font-size: 23px;
+        padding-left: 25px;
       }
-      .user{
-        display: flex;
-        flex-direction: column;
       }
-      div{
+    ul{
+      padding-top: 60px;
+      margin-bottom: 20px;
+      .account_li{
+        width: 92%;
+        margin: auto;
+        border-bottom: 1px solid #e6e6e6;
+        .iconfont{
+          font-size: 30px;
+          margin: 18px 18px 0 0;
+            &.icon-jiankangshangcheng{
+              color: #24a5fe;
+            }
+            &.icon-tixian{
+              color: #ff517b;
+            }
+            &.icon-web__jiangli{
+              color: #31aafe;
+            }
+            &.icon-huokuanyifu{
+              color: #a755f4;
+            }
+            &.icon-huojian{
+              color: #fd465e;
+            }
+            &.icon-xinzi{
+              color: #fd9611;
+            }
+        }
+        .user{
+          display: flex;
+          flex-direction: column;
+        }
+        div{
+          display: flex;
+          justify-content: space-between;
+          .account_div{
+            margin-top: 15px;
+            color: #333;
+            font-size: 24px;
+          
+          }
+          .account_time{
+            margin-bottom: 15px;
+            color: #999;
+            font-size: 20px;
+          }
+        }
         display: flex;
         justify-content: space-between;
-        .account_div{
-          margin-top: 15px;
-          color: #333;
-          font-size: 24px;
-        
-        }
-        .account_time{
-          margin-bottom: 15px;
-          color: #999;
-          font-size: 20px;
-        }
       }
-      display: flex;
-      justify-content: space-between;
+      .account_span{
+        font-size: 24px;
+        color: #333;
+      }
     }
-    .account_span{
-      font-size: 24px;
-      color: #333;
-    }
-  }
   }
 }
 </style>
