@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'index',
+  name: 'demos',
   data () {
     return {
       toastMsg: 'toast 组件',

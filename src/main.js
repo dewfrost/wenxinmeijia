@@ -39,12 +39,14 @@ Vue.prototype.axios = axios.create({
 });
 
 // 加载头部
-Vue.prototype.getHeader = function (title, topClass, rightName, rightCallback) {
+Vue.prototype.getHeader = function (title, topClass, rightName, rightCallback, leftName, leftCallback) {
   eventBus.$emit('header', {
     title: title,
     topClass: topClass,
     right: rightName,
-    rightBack: rightCallback
+    rightBack: rightCallback,
+    left: leftName,
+    leftBack: leftCallback
   });
 };
 
@@ -56,7 +58,6 @@ Vue.prototype.modal = function (title, content, btnTitle, callback) {
     btnTitle: btnTitle,
     callback: callback
   });
-  // eventBus.$emit('modal', false);
 };
 
 // 是否是微信浏览器

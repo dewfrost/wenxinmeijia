@@ -44,6 +44,7 @@ export default {
           box.right = data.right; // 右侧字
           box.leftBack = data.leftBack; // 左侧事件(默认返回上一级)
           box.rightBack = data.rightBack; // 右侧事件
+          console.log(box.left);
         }
       });
     },
