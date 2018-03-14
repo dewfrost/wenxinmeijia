@@ -45,6 +45,7 @@ Vue.prototype.modal = function (title, content, btnTitle, callback) {
     btnTitle: btnTitle,
     callback: callback
   });
+  // eventBus.$emit('modal', false);
 };
 
 // 是否是微信浏览器
