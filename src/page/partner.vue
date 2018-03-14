@@ -21,16 +21,24 @@
     </div>
     <div class="center" v-if="tabActive === 2">
      <div class="spend">
-     <span>筛选 : <span class="spend_span">全部 <i class="iconfont icon-sanjiao"></i> </span></span>
-     <span class="spend_num">共{{people.num}}人</span>
+        <span>筛选 :
+          <span @click="select()" class="spend_span">全部 <i class="iconfont icon-sanjiao"></i> </span>
+        </span>
+        <span class="spend_num">共{{people.num}}人</span>
      </div>
+     <ul v-show="isShow" class="agent">
+          <li class="agent_all" v-for="item in agent" @click="select()">
+            <span class="name">{{item.name}}</span>
+            <span class="num">{{item.num}}</span>
+          </li>
+      </ul>
      <ul>
        <li class="spend_li" v-for="item in member">
          <div class="tou">
            <img :src="item.Imgurl" alt="头像">
            <div class="s_d">
             <div>{{item.name}}</div>
-            <div class="level"><i class="iconfont icon-huiyuan"></i>{{item.level}} </div>
+            <div class="level" @click="all()"><i class="iconfont icon-huiyuan"></i>{{item.level}} </div>
            </div>
          </div>
          <div class="spend_money">
@@ -48,6 +56,7 @@ export default {
   name: 'partner',
   data () {
     return {
+      isShow: false,
       tabActive: 1,
       account: {
         num: 200
@@ -145,48 +154,32 @@ export default {
           level: '推广员',
           money: '1000.00',
           num: 10
+        }
+      ],
+      agent: [
+        {
+          name: '全部',
+          num: 120
         },
         {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '推广员',
-          money: '1000.00',
+          name: '推广员',
+          num: 60
+        },
+        {
+          name: '初级代理L1',
+          num: 30
+        },
+        {
+          name: '初级代理L2',
+          num: 15
+        },
+        {
+          name: '初级代理L3',
           num: 10
         },
         {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '推广员',
-          money: '1000.00',
-          num: 10
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '推广员',
-          money: '1000.00',
-          num: 10
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '推广员',
-          money: '1000.00',
-          num: 10
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '推广员',
-          money: '1000.00',
-          num: 10
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '推广员',
-          money: '1000.00',
-          num: 10
+          name: '合伙人L4',
+          num: 5
         }
       ],
       people: {
@@ -226,6 +219,9 @@ export default {
     },
     headerTab: function (num) {
       this.tabActive = num;
+    },
+    select: function () {
+      this.isShow = !this.isShow;
     }
   }
 };
@@ -315,6 +311,31 @@ export default {
       }
       .spend_num{
         color: #999;
+      }
+    }
+    .agent{
+     position: absolute;
+      min-height: 100vh;
+      width: 100%;
+      z-index: 9999;
+      background-color: rgba(0, 0, 0, 0.2);
+      .agent_all{
+        width: 100%;
+        padding: 0 4%;
+        justify-content: space-between;
+        display: flex;
+        margin:auto auto;
+        height: 70px;
+        line-height: 70px;
+        font-size: 22px;
+        background: #fff;
+        border: none;
+        .name{
+          color: #666;
+        }
+        .num{
+          color: #999;
+        }
       }
     }
     .spend_li{
