@@ -12,6 +12,7 @@
 // 20 购物车/21 购物车-编辑/22 购物车-删除 shopping-cart.vue
 
 import info from '../page/info.vue';
+import infoDetails from '../page/info-details.vue';
 import goodsCar from '../page/goods-car.vue';
 import goodsDetails from '../page/goods-details.vue';
 import addCart from '../page/add-cart.vue';
@@ -31,6 +32,11 @@ export default[
     path: '/goodsCar',
     component: goodsCar,
     name: 'goodsCar'
+  },
+  {
+    path: '/infoDetails',
+    component: infoDetails,
+    name: 'infoDetails'
   },
   {
     path: '/goodsDetails',

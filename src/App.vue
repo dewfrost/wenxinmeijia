@@ -2,7 +2,7 @@
   <div id="app">
     <div id="app-height" ref="appHeight"></div>
     <!-- 头部 -->
-    <headerTem id="headerTem"></headerTem>
+    <headerTem id="headerTem"></headerTem> 
     <div id="content" @scroll="toggleHead" ref="appContent">
         <transition :name="transitionName">
             <router-view class="child-view"></router-view>

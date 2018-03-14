@@ -1,11 +1,11 @@
 <template>
-  <div class="info_wrap">
+  <div class="info_details_wrap">
   </div>
 </template>
 
 <script>
 export default {
-  name: 'info',
+  name: 'infoDetails',
   data () {
     return {
     };
@@ -18,23 +18,12 @@ export default {
   },
   mounted: function () {
     this.getFooter();
-    this.getHeader('消息', 'info_header');
+    this.getHeader('消息详情');
   },
   methods: {
-    getFooter () {
-      eventBus.$emit('footer', {
-        button: [],
-        navShow: true
-      });
-    }
   }
 };
 </script>
 
 <style lang="scss">
-  .info_header.header_top{
-    span.iconfont{
-      display: none;
-    }
-  }
 </style>

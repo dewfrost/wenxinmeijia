@@ -1,7 +1,7 @@
 <template>
   <div class="login">
    <div class="login_logo"> 
-     <img src="../assets/images/login-logo.png" alt="">
+     <img src="../assets/images/love.png" alt="">
    </div>
    <div class="login_center">
     <div class="phone iconfont icon-shouji">
@@ -112,10 +112,8 @@ export default {
   min-height: 100%;
   .login_logo img {
     display: block;
-    width: 140px;
-    height: 150px;
     margin: 40% auto;
-    margin-bottom: 110px;
+    margin-bottom: 100px;
   }
   .login_center {
     .phone,
