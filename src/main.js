@@ -42,7 +42,7 @@ Vue.prototype.axios = axios.create({
 Vue.prototype.getHeader = function (title, topClass, rightName, rightCallback, leftName, leftCallback) {
   eventBus.$emit('header', {
     title: title,
-    topClass: topClass,
+    class: topClass,
     right: rightName,
     rightBack: rightCallback,
     left: leftName,
