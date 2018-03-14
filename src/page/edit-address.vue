@@ -52,16 +52,14 @@ export default {
       let that = this;
       eventBus.$emit('modal', {
         show: 'address',
-        modal: true,
-        btnTitle: '确认',
-        callback: function (data) {
-          that.area = eventBus.addressArr;
-          that.userInfo.province = that.area[0];
-          that.userInfo.city = that.area[1];
-          that.userInfo.area = that.area[2];
-          eventBus.$emit('modal', {
-            modal: false
-          });
+        addressShow: true,
+        callBack: function (data) {
+          for (let i = data.length; i > 0; i--) {
+            if (data[i] === '请选择') {
+              data.splice(i, 1);
+            }
+          }
+          that.area = data;
         }
       });
     },

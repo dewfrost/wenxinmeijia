@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="details_address">
-      <textarea id="details-address"placeholder="请填写详细地址" v-model="user.details_address"></textarea>
+      <textarea id="details-address" placeholder="请填写详细地址" v-model="user.details_address"></textarea>
     </div>
     <div class="default" @click="defaultSelect">
       <span>设为默认</span>
@@ -33,8 +33,8 @@ export default {
     return {
       // 数据
       user: {
-        name: '宓知月',
-        phone: '17000000000',
+        name: '',
+        phone: '',
         details_address: '',
         area: ['请选择']
       },
@@ -49,7 +49,6 @@ export default {
   beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
   updated: function () {}, // 数据更新后,渲染后调用(禁止)
   beforeDestroy: function () {
-    eventBus.$emit('header', false);
   }, // 实例销毁前调用,解绑中间层的数据传输
   destroyed: function () {}, // 实例销毁后调用
   methods: {
@@ -57,16 +56,14 @@ export default {
       let that = this;
       eventBus.$emit('modal', {
         show: 'address',
-        modal: true,
-        btnTitle: '确认',
-        callback: function (data) {
-          that.area = eventBus.addressArr;
-          that.userInfo.province = that.area[0];
-          that.userInfo.city = that.area[1];
-          that.userInfo.area = that.area[2];
-          eventBus.$emit('modal', {
-            modal: false
-          });
+        addressShow: true,
+        callBack: function (data) {
+          for (let i = data.length; i > 0; i--) {
+            if (data[i] === '请选择') {
+              data.splice(i, 1);
+            }
+          }
+          that.user.area = data;
         }
       });
     },
@@ -113,7 +110,7 @@ export default {
     }
     .select{
       span{
-        color: #999999;
+        color: #666;
       }
       .iconfont{
         font-size: 26px;

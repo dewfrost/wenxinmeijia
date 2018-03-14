@@ -12,15 +12,15 @@ window.eventBus = new Vue();
 window.eventCookie = new Vue();
 
 // 全局mixin在销毁前清除组件
-Vue.mixin({
-  beforeCreate () {
-    eventBus.$emit('toast', false);
-    eventBus.$emit('loading', false);
-    eventBus.$emit('header', false);
-    eventBus.$emit('modal', false);
-    eventBus.$emit('footer', false);
-  }
-});
+// Vue.mixin({
+//   beforeDestroy () {
+//     eventBus.$emit('toast', false);
+//     eventBus.$emit('loading', false);
+//     eventBus.$emit('header', false);
+//     eventBus.$emit('modal', false);
+//     eventBus.$emit('footer', false);
+//   }
+// });
 
 // 公共函数
 

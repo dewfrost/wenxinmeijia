@@ -8,13 +8,16 @@
       </div>
       <button class="btnClass" @click="buttonBox(callback)">{{ btnTitle }}</button>
     </div>
-    <div class="address" v-if="show === 'address'">地址</div>
+    <!-- <div class="address" v-if="show === 'address'">地址</div> -->
+    <!-- 地址弹框 -->
+    <addressBox :data.sync="data" v-if="data.addressShow && show === 'address'"></addressBox>
     <div class="pay_password" v-if="show === 'payPassword'">支付密码</div>
     <div class="images" v-if="show === 'images'">图片</div>
   </div>
 </template>
 
 <script>
+import addressBox from './address';
 export default {
   name: 'modal',
   data () {
@@ -27,7 +30,12 @@ export default {
       content: '', // 模态框文字内容
       btnClass: '', // 自定义类名
       btnTitle: '', // 按钮内容
-      callback: '' // 事件
+      callback: '', // 事件
+      data: {
+        addressShow: false,
+        hide: true
+      },
+      select: []
     };
   },
   beforeMount: function () {
@@ -54,6 +62,8 @@ export default {
         this.title = data.title;
         this.btnTitle = data.btnTitle;
         this.callback = data.callback;
+        // 地址
+        this.data = data;
       });
     },
     close: function () {
@@ -63,6 +73,9 @@ export default {
       this.callback();
       this.modal = false;
     }
+  },
+  components: {
+    addressBox
   }
 };
 </script>
