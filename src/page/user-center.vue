@@ -18,14 +18,9 @@ export default {
   },
   mounted: function () {
     this.getFooter();
-    this.getHeader();
+    // this.getHeader('个人中心');
   },
   methods: {
-    getHeader () {
-      eventBus.$emit('header', {
-        title: '个人中心'
-      });
-    },
     getFooter () {
       eventBus.$emit('footer', {
         button: [],
