@@ -19,13 +19,6 @@ Vue.mixin({
     eventBus.$emit('header', false);
     eventBus.$emit('modal', false);
     eventBus.$emit('footer', false);
-  },
-  beforeDestroy () {
-    eventBus.$emit('toast', false);
-    eventBus.$emit('loading', false);
-    eventBus.$emit('header', false);
-    eventBus.$emit('modal', false);
-    eventBus.$emit('footer', false);
   }
 });
 
