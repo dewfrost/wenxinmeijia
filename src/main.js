@@ -22,6 +22,14 @@ window.eventCookie = new Vue();
 //   }
 // });
 
+router.beforeEach((to, from, next) => {
+  eventBus.$emit('toast', false);
+  eventBus.$emit('loading', false);
+  eventBus.$emit('header', false);
+  eventBus.$emit('modal', false);
+  eventBus.$emit('footer', false);
+  next();
+});
 // 公共函数
 
 // 创建ajax

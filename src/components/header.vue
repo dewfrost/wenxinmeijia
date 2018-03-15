@@ -12,7 +12,7 @@ export default {
   data () {
     return {// 数据
       headerClass: '', // 头部类名
-      show: true, // 是否需要头部
+      show: false, // 是否需要头部
       left: '',
       title: '', // 标题
       right: '', // 右侧字
