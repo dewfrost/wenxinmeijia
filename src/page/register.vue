@@ -9,7 +9,7 @@
         <label for="sms" class="iconfont icon-xinxi">
           <input type="number" id="sms" v-model="user.code" placeholder="请输入短信验证码" />
         </label>
-        <button @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
+        <button @click="sendSMS" :class="{'is_send': disabled}" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
       </div>
       <label for="password" class="iconfont icon-suo">
         <input type="password" id="password" v-model="user.password" placeholder="请设置您的密码（字母+数字）" />
@@ -19,7 +19,11 @@
       </label>
       <button class="register_btn" @click="registerSubmit">注册</button>
     </div>
-    <p class="iconfont" @click="seclectP" :class="{'icon-30xuanzhongyuanxingfill':!select,'icon-30xuanzhongyuanxing':select }" iconfont><span class="span">同意</span><router-link :to="{path:'registration-agreement'}" tag="span">《用户注册协议》</router-link></p>
+    <span class="registration" @click="seclectP">
+      <i class="iconfont" :class="{'icon-30xuanzhongyuanxingfill': select,'icon-30xuanzhongyuanxing': !select}"></i>
+      <span class="agree">同意</span>
+      <router-link :to="{path:'registrationAgreement'}" tag="span" class="registration_link">《用户注册协议》</router-link>
+    </span>
   </div>
 </template>
 
@@ -36,7 +40,7 @@ export default {
         pad: ''
       },
       love: require('../assets/images/love.png'),
-      select: false,
+      select: true,
       disabled: false,
       sendSMSTime: 0,
       btntxt: '获取验证码'
@@ -76,6 +80,7 @@ export default {
       } else {
         this.sendSMSTime = 60;
         this.disabled = true;
+        this.btntxt = '已发送(' + this.sendSMSTime + ')s';
         let time = setInterval(() => { // 声明一个定时器
           if (this.sendSMSTime > 0) {
             this.sendSMSTime--;
@@ -89,20 +94,24 @@ export default {
         }, 1000);
       }
     },
-    // 点击登录跳转页面
+    // 点击登注册
     registerSubmit: function () {
       if (!this.select) {
         this.toast('同意注册协议才可以注册');
-      } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
-        this.toast('密码格式不正确');
-      } else if (!this.user.code) {
-        this.toast('验证码不能为空');
       } else if (!this.user.phone) {
         this.toast('手机号不能为空');
+      } else if (!/^(1[3-9])\d{9}$/.test(this.user.phone)) {
+        this.toast('手机号格式错误');
+      } else if (!this.user.code) {
+        this.toast('验证码不能为空');
       } else if (!this.password) {
         this.toast('密码不能为空');
       } else if (!this.pad) {
-        this.toast('密码不能为空');
+        this.toast('确认密码不能为空');
+      } else if (this.password !== this.pad) {
+        this.toast('两次输入的密码不同');
+      } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
+        this.toast('密码格式不正确');
       } else {
         this.$router.push('login');
       }
@@ -212,11 +221,14 @@ export default {
         background: #fff;
         color: #ff517b;
         border: none;
-        font-size: 20px;
+        font-size: 22px;
         padding-left: 20px;
         margin-right: 32px;
-        width: 150px;
+        min-width: 140px;
         border-left: 1px solid #ff517b;
+        &.is_send{
+          color: #999;
+        }
       }
     }
     .register_btn {
@@ -230,19 +242,25 @@ export default {
       font-size: 26px;
     }
   }
-  p {
+  span.registration {
     margin-top: 26px;
-    color: $color;
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    .span {
-      color: #666666;
-      font-size: 22px;
-    }
-    span {
+    display: inline-block;
+    color: #333;
+    font-size: 22px;
+    i.iconfont{
       color: $color;
-      font-size: 22px;
+      font-size: 26px;
+      position: relative;
+      top: 1px;
+      &.icon-30xuanzhongyuanxingfill{
+        color: $color;
+      }
+      &.icon-30xuanzhongyuanxing{
+        color: #666;
+      }
+    }
+    span.registration_link {
+      color: $color;
     }
   }
 }

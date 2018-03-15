@@ -8,7 +8,7 @@
       </label>
       <label for="sms" class="iconfont icon-xinxi">
         <input type="number" id="sms" v-model="user.code" placeholder="请输入短信验证码" />
-        <button class="button" @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
+        <button class="button" :class="{'is_send': disabled}" @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
       </label>
       <label for="password" class="iconfont icon-suo">
         <input type="password" id="password" v-model="user.password" placeholder="请设置您的密码（字母+数字）" />
@@ -73,6 +73,7 @@ export default {
       } else {
         this.sendSMSTime = 60;
         this.disabled = true;
+        this.btntxt = '已发送(' + this.sendSMSTime + ')s';
         let time = setInterval(() => { // 声明一个定时器
           if (this.sendSMSTime > 0) {
             this.sendSMSTime--;
@@ -88,17 +89,22 @@ export default {
     },
     // 点击登录跳转页面
     findPasswordSubmit: function () {
-      if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
-        this.toast('密码格式不正确');
+      if (!this.user.phone) {
+        this.toast('手机号不能为空');
+      } else if (!/^(1[3-9])\d{9}$/.test(this.user.phone)) {
+        this.toast('手机号格式错误');
       } else if (!this.user.code) {
         this.toast('验证码不能为空');
-      } else if (!this.user.phone) {
-        this.toast('手机号不能为空');
       } else if (!this.user.password) {
         this.toast('密码不能为空');
       } else if (!this.user.pad) {
-        this.toast('新密码不能为空');
+        this.toast('确认密码不能为空');
+      } else if (this.user.password !== this.user.pad) {
+        this.toast('两次输入的密码不同');
+      } else if (!/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}$/.test(this.user.password)) {
+        this.toast('密码格式不正确');
       } else {
+        this.toast('找回密码成功，请登录');
         this.$router.push('login');
       }
     }
@@ -158,13 +164,27 @@ export default {
         } /* IE浏览器 */
       }
       .button{
-        min-width: 140px;
-        height: 40px;
+        min-width: 160px;
+        height: 68px;
+        line-height: 68px;
         color: $color;
-        border-left: 1px solid $color;
         background: transparent;
-        font-size: 20px;
-        margin-bottom: 15px;
+        font-size: 22px;
+        position: relative;
+        &::before{
+          position: absolute;
+          content: '';
+          display: block;
+          height: 2em;
+          width: 1px;
+          background-color: $color;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        &.is_send{
+          color: #999;
+        }
       }
     }
     .findPassword_btn {

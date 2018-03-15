@@ -1,12 +1,35 @@
 <template>
   <div class="footer" v-show="show">
-    <div class="footer-but">
+    <!-- 普通底部 -->
+    <div class="footer-but" v-if="!type">
       <div v-for="(item,index) in button" :key="index" :class="item.class" @click="item.callback" >
       	<span class="iconfont" v-show="item.isShow" :class="{ 'icon-shenhe2' : item.state,'icon-weigouxuan' : !item.state }"></span>
       	<span v-html="item.inner"></span>
       </div>
     </div>
-    <div v-show="navShow" class="footer-nav">
+    <!-- 购物车底部 -->
+    <div class="footer_goods" v-if="type === 'goodsCar'">
+      <div v-for="(item,index) in button" :key="index" :class="item.class" @click="item.callback" >
+      	<span class="iconfont" v-show="item.isShow" :class="{ 'icon-shenhe2' : item.state,'icon-weigouxuan' : !item.state }"></span>
+      	<span v-html="item.inner"></span>
+      </div>
+    </div>
+    <!-- 商品详情底部 -->
+    <div class="footer_goods" v-if="type === 'goods'">
+      <div v-for="(item,index) in button" :key="index" :class="item.class" @click="item.callback" >
+      	<span class="iconfont" v-show="item.isShow" :class="{ 'icon-shenhe2' : item.state,'icon-weigouxuan' : !item.state }"></span>
+      	<span v-html="item.inner"></span>
+      </div>
+    </div>
+    <!-- 提交订单底部 -->
+    <div class="footer_goods" v-if="type === 'goods'">
+      <div v-for="(item,index) in button" :key="index" :class="item.class" @click="item.callback" >
+      	<span class="iconfont" v-show="item.isShow" :class="{ 'icon-shenhe2' : item.state,'icon-weigouxuan' : !item.state }"></span>
+      	<span v-html="item.inner"></span>
+      </div>
+    </div>
+    <!-- 底部导航 -->
+    <div v-show="navShow" class="footer-nav" v-if="!type">
       <div class="footerNav" v-for="(item,index) in nav" @click="toggle(index)"  :class="{ 'navTitle-xz' : item.router === navRoute}" :key="item.id">
       	<span class="iconfont" :class="[item.router === navRoute ? item.class1 : item.class ]"></span>
       	<span class="nav-title">{{item.title}}</span>
@@ -21,6 +44,7 @@ export default {
   data () {
     return {// 数据
       show: false,
+      type: '',
       navShow: false,
       navRoute: '',
       button: [
@@ -80,6 +104,7 @@ export default {
           this.show = true;
           this.navShow = data.navShow;
           this.button = data.button;
+          this.type = data.type;
         }
       });
     },

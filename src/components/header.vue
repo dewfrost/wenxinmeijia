@@ -89,7 +89,7 @@ export default {
       position: absolute;
       top: 0;
       right: 0;
-      padding: 0 20px;
+      padding: 0 30px;
       color: inherit;
       font-size: 24px;
     }
