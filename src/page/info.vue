@@ -63,7 +63,7 @@ export default {
   },
   mounted: function () {
     this.getFooter();
-    // this.getHeader('消息', 'info_header');
+    this.getHeader('消息', 'info_header');
   },
   methods: {
     getFooter () {
