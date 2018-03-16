@@ -1,6 +1,5 @@
 <template>
   <div class="user_center">
-    <p @click="pw">45645646</p>
     <!-- 个人信息 -->
     <div class="top">
       <router-link tag="img" class="head_img" to="editInformation" :src="user.headImg" alt="头像"></router-link>
@@ -85,28 +84,11 @@ export default {
   },
   mounted: function () {
     this.getFooter();
-    let that = this;
-    eventBus.$emit('modal', {
-      title: '￥10.00',
-      show: 'voucher',
-      btnTitle: '立即领取',
-      callback: function () {
-        that.toast('领取成功');
-      }
-    });
+    // 展示代金券弹窗,参数为金额
+    this.getVoucherModal('1450.00');
     // this.getHeader('个人中心');
   },
   methods: {
-    pw () {
-      let that = this;
-      eventBus.$emit('modal', {
-        show: 'setPassword',
-        btnTitle: '立即领取',
-        callback: function () {
-          that.toast('领取成功');
-        }
-      });
-    },
     getFooter () {
       eventBus.$emit('footer', {
         button: [],

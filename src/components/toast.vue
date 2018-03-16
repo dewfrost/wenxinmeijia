@@ -1,6 +1,6 @@
 <template>
   <div class="toast">
-    <div class="toast_wrap" :class="{'show_toast': show, 'toast_none': !show}">
+    <div class="toast_wrap" :class="{'show_toast': show, 'toast_none': !show, 'hasIcon': icon}">
       <div class="icon" :class="{'show_icon': icon, 'icon_none': !icon}">
         <i class="iconfont" :class="icon"></i>
       </div>
@@ -42,13 +42,11 @@ export default {
         }
         toast.message = data.message;
         toast.icon = data.icon;
-        let startTime = new Date();
         if (toast.show) {
           toast.timeout = setTimeout(() => {
             toast.show = false;
-            console.log(new Date() - startTime);
             clearTimeout(toast.timeout);
-          }, 1000);
+          }, 2000);
         }
       });
     }
@@ -66,18 +64,22 @@ export default {
       line-height: 120px;
       padding: 0 14px;
       left: 50%;
-      bottom: 50%;
+      top: 50%;
       transform: translate(-50%, -50%);
       transition: all .4s;
-      border-radius: 10px;
-      background: rgba(0,0,0,0.6);
+      border-radius: 8px;
+      background: rgba(0,0,0,0.5);
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       z-index: 1002;
-      box-sizing: border-box;
       text-align: center;
+      &.hasIcon{
+        width: 60%;
+        border-radius: 6px;
+        padding: 10px 14px;
+      }
       &.toast_none{
         opacity: 0;
         z-index: -1;
@@ -91,7 +93,7 @@ export default {
         z-index: -1;
       }
       .iconfont{
-        font-size: 28px;
+        font-size: 42px;
         color: #fff;
         line-height: 1.4;
         margin-top: 10px;

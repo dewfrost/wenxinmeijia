@@ -1,16 +1,26 @@
 <template>
   <div class="goods_car_wrap">
     <ul class="goods_list">
+      <div v-if="!goodsList.length && isRequest" class="none-order">
+        <p>此页面暂无内容</p>
+      </div>
       <li class="goods" v-for="(item, index) in goodsList" :key="index">
         <i class="iconfont"
         @click="toggleCheak(index)"
         :class="{'icon-30xuanzhongyuanxingfill': item.isCheck, 'icon-30xuanzhongyuanxing': !item.isCheck}"></i>
-        <img :src="item.goodsImg" alt="" class="goods_img">
+        <div class="img">
+          <img :src="item.goodsImg" alt="" class="goods_img">
+        </div>
         <div class="goods_details">
           <span class="name">{{item.goodsName}}</span>
           <span class="bottom">
             <span class="price"><span>￥</span>{{item.price || 0}}</span>
-            <span class="sum">x{{item.sum}}</span>
+            <span class="sum" v-show="!isEdit">x{{item.sum}}</span>
+            <span class="edit_sum" v-show="isEdit">
+              <span class="reduce" @click="changeNum(1, index)">-</span>
+              <span class="sum">{{item.sum}}</span>
+              <span class="add" @click="changeNum(0, index)">+</span>
+            </span>
           </span>
         </div>
       </li>
@@ -23,28 +33,32 @@ export default {
   name: 'goodsCar',
   data () {
     return {
+      isRequest: true, // 是否请求
+      isAllCheck: false,
+      allCheckGoodsNum: 0,
+      allCheckPrice: 0,
       isEdit: false,
       goodsList: [
         {
           isCheck: false,
           goodsImg: require('../assets/images/goods1.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '288.00',
-          sum: 14
+          price: '28.00',
+          sum: 6
         },
         {
           isCheck: false,
-          goodsImg: require('../assets/images/goods1.png'),
+          goodsImg: require('../assets/images/goods2.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '288.00',
-          sum: 14
+          price: '80.00',
+          sum: 10
         },
         {
           isCheck: false,
-          goodsImg: require('../assets/images/goods1.png'),
+          goodsImg: require('../assets/images/goods3.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '288.00',
-          sum: 14
+          price: '2.00',
+          sum: 33
         }
       ]
     };
@@ -62,41 +76,128 @@ export default {
       that.toggleEdit(1);
     });
   },
+  updated: function () {
+    // 循环所有选中状态，判断选中的商品种数
+    this.allCheckSum();
+    this.computedAllPrice();
+    this.getFooter();
+  },
   methods: {
+    getFooter () {
+      let that = this;
+      // 调用购物车底部，第四个参数为结算事件, 第五个参数为删除事件，第六个参数为全选事件
+      this.getGoodscarFooter(this.isAllCheck, this.allCheckGoodsNum, this.allCheckPrice, this.isEdit, function () {
+        if (!that.allCheckGoodsNum) {
+          that.toast('没有选中商品');
+        } else {
+          that.$router.push('submitOrder');
+        }
+      }, function () {
+        that.delGoods();
+      }, function () {
+        that.isAllCheck = !that.isAllCheck;
+        // 如果全选按钮选中，循环所有商品的按钮为选中，反之亦然
+        if (that.isAllCheck) {
+          for (let i = 0; i < that.goodsList.length; i++) {
+            that.goodsList[i].isCheck = true;
+          }
+        } else {
+          for (let i = 0; i < that.goodsList.length; i++) {
+            that.goodsList[i].isCheck = false;
+          }
+        }
+        // that.allCheckSum();
+        // that.getFooter();
+      });
+    },
+    // 点击是否选中事件
     toggleCheak (index) {
       this.goodsList[index].isCheck = !this.goodsList[index].isCheck;
+      // 如果当前点击的变为未选中，则return，不再循环是否全选
+      if (!this.goodsList[index].isCheck) {
+        this.isAllCheck = false;
+      } else {
+        // 循环所有选中状态，判断是否全选
+        for (let i = 0; i < this.goodsList.length; i++) {
+          if (!this.goodsList[i].isCheck) {
+            this.isAllCheck = false;
+            return false;
+          }
+        }
+        this.isAllCheck = true;
+      }
+    },
+    allCheckSum () {
+      // 循环所有选中状态，判断选中的商品种数
+      this.allCheckGoodsNum = 0;
+      for (let i = 0; i < this.goodsList.length; i++) {
+        if (this.goodsList[i].isCheck) {
+          this.allCheckGoodsNum++;
+        }
+      }
     },
     // 切换头部编辑状态
     toggleEdit (status) {
       let that = this;
-      if (status) {
-        this.getHeader('购物车', 'goods_car_header', '完成', function () {
-          that.toggleEdit(0);
-        });
-        this.isEdit = true;
+      if (!this.goodsList.length) {
+        this.toast('没有可编辑的商品');
       } else {
+        if (status) {
+          this.getHeader('购物车', 'goods_car_header', '完成', function () {
+            that.toggleEdit(0);
+          });
+          this.isEdit = true;
+        } else {
+          this.getHeader('购物车', 'goods_car_header', '编辑', function () {
+            that.toggleEdit(1);
+          });
+          this.isEdit = false;
+        }
+      }
+    },
+    changeNum (type, index) {
+      if (type) {
+        if (this.goodsList[index].sum === 1) {
+          return false;
+        } else {
+          this.goodsList[index].sum --;
+        }
+      } else {
+        this.goodsList[index].sum ++;
+      }
+    },
+    // 删除事件
+    delGoods () {
+      if (!this.allCheckGoodsNum) {
+        this.toast('没选中商品');
+      } else {
+        for (let i = this.goodsList.length - 1; i >= 0; i--) {
+          // 先判断是否选中
+          if (this.goodsList[i].isCheck) {
+            // this.allCheckPrice += this.goodsList[i].sum * parseInt(this.goodsList[i].price);
+            this.goodsList.pop(1);
+          }
+        }
+      }
+      // 如果商品删完了
+      if (!this.goodsList.length) {
+        let that = this;
         this.getHeader('购物车', 'goods_car_header', '编辑', function () {
           that.toggleEdit(1);
         });
         this.isEdit = false;
+        this.isAllCheck = false;
       }
     },
-    getFooter () {
-      eventBus.$emit('footer', {
-        button: [
-          {
-            inner: '123',
-            class: 'goods_footer',
-            callback: () => {}
-          },
-          {
-            inner: '123',
-            class: 'goods_footer1',
-            callback: () => {}
-          }
-        ],
-        navShow: true
-      });
+    // 计算总价
+    computedAllPrice () {
+      this.allCheckPrice = 0;
+      for (let i = 0; i < this.goodsList.length; i++) {
+        // 先判断是否选中
+        if (this.goodsList[i].isCheck) {
+          this.allCheckPrice += this.goodsList[i].sum * parseInt(this.goodsList[i].price);
+        }
+      }
     }
   }
 };
@@ -114,12 +215,27 @@ export default {
     padding: 110px 0 100px;
     background-color: #f5f5f5;
     .goods_list{
+      position: relative;
+      .none-order{
+        background: url(../assets/images/none_data.png) no-repeat center center;
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 300px;
+        width: 80%;
+        text-align: center;
+        > p{
+          color: #999;
+          font-size: 24px;
+          margin-top: 300px;
+        }
+      }
       .goods{
         background-color: #fff;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         @include border;
         display: flex;
-        // align-items: center;
         padding: 26px 20px 30px;
         i.iconfont{
           font-size: 32px;
@@ -134,9 +250,8 @@ export default {
           }
         }
         img.goods_img{
-          width: 150px;
-          height: 150px;
-          padding: 5px;
+          width: 144px;
+          height: 144px;
           margin-right: 22px;
         }
         .goods_details{
@@ -161,6 +276,45 @@ export default {
               color: $color;
               >span{
                 font-size: 22px;
+              }
+            }
+            .edit_sum{
+              border: 1px solid #999;
+              height: 40px;
+              display: flex;
+              align-items: center;
+              .reduce{
+                padding: 0 14px;
+                position: relative;
+                &::before{
+                  position: absolute;
+                  content: '';
+                  display: block;
+                  height: 1em;
+                  width: 1px;
+                  right: 0;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  background-color: #999;
+                }
+              }
+              .sum{
+                padding: 0 30px;
+              }
+              .add{
+                padding: 0 12px;
+                position: relative;
+                &::before{
+                  position: absolute;
+                  content: '';
+                  display: block;
+                  height: 1em;
+                  width: 1px;
+                  left: 0;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  background-color: #999;
+                }
               }
             }
           }

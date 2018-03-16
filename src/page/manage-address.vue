@@ -16,7 +16,6 @@
         </p>
       </div>
     </div>
-    <button @click="link">添加新地址</button>
   </div>
 </template>
 
@@ -52,6 +51,7 @@ export default {
   beforeMount: function () {}, // 挂载之前
   mounted: function () {
     this.getHeader('管理收货地址', 'manageAddress_top');
+    this.getFooter();
   }, // 挂载之后
   beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
   updated: function () {}, // 数据更新后,渲染后调用(禁止)
@@ -72,8 +72,18 @@ export default {
       this.address[index].select = 1;
     },
     // 跳转新地址页面
-    link: function () {
-      this.$router.push('addAddress');
+    getFooter () {
+      let that = this;
+      eventBus.$emit('footer', {
+        button: [
+          {
+            inner: '添加新地址',
+            callback: () => {
+              that.$router.push('addAddress');
+            }
+          }
+        ]
+      });
     },
     // 是否删除
     del: function (id, index) {

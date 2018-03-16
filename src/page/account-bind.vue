@@ -116,7 +116,7 @@ export default {
           color: #999;
         }
         .phone{
-
+          color: #999;
         }
         .unbind{
           color: $color;

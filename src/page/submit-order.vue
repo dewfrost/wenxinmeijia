@@ -1,20 +1,20 @@
 <template>
   <div class="submitOrder">
     <!-- 收货地址 -->
-    <div class="address" v-if="show">
+    <div class="address" v-if="!address" @click="selectAddress()">
       <p class="add_adddress">
         <i class="iconfont icon-tianjia1"></i>
         <span >添加收货地址</span>
       </p>
       <i class="iconfont icon-you"></i>
     </div>
-    <div class="new_address" v-if="!show">
+    <div class="new_address" v-if="address">
       <div class="left">
         <p class="info">
-          收货人：{{user.name}}
-          <span class="phone">{{user.phone}}</span>
+          收货人：{{address.name}}
+          <span class="phone">{{address.phone}}</span>
         </p>
-        <p class="add">地址：{{user.address}}</p>
+        <p class="add">地址：{{address.address}}</p>
       </div>
       <i class="iconfont icon-you"></i>
     </div>
@@ -56,11 +56,12 @@ export default {
   name: 'submitOrder',
   data () {
     return {
-      user: {
-        name: '杨阳洋',
-        phone: 17336369854,
-        address: '河南省 郑州市 金水区 某某某小区1单元6楼东户'
-      },
+      address: null,
+      // {
+      //   name: '杨阳洋',
+      //   phone: 17336369854,
+      //   address: '河南省 郑州市 金水区 某某某小区1单元6楼东户'
+      // },
       show: true,
       img: require('../assets/images/goods1.png'),
       list_title: '可穿戴美甲贴片奢华组合套装#210',
@@ -77,6 +78,7 @@ export default {
   created: function () {},
   beforeMount: function () {}, // 挂载之前
   mounted: function () {
+    this.getFooter();
     this.getHeader('提交订单', 'submitOrder_top');
   }, // 挂载之后
   beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
@@ -88,6 +90,20 @@ export default {
   computed: {
   },
   methods: {
+    selectAddress () {
+      this.$router.push('selectAddress');
+    },
+    // 调用提交订单底部
+    getFooter () {
+      let that = this;
+      this.getSubmitFooter(this.small_price, function () {
+        // 调用提交事件
+        that.submit();
+      });
+    },
+    submit () {
+      this.$router.push('payment');
+    },
     // 是否选择
     select: function () {
       this.status = !this.status;

@@ -12,25 +12,49 @@
     <!-- 地址弹框 -->
     <addressBox :data.sync="data" v-if="data.addressShow && show === 'address'"></addressBox>
     <!-- 支付密码弹框 -->
-    <div class="pay_password" v-if="show === 'payPassword'">
+    <div class="pay_password" v-if="show === 'password' && hasPassword">
+      <i class="iconfont icon-close" @click="close"></i>
+      <span class="title">请输入支付密码</span>
+      <div class="password_input">
+        <label for="password">
+          <ul>
+            <li class="box"
+            :class="{'is_focus': ((index) === password.length) && isFocus, 'no_focus': (index) !== password.length}"
+            v-for="(item, index) in [0, 1, 2, 3, 4, 5]"
+            :key="index">
+            {{password.length > index ? '●' : ''}}
+            </li>
+          </ul>
+        </label>
+        <input type="number" maxlength="6" id="password" v-model="password" @input="showPassNum()" @focus="inputFoces()" @blur="hasBlur()" autofocus>
+      </div>
+      <span class="forget" @click="toEditPassword()">忘记密码？</span>
     </div>
     <!-- 设置支付密码弹框 -->
-    <div class="set_password" v-if="show === 'setPassword'">
-      <label for="phone" class="iconfont icon-shouji">
-        <input type="number" id="phone" v-model="user.phone" @input="isRightPhone" placeholder="请输入您的手机号" />
+    <div class="set_password" v-if="show === 'password' && !hasPassword">
+      <i class="iconfont icon-close" @click="close"></i>
+      <i class="iconfont icon-warnfill"></i>
+      <span class="title">您还没有支付密码，设置支付密码后才能进行支付，请设置</span>
+      <label for="phone">
+        <i class="iconfont icon-shouji"></i>
+        <input type="text" id="phone" v-model="showPhone" :disabled="user.phone" placeholder="请输入您的手机号" />
       </label>
-      <div class="sms-box">
-        <label for="sms" class="iconfont icon-xinxi">
+      <div class="sms_wrap">
+        <label for="sms">
+        <i class="iconfont icon-xinxi"></i>
           <input type="number" id="sms" v-model="user.code" placeholder="请输入短信验证码" />
         </label>
-        <button @click="sendSMS" :class="{'is_send': disabled}" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
+        <button @click.stop="sendSMS" class="send_btn" :class="{'is_send': user.isSend}" :disabled="user.isSend">{{user.btntxt}}</button>
       </div>
-      <label for="password" class="iconfont icon-suo">
-        <input type="password" id="password" v-model="user.password" placeholder="请设置您的密码（字母+数字）" />
+      <label for="password">
+        <i class="iconfont icon-suo"></i>
+        <input type="password" id="password" v-model="user.password" placeholder="请设置6位纯数字的密码" />
       </label>
-      <label for="pwd" class="iconfont icon-suo">
-        <input type="password" id="pwd" v-model="user.pwd" placeholder="请确认您的密码" />
+      <label for="pwd">
+        <i class="iconfont icon-suo"></i>
+        <input type="password" id="pwd" v-model="user.repassword" placeholder="请确认您的密码" />
       </label>
+      <button class="btnClass" @click="submit()">提交</button>
     </div>
     <!-- 活动代金券 -->
     <div class="voucher" v-if="show === 'voucher'">
@@ -48,6 +72,9 @@ export default {
   name: 'modal',
   data () {
     return {
+      password: '',
+      isFocus: false,
+      hasPassword: true,
       modal: false, // 是否显示模态框
       show: 'default', // 显示类型，支付密码、选择地址或者设置支付密码。默认选择框
       modalWidth: 87.5, // 模态框宽度，百分比，默认70%
@@ -64,10 +91,13 @@ export default {
       select: [],
       voucherImg: require('../assets/images/vouchers.png'),
       user: {
-        phone: '',
+        phone: '15611122332',
         code: '',
         password: '',
-        pad: ''
+        repassword: '',
+        isSend: false,
+        btntxt: '发送验证码',
+        sendSMSTime: 0
       }
     };
   },
@@ -77,7 +107,12 @@ export default {
   },
   beforeDestroy: function () {
     // 取消监听
-    eventBus.$off('modal');
+    // eventBus.$off('modal');
+  },
+  computed: {
+    showPhone () {
+      return this.hidePhone(this.user.phone);
+    }
   },
   methods: {
     getEvent () {
@@ -101,11 +136,12 @@ export default {
     },
     close: function () {
       this.modal = false;
+      this.password = '';
     },
     buttonBox: function () {
       this.callback();
       this.modal = false;
-    }
+    },
     // 首页代金券组件
     // eventBus.$emit('modal', {
     //   title: '￥10.00',
@@ -115,6 +151,61 @@ export default {
     //     alert(1);
     //   }
     // });
+    sendSMS: function () {
+      // 判断手机号是否为空
+      if (!this.user.phone) {
+        this.toast('手机号不能为空');
+      } else {
+        this.user.sendSMSTime = 60;
+        this.user.isSend = true;
+        this.timer();
+        // this.axios.post('/login/sendCode', {
+        //   phone: this.user.phone,
+        //   type: 1
+        // })
+        //   .then(({data}) => {
+        //     if (data.status === 200) {
+        //       this.sendSMSTime = 60;
+        //       this.disabled = true;
+        //       this.isSend = true;
+        //       this.timer();
+        //     } else {
+        //       eventBus.$emit('toast', {message: data.msg});
+        //     }
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   });
+      }
+    },
+    timer: function () {
+      if (this.user.sendSMSTime > 0) {
+        this.user.sendSMSTime--;
+        this.user.btntxt = '已发送(' + this.user.sendSMSTime + ')s';
+        setTimeout(this.timer, 1000);
+      } else {
+        this.user.sendSMSTime = 0;
+        this.user.btntxt = '重新获取';
+        this.user.isSend = false;
+      }
+    },
+    showPassNum () {
+      if (this.password.length === 6) {
+        this.callback();
+        this.close();
+        this.password = '';
+      }
+    },
+    inputFoces () {
+      this.isFocus = true;
+    },
+    hasBlur () {
+      this.isFocus = false;
+    },
+    toEditPassword () {
+      this.$router.push({path: 'revisePassword', query: {type: 'pay'}});
+      this.password = '';
+    }
   },
   components: {
     addressBox
@@ -216,6 +307,196 @@ export default {
         font-size: 30px;
         margin-top: 40px;
         transform: translateX(10px);
+      }
+    }
+    .set_password{
+      width: 86%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 40px 48px;
+      border-radius: 6px;
+      font-size: 24px;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      .iconfont.icon-warnfill{
+        color: $color;
+        font-size: 50px;
+        align-self: center;
+      }
+      .title{
+        padding: 0 12%;
+        font-size: 24px;
+        line-height: 32px;
+        margin: 30px 0 40px;
+        align-self: center;
+        text-align: center;
+      }
+      i.iconfont.icon-close{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 38px;
+        padding: 12px;
+        color: #999;
+      }
+      >label{
+        width: 100%;
+        border-bottom: 1px solid $color;
+        display: flex;
+        align-items: center;
+        height: 72px;
+        line-height: 72px;
+        padding-left: 20px;
+        margin-top: 20px;
+        >i{
+          font-size: 40px;
+          color: $color;
+          margin-right: 30px;
+        }
+        input{
+          flex: 1;
+          font-size: 24px;
+          color: #333;
+          background-color: #fff;
+          line-height: 36px;
+        }
+      }
+      .sms_wrap{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        border-bottom: 1px solid $color;
+        position: relative;
+        >label{
+          display: flex;
+          height: 72px;
+          line-height: 72px;
+          padding-left: 20px;
+          margin-top: 20px;
+          >i{
+            font-size: 40px;
+            color: $color;
+            margin-right: 30px;
+          }
+          input{
+            flex: 1;
+            font-size: 24px;
+            color: #333;
+          }
+        }
+        >button.send_btn{
+          min-width: 140px;
+          padding: 0 10px;;
+          background-color: transparent;
+          position: absolute;
+          right: 0;
+          transform: translate(-50%, 10px);
+          bottom: 0;
+          font-size: 22px;
+          color: $color;
+          position: relative;
+          &::before{
+            position: absolute;
+            content: '';
+            display: block;
+            width: 1px;
+            height: 2em;
+            top: 50%;
+            left: 0;
+            background-color: $color;
+            transform: translateY(-50%);
+          }
+        }
+      }
+      .btnClass{
+        margin-top: 54px;
+        width: 100%;
+        height: 68px;
+        line-height: 68px;
+        background-color: #FFE5E6;
+        color: $color;
+        font-size: 26px;
+      }
+    }
+    .pay_password{
+      width: 86%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 0 48px;
+      border-radius: 4px;
+      font-size: 24px;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      i.iconfont.icon-close{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 36px;
+        padding: 8px;
+        color: #999;
+      }
+      .title{
+        width: 100%;
+        text-align: center;
+        font-size: 28px;
+        border-bottom: 1px solid #e6e6e6;
+        color: #333;
+        align-self: center;
+        padding: 34px 0;
+      }
+      .password_input{
+        width: 100%;
+        margin: 30px 0 80px;
+        position: relative;
+        label{
+          width: 100%;
+          margin-top: 32px;
+          ul{
+            display: flex;
+            li{
+              flex: 1;
+              border: 1px solid #e6e6e6;
+              height: 76px;
+              line-height: 76px;
+              font-size: 36px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              &:not(:first-child){
+                border-left-color: transparent;
+              }
+              &.is_focus{
+                box-shadow: inset 0 0 1px 2px #FFE5E6;
+                border: 1px solid #FFE5E6;
+                margin-left: -1px;
+              }
+            }
+          }
+        }
+        input{
+          margin-top: 20px;
+          position: absolute;
+          z-index: -1;
+          top: 0;
+          left: 0;
+          opacity: 0;
+        }
+      }
+      .forget{
+        color: $color;
+        text-decoration: underline;
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+        font-size: 20px;
       }
     }
   }

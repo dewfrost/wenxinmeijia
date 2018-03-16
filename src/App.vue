@@ -34,7 +34,7 @@
         transitionName: 'slide-right',
         roter: this.$route.name,
         scrollRouteArr: [
-          'index'
+          'goodsDetails'
         ]
       };
     },
@@ -85,7 +85,8 @@
       },
       toggleHead: function (e) {
         if (this.scrollRouteArr.indexOf(this.roter) === -1) return false;
-        eventBus.$emit('contentScroll', this.$refs.appContent.scrollTop + this.$refs.appContent.clientHeight);
+        // eventBus.$emit('contentScroll', this.$refs.appContent.scrollTop + this.$refs.appContent.clientHeight);
+        eventBus.$emit('contentScroll', this.$refs.appContent.scrollTop); // 滚动条距离顶部高度
       },
       showWindowSize: function () { // 更改变形
         if (sessionStorage.jiuyuMediaHeight && sessionStorage.jiuyuMediaHeight !== 0) {

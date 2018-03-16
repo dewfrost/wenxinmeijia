@@ -10,7 +10,6 @@
         {{item.address}}
       </p>
     </div>
-    <button @click="link">新增收货地址</button>
   </div>
 </template>
 
@@ -48,6 +47,7 @@ export default {
     this.getHeader('选择收货地址', 'selectAddress_top', '管理', function () {
       this.$router.push('manageAddress');
     });
+    this.getFooter();
   }, // 挂载之后
   beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
   updated: function () {}, // 数据更新后,渲染后调用(禁止)
@@ -68,8 +68,18 @@ export default {
       this.address[index].select = 1;
     },
     // 跳转新地址页面
-    link: function () {
-      this.$router.push('addAddress');
+    getFooter () {
+      let that = this;
+      eventBus.$emit('footer', {
+        button: [
+          {
+            inner: '新增收货地址',
+            callback: () => {
+              that.$router.push('addAddress');
+            }
+          }
+        ]
+      });
     }
   }
 };

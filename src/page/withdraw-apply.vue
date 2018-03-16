@@ -31,8 +31,7 @@
       <p class="rules_list">1. 限每天提现1次，每次限额2000元</p>
       <p class="rules_list">2. 提现到账周期：T+1 </p>
       <p class="rules_list">3. 提现手续费： 1-3 %</p>
-      </div>
-    <button class="submit" @click="link">提交</button>
+    </div>
   </div>
 </template>
 
@@ -64,6 +63,7 @@ export default {
   beforeMount: function () {}, // 挂载之前
   mounted: function () {
     this.getHeader('提现申请', 'withdrawApply_top');
+    this.getFooter();
   }, // 挂载之后
   beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
   updated: function () {}, // 数据更新后,渲染后调用(禁止)
@@ -87,25 +87,37 @@ export default {
     }
   },
   methods: {
+    // 调用底部
+    getFooter () {
+      eventBus.$emit('footer', {
+        button: [
+          {
+            inner: '提交',
+            callback: () => {
+              let that = this;
+              if (!that.applyPrice) {
+                that.toast('提现金额不能为空');
+              } else if (that.activeNum === 0 && !that.wechatIsBind) {
+                that.modal('提示', '提现需绑定微信账号，快去绑定吧！', '去绑定', function (index) {
+                  that.$router.push({path: 'wexinBind'});
+                });
+              } else if (!that.alipay_id) {
+                that.modal('提示', '提现需绑定支付宝账号，快去绑定吧！', '去绑定', function (index) {
+                  that.$router.push({path: 'zfbBind'});
+                });
+              } else {
+                that.goPay(function () {
+                  that.$router.push('withdrawSuccess');
+                });
+              }
+            }
+          }
+        ]
+      });
+    },
     // 选择支付类型
     toggleType: function (index) {
       this.activeNum = index;
-    },
-    link: function (index) {
-      let that = this;
-      if (!this.applyPrice) {
-        this.toast('提现金额不能为空');
-      } else if (index === 0 && !this.wechatIsBind) {
-        this.modal('提示', '提现需绑定微信账号，快去绑定吧！', '去绑定', function (index) {
-          that.$router.push({path: 'wexinBind'});
-        });
-      } else if (!this.alipay_id) {
-        this.modal('提示', '提现需绑定支付宝账号，快去绑定吧！', '去绑定', function (index) {
-          that.$router.push({path: 'zfbBind'});
-        });
-      } else {
-        this.$router.push('withdrawSuccess');
-      }
     }
   }
 };

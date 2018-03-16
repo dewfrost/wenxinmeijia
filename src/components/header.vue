@@ -1,7 +1,7 @@
 <template>
   <div class="header_top" :class="headerClass" v-show="show">
     <span class="iconfont back" @click="leftMethod" :class="{'icon-zuo': !left, 'left_name': left}">{{left}}</span>
-    <h1 class="title">{{title}}</h1>
+    <h1 class="title" @click="goodDetailsCallback()">{{title}}</h1>
     <span class="header_right" v-if="right" @click="rightMethod">{{right}}</span>
   </div>
 </template>
@@ -11,6 +11,7 @@ export default {
   name: 'headerBox',
   data () {
     return {// 数据
+      goodDetailsCallback: null,
       headerClass: '', // 头部类名
       show: false, // 是否需要头部
       left: '',
@@ -44,6 +45,7 @@ export default {
           box.right = data.right; // 右侧字
           box.leftBack = data.leftBack; // 左侧事件(默认返回上一级)
           box.rightBack = data.rightBack; // 右侧事件
+          box.goodDetailsCallback = data.goodDetailsCallback;
         }
       });
     },
