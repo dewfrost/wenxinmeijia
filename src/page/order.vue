@@ -1,46 +1,29 @@
 <template>
   <div class="order">
+    <!-- 顶部tab栏 -->
     <div class="header">
       <div class="top">
-        <span class="tab_in" :class="{'active': status === 0}" @click="status = 0;changeType(0);">待付款</span>
-        <span class="tab_out" :class="{'active': status === 1}" @click="status = 1;changeType(1);">待发货</span>
-        <span class="tab_out" :class="{'active': status === 2}" @click="status = 2;changeType(2);">待收货</span>
-        <span class="tab_out" :class="{'active': status === 3}"@click="status = 3;changeType(3);">已完成</span>
+        <span v-for="index in [0,1,2,3]" :class="{'active': status === index}" @click="changeType(index);" :key="index">{{tabName[index]}}</span>
       </div>
     </div>
-    <div v-if="!orderData.length" v-show="status === 0" class="none_order">
-      <div class="none">
-        <img src="../assets/images/none.png" alt="">
-      </div>
-    </div>
-    <div v-if="!orderData.length" v-show="status === 1" class="none_order">
-      <div class="none">
-        <img src="../assets/images/none.png" alt="">
-      </div>
-    </div>
-    <div v-if="!orderData.length" v-show="status === 2" class="none_order">
-      <div class="none">
-        <img src="../assets/images/none.png" alt="">
-      </div>
-    </div>
-    <div v-if="!orderData.length" v-show="status === 3" class="none_order">
-      <div class="none">
-        <img src="../assets/images/none.png" alt="">
-      </div>
+    <!-- 没有数据页面 -->
+    <div v-if="!orderData.length && isRequest" class="none_order">
+      <p>此页面暂无内容</p>
     </div>
     <div class="order_min">
-      <div class="center" v-for="(item,index) in orderData" v-if="status === 0" @click="seeOrderDetails(status, 0)">
-        <div class="content" v-for="(list,index) in item.goodsInfo"  :key="index" >
-            <img :src="item.goodsInfo[index].imgurl" alt="商品">
-            <div class="right">
-              <div class="one">{{item.goodsInfo[index].name}}</div>
-              <div class="price">
-                <span class="money"> &yen;<span class="money_big">{{item.goodsInfo[index].price}}</span>  </span>
-                <span class="goodsnum">x{{item.goodsInfo[index].goodsnum}}</span>
-              </div>
+      <div class="center" v-for="(item,index) in orderData" @click="seeOrderDetails(status, 0)" :key="index">
+        <div class="content" v-for="(list,index) in item.goodsInfo"  :key="index">
+          <img :src="item.goodsInfo[index].imgurl" alt="商品">
+          <div class="right">
+            <div class="one">{{item.goodsInfo[index].name}}</div>
+            <div class="price">
+              <span class="money"> &yen;<span class="money_big">{{item.goodsInfo[index].price}}</span>  </span>
+              <span class="goodsnum">x{{item.goodsInfo[index].goodsnum}}</span>
             </div>
+          </div>
         </div>
-        <div class="order_footer">
+        <!--  待支付每个订单底部 -->
+        <div class="order_footer" v-if="status === 0">
           <div class="order_footer_top">
               <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.amount }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
           </div>
@@ -49,36 +32,14 @@
             <button class="btn order_pay" @click.stop="goodsPay(index, item.id, item.amount)">立即支付</button>
           </div>
         </div>
-      </div>
-      <div class="center" v-for="(item,index) in orderData" v-if="status === 1" @click="seeOrderDetails(status, 0)">
-        <div class="content" v-for="(list,index) in item.goodsInfo" :key="index" >
-            <img :src="item.goodsInfo[index].imgurl" alt="商品">
-            <div class="right">
-              <div class="one">{{item.goodsInfo[index].name}}</div>
-              <div class="price">
-                <span class="money"> &yen;<span class="money_big">{{item.goodsInfo[index].price}}</span>  </span>
-                <span class="goodsnum">x{{item.goodsInfo[index].goodsnum}}</span>
-              </div>
-            </div>
-        </div>
-        <div class="order_footer">
+        <!-- 待发货 -->
+        <div class="order_footer" v-if="status === 1">
           <div class="order_footer_top">
               <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.amount }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
           </div>
         </div>
-      </div>
-      <div class="center" v-for="(item,index) in orderData" v-if="status === 2" @click="seeOrderDetails(status, 0)">
-        <div class="content" v-for="(list,index) in item.goodsInfo" :key="index" >
-            <img :src="item.goodsInfo[index].imgurl" alt="商品">
-            <div class="right">
-              <div class="one">{{item.goodsInfo[index].name}}</div>
-              <div class="price">
-                <span class="money"> &yen;<span class="money_big">{{item.goodsInfo[index].price}}</span>  </span>
-                <span class="goodsnum">x{{item.goodsInfo[index].goodsnum}}</span>
-              </div>
-            </div>
-        </div>
-        <div class="order_footer">
+        <!-- 待收货 -->
+        <div class="order_footer" v-if="status === 2">
           <div class="order_footer_top">
             <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.amount }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
           </div>
@@ -86,19 +47,8 @@
               <button class="btn order_pay" @click.stop="receipt(index, item.id, item.amount)">确认收货</button>
           </div> 
         </div>
-      </div>
-       <div class="center" v-for="(item,index) in orderData" v-if="status === 3" @click="seeOrderDetails(status, 0)">
-        <div class="content" v-for="(list,index) in item.goodsInfo"  :key="index" >
-            <img :src="item.goodsInfo[index].imgurl" alt="商品">
-            <div class="right">
-              <div class="one">{{item.goodsInfo[index].name}}</div>
-              <div class="price">
-                <span class="money"> &yen;<span class="money_big">{{item.goodsInfo[index].price}}</span></span>
-                <span class="goodsnum">x{{item.goodsInfo[index].goodsnum}}</span>
-              </div>
-            </div>
-        </div>
-        <div class="order_footer">
+        <!-- 已完成 -->
+        <div class="order_footer" v-if="status === 3">
           <div class="order_footer_top">
               <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.amount }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
           </div>
@@ -113,6 +63,8 @@ export default {
   name: 'order',
   data () {
     return {
+      isRequest: true,
+      tabName: ['待付款', '待发货', '待收货', '已完成'],
       status: parseInt(this.$route.query.status) || 0,
       orderData: [
         {
@@ -183,8 +135,9 @@ export default {
         }
       ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
     },
-    changeType: function (n) {
-      this.$router.replace({path: 'order', query: {status: n}});
+    changeType: function (index) {
+      this.status = index;
+      this.$router.replace({path: 'order', query: {status: index}});
       // this.getOrderInfo(n);
     },
     // 是否删除
@@ -199,6 +152,13 @@ export default {
     },
     seeOrderDetails: function (status, id) {
       this.$router.push({ path: 'orderDetails', query: {status: status, id: id} });
+    },
+    receipt (index) {
+      let that = this;
+      this.goPay(function () {
+        that.toast('确认收货成功');
+        that.orderData.splice(index, 1);
+      });
     }
   }
 };
@@ -235,11 +195,18 @@ export default {
     }
   }
   .none_order{
-    .none{
-      img{
-       display: block;
-       margin:40% auto;
-      }
+    background: url(../assets/images/none_01.png) no-repeat center center;
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 300px;
+    width: 80%;
+    text-align: center;
+    > p{
+      color: #999;
+      font-size: 24px;
+      margin-top: 260px;
     }
   }
   .order_min{

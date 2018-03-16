@@ -9,12 +9,12 @@
     <div class="swiper_pagination">
       <p class="title">&mdash;&nbsp;商品专区&nbsp;&mdash;</p>
       <div class="details">
-        <div class="details_list" v-for="(item, index) in details" :key="index">
+        <div class="details_list" v-for="(item, index) in details" :key="index" @click="seeDetails(item.id)">
           <img :src="item.img" alt="商品">
           <p class="details_name">{{item.name}}</p>
           <p class="details_info">
             <span class="red">&yen;&nbsp;<span class="price">{{item.price}}</span></span>
-            <span class="buy">立即购买</span>
+            <span class="buy" @click.stop="buyGoods(item.id)">立即购买</span>
           </p>
         </div>
         <p class="more">查看更多></p>
@@ -56,22 +56,26 @@ export default {
         {
           img: require('../assets/images/goods1.png'),
           name: '可穿戴美甲贴片奢华组合套装#210',
-          price: '288.00'
+          price: '288.00',
+          id: 2
         },
         {
           img: require('../assets/images/goods3.png'),
           name: '可穿戴美甲贴片奢华组合 套装#210-',
-          price: '288.00'
+          price: '288.00',
+          id: 2
         },
         {
           img: require('../assets/images/goods2.png'),
           name: '可穿戴美甲贴片奢华组合套装#710',
-          price: '288.00'
+          price: '288.00',
+          id: 2
         },
         {
           img: require('../assets/images/goods3.png'),
           name: '可穿戴美甲贴片奢华组合套装#1711-',
-          price: '288.00'
+          price: '288.00',
+          id: 2
         }
       ]
     };
@@ -86,6 +90,12 @@ export default {
     this.getFooter();
   },
   methods: {
+    seeDetails (id) {
+      this.$router.push({path: 'goodsDetails', query: {id: id}});
+    },
+    buyGoods (id) {
+      this.$router.push({path: 'submitOrder', query: {id: id}});
+    },
     getFooter () {
       eventBus.$emit('footer', {
         button: [],
