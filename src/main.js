@@ -46,6 +46,23 @@ Vue.prototype.axios = axios.create({
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 });
 
+Vue.prototype.getVoucherModal = function (price) {
+  // 如果localStorage里面有isGetVoucher
+  if (localStorage.isGetVoucher) {
+    return false;
+  } else {
+    eventBus.$emit('modal', {
+      title: '￥' + price,
+      show: 'voucher',
+      btnTitle: '立即领取',
+      callback: function () {
+        localStorage.isGetVoucher = JSON.stringify('yes');
+        Vue.prototype.toast('领取成功');
+      }
+    });
+  }
+};
+
 // 加载头部
 Vue.prototype.getHeader = function (title, topClass, rightName, rightCallback, leftName, leftCallback) {
   eventBus.$emit('header', {
@@ -65,6 +82,52 @@ Vue.prototype.modal = function (title, content, btnTitle, callback) {
     content: content,
     btnTitle: btnTitle,
     callback: callback
+  });
+};
+
+// 输入密码支付
+Vue.prototype.goPay = function (callback) {
+  eventBus.$emit('modal', {
+    show: 'password',
+    callback: function () {
+      callback();
+    }
+  });
+};
+
+// 提交订单底部
+Vue.prototype.getSubmitFooter = function (price, callback) {
+  eventBus.$emit('footer', {
+    type: 'submit',
+    price: price,
+    button: [
+      {
+        callback: () => {
+          callback();
+        }
+      }
+    ]
+  });
+};
+
+// 提交订单底部
+Vue.prototype.getGoodscarFooter = function (isCheck, goodsNum, price, isEdit, callback, delCallback, toggleCallback) {
+  eventBus.$emit('footer', {
+    type: 'goodsCar',
+    price: price,
+    isCheck: isCheck,
+    goodsNum: goodsNum,
+    isEdit: isEdit,
+    delCallback: delCallback,
+    toggleCallback: toggleCallback,
+    button: [
+      {
+        callback: () => {
+          callback();
+        }
+      }
+    ],
+    navShow: true
   });
 };
 

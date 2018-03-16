@@ -2,7 +2,7 @@
   <div class="info_wrap">
     <ul>
       <router-link to="infoDetails">
-      <li class="info_li" v-for="item in info">
+      <li class="info_li" v-for="(item, index) in info" :key="index">
          <i class="icon iconfont" :class="iconArr[item.type]"></i>
          <div class="info_div">
           <div class="info_top">
