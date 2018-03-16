@@ -12,16 +12,24 @@ window.eventBus = new Vue();
 window.eventCookie = new Vue();
 
 // 全局mixin在销毁前清除组件
-Vue.mixin({
-  beforeDestroy () {
-    eventBus.$emit('toast', false);
-    eventBus.$emit('loading', false);
-    eventBus.$emit('header', false);
-    eventBus.$emit('modal', false);
-    eventBus.$emit('footer', false);
-  }
-});
+// Vue.mixin({
+//   beforeDestroy () {
+//     eventBus.$emit('toast', false);
+//     eventBus.$emit('loading', false);
+//     eventBus.$emit('header', false);
+//     eventBus.$emit('modal', false);
+//     eventBus.$emit('footer', false);
+//   }
+// });
 
+router.beforeEach((to, from, next) => {
+  eventBus.$emit('toast', false);
+  eventBus.$emit('loading', false);
+  eventBus.$emit('header', false);
+  eventBus.$emit('modal', false);
+  eventBus.$emit('footer', false);
+  next();
+});
 // 公共函数
 
 // 创建ajax
@@ -39,12 +47,14 @@ Vue.prototype.axios = axios.create({
 });
 
 // 加载头部
-Vue.prototype.getHeader = function (title, topClass, rightName, rightCallback) {
+Vue.prototype.getHeader = function (title, topClass, rightName, rightCallback, leftName, leftCallback) {
   eventBus.$emit('header', {
     title: title,
     class: topClass,
     right: rightName,
-    rightBack: rightCallback
+    rightBack: rightCallback,
+    left: leftName,
+    leftBack: leftCallback
   });
 };
 
@@ -56,7 +66,6 @@ Vue.prototype.modal = function (title, content, btnTitle, callback) {
     btnTitle: btnTitle,
     callback: callback
   });
-  // eventBus.$emit('modal', false);
 };
 
 // 是否是微信浏览器

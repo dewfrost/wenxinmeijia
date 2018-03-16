@@ -12,7 +12,7 @@ export default {
   data () {
     return {// 数据
       headerClass: '', // 头部类名
-      show: true, // 是否需要头部
+      show: false, // 是否需要头部
       left: '',
       title: '', // 标题
       right: '', // 右侧字
@@ -89,7 +89,7 @@ export default {
       position: absolute;
       top: 0;
       right: 0;
-      padding: 0 20px;
+      padding: 0 30px;
       color: inherit;
       font-size: 24px;
     }

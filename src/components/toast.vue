@@ -42,11 +42,13 @@ export default {
         }
         toast.message = data.message;
         toast.icon = data.icon;
+        let startTime = new Date();
         if (toast.show) {
           toast.timeout = setTimeout(() => {
             toast.show = false;
+            console.log(new Date() - startTime);
             clearTimeout(toast.timeout);
-          }, 2000);
+          }, 1000);
         }
       });
     }
@@ -68,7 +70,7 @@ export default {
       transform: translate(-50%, -50%);
       transition: all .4s;
       border-radius: 10px;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.6);
       display: flex;
       justify-content: center;
       align-items: center;

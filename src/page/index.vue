@@ -1,18 +1,45 @@
 <template>
   <div class="index">
-    <p @click="showToast">{{toastMsg}}</p>
-    <p @click="showModal">{{modalMsg}}</p>
-    <p @click="loading">loading 组件{{hidePhone(15644444444)}}</p>
+    <!-- 轮播图 -->
+    <swiper :options="swiperOption" ref="mySwiper">
+      <!-- slides -->
+      <swiperSlide v-for="item in swiperImg" :key="item.id">
+        <img class="swiper-slid_img" :src="item.imgurl" alt="轮播" />
+      </swiperSlide>
+      <!-- Optional controls -->
+    </swiper>
+    <div class="swiper-pagination"></div>
   </div>
 </template>
 
 <script>
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
 export default {
   name: 'index',
   data () {
     return {
-      toastMsg: 'toast 组件',
-      modalMsg: 'modal 组件'
+      // 轮播图配置
+      swiperOption: { // 以下配置不懂的，可以去swiper官网看api，链接http://www.swiper.com.cn/api/
+        // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，
+        // 也就意味着你可以在第一时间获取到swiper对象，<br>假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
+        notNextTick: true,
+        // swiper configs 所有的配置同swiper官方api配置
+        autoplay: 3000,
+        loop: true,
+        pagination: '.swiper-pagination'
+      },
+      // 轮播
+      swiperImg: [
+        {
+          imgurl: require('../assets/images/banner1.jpg')
+        },
+        {
+          imgurl: require('../assets/images/banner2.jpg')
+        },
+        {
+          imgurl: require('../assets/images/banner3.jpg')
+        }
+      ]
     };
   },
   beforeCreate: function () { // 创建之前
@@ -23,7 +50,7 @@ export default {
   },
   mounted: function () {
     this.getFooter();
-    this.getHeader('首页', null, '右边');  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
+    eventBus.$emit('header', false);
   },
   methods: {
     getFooter () {
@@ -44,13 +71,16 @@ export default {
         console.log(that.modalMsg);
       }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
     }
+  },
+  components: {
+    swiper,
+    swiperSlide
   }
 };
 </script>
 
 <style scoped>
-  p{
-    margin-top: 200px;
-    text-align: center;
-  }
+ .index{
+   
+ }
 </style>

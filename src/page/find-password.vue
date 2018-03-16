@@ -8,13 +8,13 @@
       </label>
       <label for="sms" class="iconfont icon-xinxi">
         <input type="number" id="sms" v-model="user.code" placeholder="请输入短信验证码" />
-        <button @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
+        <button class="button" :class="{'is_send': disabled}" @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
       </label>
       <label for="password" class="iconfont icon-suo">
         <input type="password" id="password" v-model="user.password" placeholder="请设置您的密码（字母+数字）" />
       </label>
       <label for="pwd" class="iconfont icon-suo">
-        <input type="password" id="pwd" v-model="user.pwd" placeholder="请确认您的密码" />
+        <input type="password" id="pwd" v-model="user.pad" placeholder="请确认您的密码" />
       </label>
       <button class="findPassword_btn" @click="findPasswordSubmit">提交</button>
     </div>
@@ -73,6 +73,7 @@ export default {
       } else {
         this.sendSMSTime = 60;
         this.disabled = true;
+        this.btntxt = '已发送(' + this.sendSMSTime + ')s';
         let time = setInterval(() => { // 声明一个定时器
           if (this.sendSMSTime > 0) {
             this.sendSMSTime--;
@@ -88,17 +89,22 @@ export default {
     },
     // 点击登录跳转页面
     findPasswordSubmit: function () {
-      if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
-        this.toast('密码格式不正确');
+      if (!this.user.phone) {
+        this.toast('手机号不能为空');
+      } else if (!/^(1[3-9])\d{9}$/.test(this.user.phone)) {
+        this.toast('手机号格式错误');
       } else if (!this.user.code) {
         this.toast('验证码不能为空');
-      } else if (!this.user.phone) {
-        this.toast('手机号不能为空');
-      } else if (!this.password) {
+      } else if (!this.user.password) {
         this.toast('密码不能为空');
-      } else if (!this.pad) {
-        this.toast('密码不能为空');
+      } else if (!this.user.pad) {
+        this.toast('确认密码不能为空');
+      } else if (this.user.password !== this.user.pad) {
+        this.toast('两次输入的密码不同');
+      } else if (!/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}$/.test(this.user.password)) {
+        this.toast('密码格式不正确');
       } else {
+        this.toast('找回密码成功，请登录');
         this.$router.push('login');
       }
     }
@@ -123,25 +129,23 @@ export default {
       margin-left: -30px;
       background: #f5f5f5;
     }
-    > label.iconfont {
-      margin-bottom: 40px;
-      line-height: 110px;
-      display: inline-block;
-      width: 100%;
-      border: 1px solid $color;
-      border-radius: 34px;
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #e6e6e6;
+    > label {
+        padding-top: 40px;
+        line-height: 110px;
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        border-bottom: 1px solid #e6e6e6;
       &:before {
         color: $color;
         font-size: 40px;
         padding-left: 41px;
         padding-right: 29px;
+        line-height: 65px;
       }
       > input {
         font-size: 24px;
-        line-height: 72px;
+        line-height: 68px;
         display: flex;
         width: 100%;
         justify-content: center;
@@ -159,82 +163,40 @@ export default {
           color: #999;
         } /* IE浏览器 */
       }
+      .button{
+        min-width: 160px;
+        height: 68px;
+        line-height: 68px;
+        color: $color;
+        background: transparent;
+        font-size: 22px;
+        position: relative;
+        &::before{
+          position: absolute;
+          content: '';
+          display: block;
+          height: 2em;
+          width: 1px;
+          background-color: $color;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        &.is_send{
+          color: #999;
+        }
+      }
     }
-    // .sms-box {
-    //   margin-bottom: 40px;
-    //   display: flex;
-    //   justify-content: space-between;
-    //   width: 100%;
-    //   border: 1px solid $color;
-    //   border-radius: 34px;
-    //   > label.iconfont {
-    //     height: 72px;
-    //     line-height: 72px;
-    //     display: inline-block;
-    //     display: flex;
-    //     align-items: center;
-    //     &:before {
-    //       color: $color;
-    //       font-size: 36px;
-    //       padding-left: 41px;
-    //       padding-right: 29px;
-    //     }
-    //     > input {
-    //       font-size: 24px;
-    //       line-height: 72px;
-    //       display: flex;
-    //       width: 100%;
-    //       justify-content: center;
-    //       background-color: rgba(0, 0, 0, 0);
-    //       &::-webkit-input-placeholder {
-    //         color: #999999;
-    //       } /* 使用webkit内核的浏览器 */
-    //       :-moz-placeholder {
-    //         color: #999;
-    //       } /* Firefox版本4-18 */
-    //       ::-moz-placeholder {
-    //         color: #999;
-    //       } /* Firefox版本19+ */
-    //       :-ms-input-placeholder {
-    //         color: #999;
-    //       } /* IE浏览器 */
-    //     }
-    //   }
-    //   button {
-    //     background: #fff;
-    //     color: #ff517b;
-    //     border: none;
-    //     font-size: 20px;
-    //     padding-left: 20px;
-    //     margin-right: 32px;
-    //     width: 150px;
-    //     border-left: 1px solid #ff517b;
-    //   }
-    // }
     .findPassword_btn {
-      margin-top: 40px;
       width: 500px;
-      height: 72px;
-      border-radius: 34px;
+      height: 68px;
+      display: block;
+      margin: 170px auto 0;
+      border-radius: 4px;
       line-height: 72px;
       color: #fff;
       background: $color;
       font-size: 26px;
-    }
-  }
-  p {
-    margin-top: 26px;
-    color: $color;
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    .span {
-      color: #666666;
-      font-size: 22px;
-    }
-    span {
-      color: $color;
-      font-size: 22px;
     }
   }
 }

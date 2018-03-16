@@ -39,37 +39,51 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/css/base.scss";
-.infoDetails{
-  background: #f5f5f5;
-  min-height: 100%;
-  // height: 100%;
-  .details{
-    background: url(../assets/images/info_details.png) no-repeat;
-    margin: 113px 20px 0 20px;
-    min-height: 100%;
-    .top{
-      padding:25px 30px 0 30px;
-      display: flex;
-      justify-content: space-between;
-      .title{
-        font-size: 28px;
-        color: #333;
+  @import "../assets/css/base.scss";
+  .infoDetails{
+    background: #f5f5f5;
+    height: 100%;
+    padding: 120px 20px 20px;
+    .details{
+      background-color: #fff;
+      min-height: 100%;
+      border-radius: 10px;
+      .top{
+        padding:25px 30px 0 30px;
+        border-top: 10px solid $color;
+        border-radius: 10px 10px 0 0;
+        display: flex;
+        justify-content: space-between;
+        overflow: hidden;
+        position: relative;
+        &::before{
+          position: absolute;
+          content: '';
+          display: block;
+          height: 10px;
+          width: 120%;
+          background-color: #fff;
+          top: 0px;
+          left: -20px;
+        }
+        .title{
+          font-size: 28px;
+          color: #333;
+        }
+        .time{
+          font-size: 20px;
+          color: #999;
+        }
       }
-      .time{
-        font-size: 20px;
-        color: #999;
-      }
-    }
-    .center{
-      padding:0 30px;
-      font-size: 22px;
-      color: #666;
-      line-height: 40px;
-      p{
-        margin-top: 15px;
+      .center{
+        padding:0 30px;
+        font-size: 22px;
+        color: #666;
+        line-height: 40px;
+        p{
+          margin-top: 15px;
+        }
       }
     }
   }
-}
 </style>
