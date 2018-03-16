@@ -195,13 +195,13 @@ export default {
         .icon-biaoqian{
           position: relative;
           // display: inline-block;
-          font-size: 80px;
+          font-size: 90px;
           color: $color;
         }
       span{
         position: absolute;
         left: 17px;
-        top: 0; 
+        top: 5px; 
         color: #fff;
         font-size: 20px;
       }

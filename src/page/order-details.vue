@@ -96,8 +96,8 @@ export default {
         },
         {
           imgurl: require('../assets/images/goods2.png'),
-          name: '可穿戴美甲贴片奢华组合套装#210',
-          price: '288.00',
+          name: '可穿戴美甲贴片玫瑰香薰 球#265',
+          price: '68.00',
           goodsnum: 2
         }
       ],
@@ -146,6 +146,7 @@ export default {
 <style lang="scss">
 @import "../assets/css/base.scss";
 .orderd{
+  background: #fff;
   padding: 90px 0 0 0;
   .top{
     padding:10px 20px;

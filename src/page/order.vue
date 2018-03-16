@@ -83,7 +83,7 @@
             <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.amount }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
           </div>
           <div class="footer_btn" v-if="!item.hasMsg">
-              <button class="btn order_pay" @click.stop="goodsPay(index, item.id, item.amount)">确认收货</button>
+              <button class="btn order_pay" @click.stop="receipt(index, item.id, item.amount)">确认收货</button>
           </div> 
         </div>
       </div>
@@ -138,8 +138,8 @@ export default {
           goodsInfo: [
             {
               imgurl: require('../assets/images/goods3.png'),
-              name: '可穿戴美甲贴片奢华组合套装#210',
-              price: '288.00',
+              name: '可穿戴美甲贴片玫瑰香薰 球#265',
+              price: '68.00',
               goodsnum: 2
             }
           ],
@@ -212,6 +212,7 @@ export default {
   border: none;
 }
 .order {
+  background: #fff;
   .header{
     background: $color;
     width: 100%;
