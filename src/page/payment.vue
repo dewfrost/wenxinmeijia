@@ -6,7 +6,7 @@
     </p>
     <p class="select">选择支付方式</p>
     <div class="list">
-      <div class="linePay_payType" v-for="(item,index) in payType" @click="toggleType(index)">
+      <div class="linePay_payType" v-for="(item,index) in payType" @click="toggleType(index)" :key="index">
         <div class="left">
           <i class="iconfont" :class="item.icon"></i>
           <span>{{item.title}}</span>
@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <button class="submit" @click="link">立即支付</button>
+    <button class="submit" @click="pay()">立即支付</button>
   </div>
 </template>
 
@@ -55,10 +55,6 @@ export default {
   }, // 挂载之后
   beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
   updated: function () {}, // 数据更新后,渲染后调用(禁止)
-  beforeDestroy: function () {
-    eventBus.$emit('header', false);
-  }, // 实例销毁前调用,解绑中间层的数据传输
-  destroyed: function () {}, // 实例销毁后调用
   computed: {
     showPhone: function () {
       return this.hidePhone(this.user.phone);
@@ -69,8 +65,11 @@ export default {
     toggleType: function (index) {
       this.activeNum = index;
     },
-    link: function () {
-      this.$router.push('withdrawSuccess');
+    pay () {
+      let that = this;
+      that.goPay(function () {
+        that.$router.push('withdrawSuccess');
+      });
     }
   }
 };

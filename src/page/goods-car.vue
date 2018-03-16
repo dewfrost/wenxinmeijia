@@ -8,7 +8,9 @@
         <i class="iconfont"
         @click="toggleCheak(index)"
         :class="{'icon-30xuanzhongyuanxingfill': item.isCheck, 'icon-30xuanzhongyuanxing': !item.isCheck}"></i>
-        <img :src="item.goodsImg" alt="" class="goods_img">
+        <div class="img">
+          <img :src="item.goodsImg" alt="" class="goods_img">
+        </div>
         <div class="goods_details">
           <span class="name">{{item.goodsName}}</span>
           <span class="bottom">
@@ -46,14 +48,14 @@ export default {
         },
         {
           isCheck: false,
-          goodsImg: require('../assets/images/goods1.png'),
+          goodsImg: require('../assets/images/goods2.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '80.00',
           sum: 10
         },
         {
           isCheck: false,
-          goodsImg: require('../assets/images/goods1.png'),
+          goodsImg: require('../assets/images/goods3.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '2.00',
           sum: 33
@@ -230,7 +232,6 @@ export default {
         margin-bottom: 10px;
         @include border;
         display: flex;
-        // align-items: center;
         padding: 26px 20px 30px;
         i.iconfont{
           font-size: 32px;
@@ -245,10 +246,8 @@ export default {
           }
         }
         img.goods_img{
-          display: inline-block;
-          width: 150px;
-          height: 150px;
-          padding: 5px;
+          width: 144px;
+          height: 144px;
           margin-right: 22px;
         }
         .goods_details{
