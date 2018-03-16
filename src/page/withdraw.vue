@@ -9,15 +9,19 @@
       <span class="center_top iconfont icon-tixian"> <span class="jilu">提现记录</span> </span>
       <ul>
         <li class="center_li" v-for="item in user">
-          <div class="center_div">
-            <!-- <span class="dian"></span> -->
-            <span class="money">￥{{item.money}}</span>
-            <span class="state">{{item.state}}</span>
+          <div :class="['center_div', item.stateArr === 'success' ? '' : 'now']">
+            <span class="money">&yen;{{item.money}}</span>
+            <!-- <span class="state" :class="stateArr[item.type]">{{item.stateArr === 'now' ? '审核中' : item.stateArr === 'fail' ? '审核失败' : '已到账'}}</span> -->
+            <div class="audit" v-if="item.stateArr === 'now'">
+              <i class="iconfont icon-biaoqian"><span>审核中</span></i>
+           </div>
+           <span class="state" v-else>{{item.stateArr === 'fail' ? '审核失败' : '已到账'}}</span>
           </div>
           <div class="time">{{item.time}}</div>
         </li>
       </ul>
     </div>
+     
   </div>
 </template>
 
@@ -26,43 +30,49 @@ export default {
   name: 'withdraw',
   data () {
     return {
+      stateArr: ['now', 'fail', 'success'],
       account: {
-        money: '2050.00'
+        money: '1999.00'
       },
       user: [
         {
+          stateArr: 'now',
           money: '2000.00',
-          state: '已到账',
           time: '2018-03-10 20:15:00'
         },
         {
+          stateArr: 'fail',
           money: '2000.00',
-          state: '已到账',
           time: '2018-03-10 20:15:00'
         },
         {
+          stateArr: 'success',
           money: '2000.00',
-          state: '已到账',
           time: '2018-03-10 20:15:00'
         },
         {
+          stateArr: 'success',
           money: '2000.00',
-          state: '已到账',
           time: '2018-03-10 20:15:00'
         },
         {
+          stateArr: 'success',
           money: '2000.00',
-          state: '已到账',
           time: '2018-03-10 20:15:00'
         },
         {
+          stateArr: 'fail',
           money: '2000.00',
-          state: '已到账',
           time: '2018-03-10 20:15:00'
         },
         {
+          stateArr: 'success',
           money: '2000.00',
-          state: '已到账',
+          time: '2018-03-10 20:15:00'
+        },
+        {
+          stateArr: 'success',
+          money: '2000.00',
           time: '2018-03-10 20:15:00'
         }
       ]
@@ -162,6 +172,7 @@ export default {
     justify-content: space-between;  
     border-bottom: 1px solid #e6e6e6;
     .center_div{
+      
       position: relative;
       padding-left: 15px;
       &::after{
@@ -176,8 +187,25 @@ export default {
           background: $color;
           margin-right: 5px;
         }
+   
       display: flex;
       align-items: center; 
+      .audit{
+        line-height: 80px;
+        .icon-biaoqian{
+          position: relative;
+          // display: inline-block;
+          font-size: 80px;
+          color: $color;
+        }
+      span{
+        position: absolute;
+        left: 17px;
+        top: 0; 
+        color: #fff;
+        font-size: 20px;
+      }
+     }
       .dian{
         display: inline-block;
         width: 8px;
@@ -189,6 +217,7 @@ export default {
       .money{
         font-size: 24px;
         color: #333;
+        padding-right: 20px;
       }
       .state{
         font-size: 20px;
@@ -196,6 +225,20 @@ export default {
         margin-left: 10px;
       }
     }
+      .now{
+      &::after{
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 43%;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background: #22affe;
+      margin-right: 5px;
+    }
+  }
     .iconfont{
       font-size: 5px;
     }
@@ -205,5 +248,6 @@ export default {
     }
   }
  }
+
 }
 </style>
