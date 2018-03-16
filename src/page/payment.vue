@@ -70,7 +70,7 @@ export default {
       this.activeNum = index;
     },
     link: function () {
-      this.$router.push('withdrawSuccess');
+      this.$router.push('paymentSuccess');
     }
   }
 };
@@ -83,7 +83,7 @@ export default {
 }
 .payment{
   background: #f5f5f5;
-  margin-top: 90px;
+  padding-top: 90px;
   min-height: 100%;
   .payment_money{
     line-height: 80px;

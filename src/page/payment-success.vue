@@ -1,9 +1,9 @@
 <template>
   <div class="payment_success">
     <img :src="img" alt="">
-    <p>提现申请提交成功</p>
-    <span>后台审核通过后，款项将在1-2个工作日后到账</span>
-    <router-link tag="button" to="userCenter">返回个人中心</router-link>
+    <p>订单支付成功</p>
+    <span>您的订单会尽快进行处理，请耐心等待......</span>
+    <router-link tag="button" to="/">去首页逛逛</router-link>
   </div>
     
 </template>

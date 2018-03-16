@@ -1,14 +1,25 @@
 <template>
   <div class="index">
-    <!-- 轮播图 -->
-    <swiper :options="swiperOption" ref="mySwiper">
-      <!-- slides -->
+    <!-- <swiper :options="swiperOption" ref="mySwiper">
       <swiperSlide v-for="item in swiperImg" :key="item.id">
         <img class="swiper-slid_img" :src="item.imgurl" alt="轮播" />
       </swiperSlide>
-      <!-- Optional controls -->
-    </swiper>
-    <div class="swiper-pagination"></div>
+    </swiper> -->
+    <img :src="img" alt="商品">
+    <div class="swiper_pagination">
+      <p class="title">&mdash;&nbsp;商品专区&nbsp;&mdash;</p>
+      <div class="details">
+        <div class="details_list" v-for="(item, index) in details" :key="index">
+          <img :src="item.img" alt="商品">
+          <p class="details_name">{{item.name}}</p>
+          <p class="details_info">
+            <span class="red">&yen;&nbsp;<span class="price">{{item.price}}</span></span>
+            <span class="buy">立即购买</span>
+          </p>
+        </div>
+        <p class="more">查看更多></p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,6 +49,29 @@ export default {
         },
         {
           imgurl: require('../assets/images/banner3.jpg')
+        }
+      ],
+      img: require('../assets/images/banner1.jpg'),
+      details: [
+        {
+          img: require('../assets/images/goods1.png'),
+          name: '可穿戴美甲贴片奢华组合套装#210',
+          price: '288.00'
+        },
+        {
+          img: require('../assets/images/goods3.png'),
+          name: '可穿戴美甲贴片奢华组合 套装#210-',
+          price: '288.00'
+        },
+        {
+          img: require('../assets/images/goods2.png'),
+          name: '可穿戴美甲贴片奢华组合套装#710',
+          price: '288.00'
+        },
+        {
+          img: require('../assets/images/goods3.png'),
+          name: '可穿戴美甲贴片奢华组合套装#1711-',
+          price: '288.00'
         }
       ]
     };
@@ -79,8 +113,94 @@ export default {
 };
 </script>
 
-<style scoped>
- .index{
-   
- }
+<style lang="scss">
+@import "../assets/css/base.scss";
+.index{
+    background: #f5f5f5;
+    margin-bottom: 115px;
+  .swiper_pagination{
+    background: #fff;
+    margin-top: 20px;
+    .title{
+      line-height: 80px;
+      text-align: center;
+    }
+    .details{
+      flex-flow: wrap;
+      display: flex;
+      position: relative;
+      margin-top: -28px;
+      padding: 0 12px;
+      .details_list{
+        width: 50%;
+        padding: 30px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        &:nth-child(2n){
+          position: relative;
+          &:after{
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0;
+            height: 1px;
+            background-color: #e6e6e6;
+            width: 590px;
+            right: 13px;
+          }
+        }
+        // &:not(:last-child){
+        //   position: relative;
+        //   &:after{
+        //     display: none;
+        //   }
+        // }
+        img{
+          width: 284px;
+          height: 284px;
+        }
+        .details_name{
+          font-style: 22px;
+          color: #000000;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          padding: 5px 18px 0;
+          font-size: 22px;
+        }
+        .details_info{
+          width: 270px;
+          display: flex;
+          justify-content: space-between;
+          margin-top: 20px;
+          font-size: 20px;
+          .red{
+            color: $color;
+            .price{
+              font-size: 26px;
+            }
+          }
+          .buy{
+            width: 100px;
+            border-radius: 4px;
+            line-height: 36px;
+            background: $color;
+            color: #fff;
+            text-align: center;
+          }
+        }
+      }
+      .more{
+        width: 100%;
+        line-height: 60px;
+        text-align: center;
+        color: $color;
+      }
+    }
+  }
+}
 </style>
