@@ -50,7 +50,6 @@ export default {
   },
   mounted: function () {
     this.getFooter();
-    eventBus.$emit('header', false);
   },
   methods: {
     getFooter () {
