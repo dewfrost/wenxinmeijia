@@ -231,11 +231,14 @@ export default {
       .details_name{
         font-style: 22px;
         color: #000000;
+        line-height: 1.4;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
+        /*! autoprefixer: off */
+        -webkit-box-orient: vertical;
+        /* autoprefixer: on */
         padding: 5px 18px 0;
         font-size: 22px;
       }

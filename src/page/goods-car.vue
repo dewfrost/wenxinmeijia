@@ -4,13 +4,13 @@
       <p>此页面暂无内容</p>
     </div>
     <ul class="goods_list">
-      <li class="goods" v-for="(item, index) in goodsList" :key="index" @click="seeGoodsDetails(item.id)">
+      <li class="goods" v-for="(item, index) in goodsList" :key="index">
         <i class="iconfont" @click.stop="toggleCheak(index)" :class="{'icon-30xuanzhongyuanxingfill': item.isCheck, 'icon-30xuanzhongyuanxing': !item.isCheck}"></i>
-        <div class="img">
+        <div class="img" @click="seeGoodsDetails(item.id)">
           <img :src="item.goodsImg" alt="" class="goods_img">
         </div>
         <div class="goods_details">
-          <span class="name">{{item.goodsName}}</span>
+          <span class="name" @click="seeGoodsDetails(item.id)">{{item.goodsName}}</span>
           <span class="bottom">
             <span class="price"><span>￥</span>{{item.price || 0}}</span>
             <span class="sum" v-show="!isEdit">x{{item.sum}}</span>
@@ -43,22 +43,6 @@ export default {
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '28.00',
           sum: 6,
-          id: 2
-        },
-        {
-          isCheck: true,
-          goodsImg: require('../assets/images/goods2.png'),
-          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '80.00',
-          sum: 10,
-          id: 2
-        },
-        {
-          isCheck: true,
-          goodsImg: require('../assets/images/goods3.png'),
-          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '2.00',
-          sum: 33,
           id: 2
         },
         {
@@ -328,12 +312,14 @@ export default {
           justify-content: space-between;
           .name{
             margin-top: 8px;
-            text-overflow: -o-ellipsis-lastline;
+            line-height: 1.4;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 2;
+            /*! autoprefixer: off */
             -webkit-box-orient: vertical;
+            /* autoprefixer: on */
           }
           .bottom{
             display: flex;

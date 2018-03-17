@@ -64,11 +64,11 @@ export default {
       line-height: 120px;
       padding: 0 14px;
       left: 50%;
-      top: 50%;
+      top: 40%;
       transform: translate(-50%, -50%);
-      transition: all .4s;
+      transition: opacity .4s;
       border-radius: 8px;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -76,13 +76,13 @@ export default {
       z-index: 1002;
       text-align: center;
       &.hasIcon{
-        width: 60%;
+        // width: 60%;
         border-radius: 6px;
-        padding: 10px 14px;
       }
       &.toast_none{
         opacity: 0;
-        z-index: -1;
+        left: 999px;
+        top: 999px;
       }
       .icon.show_icon{
         min-width: 150px;

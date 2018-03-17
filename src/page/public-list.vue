@@ -100,7 +100,6 @@ export default {
           display: flex;
           justify-content: space-between;
           font-size: 24px;
-          
           border-bottom: 1px solid #e6e6e6;
           width: 96%;
           margin: auto;
@@ -111,7 +110,6 @@ export default {
            color: $color;
           }
         }
-        
         .iconfont{
           display: inline-block;
           font-size: 28px;
@@ -126,11 +124,14 @@ export default {
         font-size: 22px;
         margin: 0 auto;
         color: #999;
-        overflow : hidden;
+        line-height: 1.4;
+        overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 2;
+        /*! autoprefixer: off */
         -webkit-box-orient: vertical;
+        /* autoprefixer: on */
       }
     }
   }

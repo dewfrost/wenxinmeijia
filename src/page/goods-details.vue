@@ -11,18 +11,18 @@
     <div class="content">
       <div class="type"> 商品参数</div>
       <div class="goods_param_mess">
-          <p class="goods_param_list" v-for="(item,index) in param" :key="index">
+          <span class="goods_param_list" v-for="(item,index) in param" :key="index">
             <span class="goods_param_list_tit">
               {{item.title}}
             </span>
             <span class="goods_param_list_na">
               {{item.name}}
             </span>
-          </p>
+          </span>
       </div>
     </div>
     <!-- 商品详请 -->
-    <div class="goods_Details" id="goodsDetails">
+    <div class="goods_Details" id="goodsDetails" ref="logBox">
       <div class="goods_Details_title">
         <span>商品详请</span>
       </div>
@@ -76,7 +76,6 @@ export default {
   mounted: function () {
     this.scrollOn();
     this.getFooter();
-    this.getFromName();
     this.getDetailsHeader();
   },
   beforeDestroy: function () {
@@ -87,13 +86,11 @@ export default {
     this.getFooter();
   },
   methods: {
-    getFromName () {
-    },
     scrollOn: function () {
       eventBus.$on('contentScroll', (height) => {
         // 只在goodsDetails页面监听
         if (/goodsDetails/g.test(window.location.href)) {
-          if (height > 986) {
+          if (height > document.getElementById('goodsDetails').offsetTop) {
             this.getGoodsHeader();
           } else {
             this.getDetailsHeader();
@@ -106,7 +103,7 @@ export default {
       let that = this;
       this.getHeader('商品', 'goods_details_details', '详情', function () {
         // that.getGoodsHeader();
-        that.backScroll(986);
+        that.backScroll(document.getElementById('goodsDetails').offsetTop);
       });  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字,第七个参数点击商品的事件
     },
     // 点击商品事件
@@ -262,10 +259,16 @@ export default {
       font-size:22px;
       .goods_param_list{
         line-height:42px;
+        width: 100%;
+        display: flex;
+        // flex-flow: nowrap;
         .goods_param_list_tit{
           color:#999;
           display:inline-block;
           width:140px;
+        }
+        .goods_param_list_na{
+          flex: 1;
         }
       }
     }

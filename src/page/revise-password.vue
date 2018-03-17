@@ -7,7 +7,7 @@
     <div class="bind">
       <label for="code">验证码</label>
       <input  class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
-      <button class="modify_btn" :class="{'send-sms' : !isSend, 'no-send-sms': isSend}" @click ='sendSMS' :disabled ='disabled || sendSMSTime >0'>{{btntxt}}</button>
+      <button class="modify_btn" :class="{'send-sms' : isSend, 'no-send-sms': !isSend}" @click ='sendSMS' :disabled ='disabled || sendSMSTime >0'>{{btntxt}}</button>
     </div>
     <div class="bind">
       <label for="password">新密码</label>
@@ -87,6 +87,7 @@ export default {
         this.toast('手机号不能为空');
       } else {
         this.sendSMSTime = 60;
+        this.isSend = true;
         this.disabled = true;
         this.btntxt = '已发送(' + this.sendSMSTime + ')s';
         let time = setInterval(() => { // 声明一个定时器
@@ -95,6 +96,7 @@ export default {
             this.btntxt = '已发送(' + this.sendSMSTime + ')s';
           } else {
             this.sendSMSTime = 0;
+            this.isSend = false;
             this.btntxt = '重新获取';
             this.disabled = false;
             clearInterval(time);
@@ -169,6 +171,12 @@ export default {
       font-size: 24px;
       background: #fff;
       border-left: 1px solid $color;
+      &.send-sms{
+        color: #999;
+      }
+      &.no-send-sms{
+        color: $color;
+      }
     }  
   }
   .link{

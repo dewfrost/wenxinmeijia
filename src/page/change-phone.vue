@@ -11,7 +11,7 @@
     <div class="bind" v-if="this.$route.query.type === 'now'">
       <label for="code">验证码</label>
       <input class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
-      <button class="modify_btn" :class="{'send-sms' : !isSend, 'no-send-sms': isSend}" @click ='sendSMS1' :disabled ='disabled1 || sendSMSTime1 >0'>{{btntxt1}}</button>
+      <button class="modify_btn" :class="{'send-sms' : isSend, 'no-send-sms': !isSend}" @click ='sendSMS1' :disabled ='disabled1 || sendSMSTime1 >0'>{{btntxt1}}</button>
     </div>
     <div class="bind" v-if="this.$route.query.type === 'new'">
       <label for="code">验证码</label>
@@ -51,7 +51,6 @@ export default {
     this.getHeader('更换手机号', 'changePhone_top');
   }, // 挂载之后
   updated: function () {
-    this.getHeader('更换手机号', 'changePhone_top');
   },
   computed: {
     // 手机号隐藏中间数字
@@ -88,6 +87,7 @@ export default {
         this.toast('手机号不能为空');
       } else {
         this.sendSMSTime1 = 60;
+        this.isSend = true;
         this.disabled1 = true;
         this.btntxt1 = '已发送(' + this.sendSMSTime1 + ')s';
         let time = setInterval(() => { // 声明一个定时器
@@ -96,6 +96,7 @@ export default {
             this.btntxt1 = '已发送(' + this.sendSMSTime1 + ')s';
           } else {
             this.sendSMSTime1 = 0;
+            this.isSend = false;
             this.btntxt1 = '重新获取';
             this.disabled1 = false;
             clearInterval(time);
@@ -188,6 +189,12 @@ export default {
       font-size: 24px;
       background: #fff;
       border-left: 1px solid $color;
+      &.send-sms{
+        color: #999;
+      }
+      &.no-send-sms{
+        color: $color;
+      }
     }  
   }
   .link{

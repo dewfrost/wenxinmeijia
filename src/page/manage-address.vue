@@ -125,9 +125,17 @@ export default {
       line-height: 57px;
     }
     .address{
-      padding: 0px 30px 15px;
+      padding: 0px 30px 0;
       font-size: 24px;
       color: #999999;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      /*! autoprefixer: off */
+      -webkit-box-orient: vertical;
+      /* autoprefixer: on */
     }
     .select{
       display: flex;

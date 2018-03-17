@@ -260,11 +260,14 @@ export default {
           height: 66px;
           font-size: 26px;
           color: #000;
-          overflow : hidden;
+          line-height: 1.4;
+          overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
           -webkit-line-clamp: 2;
+          /*! autoprefixer: off */
           -webkit-box-orient: vertical;
+          /* autoprefixer: on */
         }
         .price{
           margin-top: 50px;
