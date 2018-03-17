@@ -81,6 +81,7 @@ export default {
   },
   beforeDestroy: function () {
     eventBus.$emit('header', false);
+    document.getElementById('content').scrollTop = 0;
   },
   updated: function () {
     this.getFooter();
