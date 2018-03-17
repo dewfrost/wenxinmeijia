@@ -84,9 +84,15 @@
         sessionStorage.removeItem('jiuyuMediaHeight');
       },
       toggleHead: function (e) {
-        if (this.scrollRouteArr.indexOf(this.roter) === -1) return false;
-        // eventBus.$emit('contentScroll', this.$refs.appContent.scrollTop + this.$refs.appContent.clientHeight);
-        eventBus.$emit('contentScroll', this.$refs.appContent.scrollTop); // 滚动条距离顶部高度
+        // if (this.scrollRouteArr.indexOf(this.roter) !== -1) {
+        //   // eventBus.$emit('contentScroll', this.$refs.appContent.scrollTop + this.$refs.appContent.clientHeight);
+        //   eventBus.$emit('contentScroll', this.$refs.appContent.scrollTop); // 滚动条距离顶部高度
+        // };
+        if (this.$refs.appContent.scrollTop > 500) {
+          // console.log(1);
+          document.body.scrollTop = 0;
+        }
+        eventBus.$emit('contentScroll', this.$refs.appContent.scrollTop);
       },
       showWindowSize: function () { // 更改变形
         if (sessionStorage.jiuyuMediaHeight && sessionStorage.jiuyuMediaHeight !== 0) {

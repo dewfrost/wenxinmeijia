@@ -4,8 +4,8 @@
       <p>此页面暂无内容</p>
     </div>
     <ul class="goods_list">
-      <li class="goods" v-for="(item, index) in goodsList" :key="index">
-        <i class="iconfont" @click="toggleCheak(index)" :class="{'icon-30xuanzhongyuanxingfill': item.isCheck, 'icon-30xuanzhongyuanxing': !item.isCheck}"></i>
+      <li class="goods" v-for="(item, index) in goodsList" :key="index" @click="seeGoodsDetails(item.id)">
+        <i class="iconfont" @click.stop="toggleCheak(index)" :class="{'icon-30xuanzhongyuanxingfill': item.isCheck, 'icon-30xuanzhongyuanxing': !item.isCheck}"></i>
         <div class="img">
           <img :src="item.goodsImg" alt="" class="goods_img">
         </div>
@@ -15,9 +15,9 @@
             <span class="price"><span>￥</span>{{item.price || 0}}</span>
             <span class="sum" v-show="!isEdit">x{{item.sum}}</span>
             <span class="edit_sum" v-show="isEdit">
-              <span class="reduce" @click="changeNum(1, index)">-</span>
+              <span class="reduce" @click.stop="changeNum(1, index)">-</span>
               <span class="sum">{{item.sum}}</span>
-              <span class="add" @click="changeNum(0, index)">+</span>
+              <span class="add" @click.stop="changeNum(0, index)">+</span>
             </span>
           </span>
         </div>
@@ -42,21 +42,24 @@ export default {
           goodsImg: require('../assets/images/goods1.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '28.00',
-          sum: 6
+          sum: 6,
+          id: 2
         },
         {
           isCheck: true,
           goodsImg: require('../assets/images/goods2.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '80.00',
-          sum: 10
+          sum: 10,
+          id: 2
         },
         {
           isCheck: true,
           goodsImg: require('../assets/images/goods3.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '2.00',
-          sum: 33
+          sum: 33,
+          id: 2
         }
       ]
     };
@@ -88,6 +91,9 @@ export default {
   updated: function () {
   },
   methods: {
+    seeGoodsDetails (id) {
+      this.$router.push({path: 'goodsDetails', query: {id: id}});
+    },
     getFooter () {
       let that = this;
       // 调用购物车底部，第四个参数为结算事件, 第五个参数为删除事件，第六个参数为全选事件
