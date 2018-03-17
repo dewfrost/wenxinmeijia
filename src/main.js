@@ -31,15 +31,6 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-router.beforeEach((to, from, next) => {
-  // 把跳到商品页前的路由记录到localStorage
-  if ((from.name !== 'goodsDetails') && (to.name === 'goodsDetails')) {
-    console.log(155);
-    localStorage.goodsDetailsFromPath = from.name;
-  }
-  // 如果商品详情跳转到商品详情不记录
-  next();
-});
 // 公共函数
 
 // 创建ajax
@@ -73,6 +64,29 @@ Vue.prototype.getVoucherModal = function (price) {
   }
 };
 
+// 滚动事件
+Vue.prototype.backScroll = function (length) {
+  if (document.getElementById('content').scrollTop > length) {
+    let unit = document.getElementById('content').scrollTop / 50;
+    let timeout = setInterval(function () {
+      if (document.getElementById('content').scrollTop > length) {
+        document.getElementById('content').scrollTop -= unit;
+      } else {
+        clearInterval(timeout);
+      }
+    }, 10);
+  } else {
+    let unit = length / 50;
+    let timeout = setInterval(function () {
+      if (document.getElementById('content').scrollTop <= length) {
+        document.getElementById('content').scrollTop += unit;
+      } else {
+        clearInterval(timeout);
+      }
+    }, 10);
+  }
+};
+
 // 加载头部
 Vue.prototype.getHeader = function (title, topClass, rightName, rightCallback, leftName, leftCallback, goodDetailsCallback) {
   eventBus.$emit('header', {
@@ -86,7 +100,7 @@ Vue.prototype.getHeader = function (title, topClass, rightName, rightCallback, l
   });
 };
 
-// 加载头部
+// 加载弹框
 Vue.prototype.modal = function (title, content, btnTitle, callback) {
   eventBus.$emit('modal', {
     title: title,
