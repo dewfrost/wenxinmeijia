@@ -184,7 +184,7 @@ export default {
           width: 8px;
           height: 8px;
           border-radius: 4px;
-          background: $color;
+          background: -webkit-linear-gradient(left,#ff2686,#fd3fdd);
           margin-right: 5px;
         }
    
@@ -235,7 +235,7 @@ export default {
       width: 8px;
       height: 8px;
       border-radius: 4px;
-      background: #22affe;
+      background: -webkit-linear-gradient(left,#269dfe,#1ccdfe);
       margin-right: 5px;
     }
   }

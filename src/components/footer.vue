@@ -202,10 +202,12 @@ export default {
     }
     // 提交订单底部
     .footer_submit{
+      width: 640px;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       .all_price{
-        flex: 1;
+        // flex: 1;
+        width: 380px;
         text-align: left;
         padding-left: 24px;
         line-height: 80px;

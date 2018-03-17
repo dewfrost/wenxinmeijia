@@ -105,8 +105,12 @@ export default {
     justify-content: space-between;
     padding: 0 30px;
     input{
+      width: 300px;
       font-size: 24px;
       text-align: right;
+    }
+    label{
+      width: 150px;
     }
     .select{
       span{
@@ -131,6 +135,8 @@ export default {
       font-family: '微软雅黑';
       padding: 25px 30px 0;
       line-height: 33px;
+      display: flex;
+      flex: 1;
     }
   }
   .default{

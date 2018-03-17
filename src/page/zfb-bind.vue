@@ -92,6 +92,7 @@ export default {
       } else {
         this.sendSMSTime = 60;
         this.disabled = true;
+        this.btntxt = '已发送(' + this.sendSMSTime + ')s';
         let time = setInterval(() => { // 声明一个定时器
           if (this.sendSMSTime > 0) {
             this.sendSMSTime--;

@@ -97,8 +97,12 @@ export default {
     justify-content: space-between;
     padding: 0 30px;
     input{
+      width: 300px;
       font-size: 24px;
       text-align: right;
+    }
+    label{
+      width: 150px;
     }
     .select{
       .iconfont{
@@ -109,10 +113,9 @@ export default {
   }
   .details_address{
     textarea{
+      // background: red;
       background: #fff;
       border-bottom: 1px solid #eaeaea;
-      width: 100%;
-      height: 170px;
       resize: none;
       padding: 0 30px;
       font-size: 24px;
@@ -120,6 +123,10 @@ export default {
       font-family: '微软雅黑';
       padding: 25px 30px 0;
       line-height: 33px;
+      display: flex;
+      flex: 1;
+      width: 100%;
+      height: 170px;
     }
   }
   button{
