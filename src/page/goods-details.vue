@@ -68,8 +68,7 @@ export default {
       }, {
         title: '凝胶',
         name: '进口环保水溶性树脂胶'
-      }],
-      start: 0
+      }]
     };
   },
   beforeMount: function () {
@@ -96,47 +95,23 @@ export default {
         } else {
           this.getDetailsHeader();
         }
-        if (height > 1200) {
-          document.body.scrollTop = 0;
-        }
-        // 判断滚动方向
-        if (((height - this.start) < 100) && ((this.start - height) < 100)) {
-          return false;
-        }
-        if ((height - this.start) > 100) {
-          this.start = height;
-        }
-        if ((this.start - height) > 100) {
-          this.start = height;
-        }
       });
     },
+    // 点击详情事件
     getDetailsHeader () {
       let that = this;
-      this.getHeader('商品', 'goods_details_details', '详情', null, null, function () {
-        that.backPath();
-      }, function () {
+      this.getHeader('商品', 'goods_details_details', '详情', function () {
         that.getGoodsHeader();
+        that.backScroll(987);
       });  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字,第七个参数点击商品的事件
     },
+    // 点击商品事件
     getGoodsHeader () {
       let that = this;
-      this.getHeader('商品', 'goods_details_goods', '详情', null, null, function () {
-        that.backPath();
-      }, function () {
+      this.getHeader('商品', 'goods_details_goods', '详情', null, null, null, function () {
         that.getDetailsHeader();
+        that.backScroll(0);
       });  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字,第七个参数点击商品详情的事件
-    },
-    backPath () {
-      if (localStorage.goodsDetailsFromPath) {
-        if ((localStorage.goodsDetailsFromPath === 'index1') || (localStorage.goodsDetailsFromPath === 'null')) {
-          this.$router.replace('/');
-        } else {
-          this.$router.replace(localStorage.goodsDetailsFromPath);
-        }
-      } else {
-        this.$router.replace('/');
-      }
     },
     add: function () {
       this.toast('' + this.hidePhone('添加购物车成功!'), 'icon-chenggong1');
@@ -161,7 +136,7 @@ export default {
 @import "../assets/css/base.scss";
 .header_top.goods_details_details, .header_top.goods_details_goods{
   position: relative;
-  h1.title a{
+  h1.title{
     font-size: 24px;
     position: absolute;
     left: 40%;
@@ -210,7 +185,7 @@ export default {
     .header_right{
       color: #333;
     }
-    h1.title a{
+    h1.title{
       color: #777;
     }
   }
