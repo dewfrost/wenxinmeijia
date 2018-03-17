@@ -1,7 +1,9 @@
 // 7/8首页 index.vue
+// 10 商品列表 goods-list.vue
 
 import index from '../page/index.vue';
 import demos from '../page/demos.vue';
+import goodsList from '../page/goods-list.vue';
 
 export default[
   {
@@ -18,5 +20,10 @@ export default[
     path: '/demos',
     component: demos,
     name: 'demos'
+  },
+  {
+    path: '/goodsList',
+    component: goodsList,
+    name: 'goodsList'
   }
 ];

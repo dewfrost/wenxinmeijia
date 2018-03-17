@@ -82,6 +82,11 @@ export default {
         line-height: 40px;
         p{
           margin-top: 15px;
+          float: right;
+        }
+        span{
+          float: right;
+          margin-top: 15px;
         }
       }
     }

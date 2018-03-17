@@ -169,7 +169,7 @@ export default {
         width: 8px;
         height: 8px;
         border-radius: 4px;
-        background: $color;
+        background: -webkit-linear-gradient(left,#ff2686,#fd3fdd);
         margin-right: 5px;
       }
       display: flex;

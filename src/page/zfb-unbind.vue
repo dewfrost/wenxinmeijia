@@ -14,8 +14,8 @@
     </div>
     <div class="bind">
       <label for="code">验证码</label>
-      <input id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
-      <button class="modify-btn" :class="{'send-sms' : !isSend, 'no-send-sms': isSend}" @click ='sendSMS' :disabled ='disabled || sendSMSTime >0'>{{btntxt}}</button>
+      <input class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
+      <button class="modify_btn" :class="{'send-sms' : !isSend, 'no-send-sms': isSend}" @click ='sendSMS' :disabled ='disabled || sendSMSTime >0'>{{btntxt}}</button>
     </div>
     <button class="link" @click="link">确认</button>
   </div>
@@ -95,6 +95,7 @@ export default {
       } else {
         this.sendSMSTime = 60;
         this.disabled = true;
+        this.btntxt = '已发送(' + this.sendSMSTime + ')s';
         let time = setInterval(() => { // 声明一个定时器
           if (this.sendSMSTime > 0) {
             this.sendSMSTime--;
@@ -154,16 +155,22 @@ export default {
     #idcode{
       color: #333;
     }
+    label{
+      width: 170px;
+    }
     input{
-      width: 314px;
+      min-width: 314px;
       font-size: 24px;
       text-align: right;
       background: transparent;
     }
-    button{
-      width: 145px;
+    .idcode{
+      min-width: 80px;
+      padding-right: 20px;
+    }
+    .modify_btn{
+      min-width: 155px;
       height: 50px;
-      margin-left: -10px;
       margin-top: 17.5px;
       color: $color;
       text-align: right;

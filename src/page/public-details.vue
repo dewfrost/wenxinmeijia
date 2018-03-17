@@ -83,11 +83,19 @@ export default {
       }
     }
     .center{
+      width: 100%;
       padding:0 30px;
       font-size: 22px;
       color: #666;
       line-height: 40px;
       p{
+        width: 100%;
+        float: right;
+        margin-top: 15px;
+      }
+      span{
+        width: 100%;
+        float: right;
         margin-top: 15px;
       }
     }

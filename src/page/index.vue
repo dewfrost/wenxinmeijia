@@ -7,7 +7,8 @@
     </swiper> -->
     <img :src="img" alt="商品">
     <div class="swiper_pagination">
-      <p class="title">&mdash;&nbsp;商品专区&nbsp;&mdash;</p>
+      <!-- 商品专区 -->
+      <p class="title">&nbsp;商品专区&nbsp;</p>
       <div class="details">
         <div class="details_list" v-for="(item, index) in details" :key="index" @click="seeDetails(item.id)">
           <img :src="item.img" alt="商品">
@@ -17,7 +18,22 @@
             <span class="buy" @click.stop="buyGoods(item.id)">立即购买</span>
           </p>
         </div>
-        <p class="more">查看更多></p>
+        <p class="more" @click="goods_more">查看更多></p>
+      </div>
+      <!-- 空白灰色 -->
+      <div class="blank"></div>
+      <!-- 配件专区 -->
+      <p class="title">&nbsp;配件专区&nbsp;</p>
+      <div class="details">
+        <div class="details_list" v-for="(item, index) in parts" :key="index" @click="seeParts(item.id)">
+          <img :src="item.img" alt="商品">
+          <p class="details_name">{{item.name}}</p>
+          <p class="details_info">
+            <span class="red">&yen;&nbsp;<span class="price">{{item.price}}</span></span>
+            <span class="buy" @click.stop="buyParts(item.id)">立即购买</span>
+          </p>
+        </div>
+        <p class="more" @click="parts_more">查看更多></p>
       </div>
     </div>
   </div>
@@ -52,6 +68,7 @@ export default {
         }
       ],
       img: require('../assets/images/banner1.jpg'),
+      // 商品专区
       details: [
         {
           img: require('../assets/images/goods1.png'),
@@ -77,6 +94,45 @@ export default {
           price: '288.00',
           id: 2
         }
+      ],
+      // 配件专区
+      parts: [
+        {
+          img: require('../assets/images/goods1.png'),
+          name: '可穿戴美甲贴片玫瑰香薰球#265',
+          price: '68.00',
+          id: 2
+        },
+        {
+          img: require('../assets/images/parts2.png'),
+          name: '可穿戴美甲贴片天然翡翠#1760',
+          price: '68.00',
+          id: 2
+        },
+        {
+          img: require('../assets/images/parts3.png'),
+          name: '可穿戴美甲贴片淑女蝴蝶结#2060',
+          price: '58.00',
+          id: 2
+        },
+        {
+          img: require('../assets/images/parts4.png'),
+          name: '可穿戴美甲贴片蓝色妖姬#1360',
+          price: '46.00',
+          id: 2
+        },
+        {
+          img: require('../assets/images/parts5.png'),
+          name: '可穿戴美甲贴片黑色甲壳虫#960',
+          price: '58.00',
+          id: 2
+        },
+        {
+          img: require('../assets/images/parts6.png'),
+          name: '可穿戴美甲贴片花间舞者#862',
+          price: '58.00',
+          id: 2
+        }
       ]
     };
   },
@@ -91,7 +147,12 @@ export default {
     this.getFooter();
   },
   methods: {
+    // 点击商品的跳转商品详情
     seeDetails (id) {
+      this.$router.push({path: 'goodsDetails', query: {id: id}});
+    },
+    // 点击商品的跳转商品详情
+    seeParts (id) {
       this.$router.push({path: 'goodsDetails', query: {id: id}});
     },
     buyGoods (id) {
@@ -103,17 +164,13 @@ export default {
         navShow: true
       });
     },
-    showToast: function () {
-      // 引用toast组件
-      this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
+    // 点击商品的查看更多
+    goods_more: function () {
+      this.$router.push({path: 'goodsList', query: {type: 'goods'}});
     },
-    showModal: function () {
-      let that = this; // 如果回调函数中用到this，则这行代码必须有
-      // 引用弹窗组件
-      this.modal('这是弹窗标题', '这是弹窗服饰股份的供热一个头特化工股份合格的合格合格分数高富帅正文', '这是按钮', function () {
-        console.log('调用弹窗成功');
-        console.log(that.modalMsg);
-      }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+    // 点击配件的查看更多
+    parts_more: function () {
+      this.$router.push({path: 'goodsList', query: {type: 'parts'}});
     }
   },
   components: {
@@ -134,6 +191,35 @@ export default {
     .title{
       line-height: 80px;
       text-align: center;
+      position: relative;
+      &:before{
+        content: '';
+        display: block;
+        width: 16px;
+        height: 2px;
+        position: absolute;
+        top: 50%;
+        left: 38%;
+        background: #333;
+        margin-right: 10px;
+      }
+      &:after{
+        content: '';
+        display: block;
+        width: 16px;
+        height: 2px;
+        position: absolute;
+        top: 50%;
+        right: 37%;
+        background: #333;
+        margin-right: 10px;
+      }
+    }
+    .blank{
+      display: block;
+      background: #f5f5f5;
+      height: 20px;
+      width: 100%;
     }
     .details{
       flex-flow: wrap;

@@ -4,7 +4,7 @@
       <span>应付金额</span>
       <span class="color">￥{{price}}</span>
     </p>
-    <p class="select">选择支付方式</p>
+    <span class="select">选择支付方式</span>
     <div class="list">
       <div class="linePay_payType" v-for="(item,index) in payType" @click="toggleType(index)" :key="index">
         <div class="left">
@@ -96,6 +96,9 @@ export default {
     }
   }
   .select{
+    display: block;
+    width: 100%;
+    height: 80px;
     margin-top: 20px;
     line-height: 80px;
     padding: 0 24px;

@@ -1,9 +1,11 @@
 <template>
   <div class="editInformation">
     <div class="head">
-      <img :src="user.headImg" alt="头像" class="show_img">
       <label for="submitImg" class="img_label">
-        <img class="camera" src="../assets/images/camera.png" alt="相机">
+        <img class="show_img" :src="user.headImg" alt="头像">
+        <span class="camera">
+          <img class="camera_img" src="../assets/images/camera.png" alt="相机">
+        </span>
         <input id="submitImg" class="img_input" type="file" accept="image/*" @change="selectImg">
       </label>
     </div>
@@ -65,7 +67,7 @@ export default {
       this.file = e.target.files[0];
       let reader = new FileReader();
       reader.addEventListener('load', () => {
-        this.user.headimgurl = reader.result;
+        this.user.headImg = reader.result;
       }, false);
       if (this.file) {
         reader.readAsDataURL(this.file);
@@ -95,31 +97,41 @@ export default {
   background: url('../assets/images/edit_bgd.png') no-repeat #f5f5f5 right top;
   .head{
     margin: 70px auto 50px;
-    position: relative;
-    .show_img{
-      width: 143px;
+    .img_label{
+      width: 147px;
       height: 143px;
       border-radius: 50%;
-      border: 5px solid #fff;
       margin: 0 auto;
       display: block;
-    }
-    .img_label{
-      width: 37px;
-      height: 37px;
       border-radius: 50%;
+      -webkit-box-shadow: 0 0 5px #ada6a6;
       box-shadow: 0 0 5px #ada6a6;
-      position: absolute;
-      background: #fff;
-      bottom: -6px;
-      right: 40%;
+      position: relative;
+      .show_img{
+        width: 143px;
+        height: 143px;
+        border-radius: 50%;
+        border: 5px solid #fff;
+        margin: 0 auto;
+        display: block;
+      }
       .camera{
-        width: 26px;
-        height: 22px;
+        width: 36px;
+        height: 36px;
         position: absolute;
-        left: 50%;
-        top: 50%;
-        margin: -11px 0 0 -12.1px;
+        left: 70%;
+        top: 76%;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 0 5px #ada6a6;
+        -webkit-box-shadow: 0 0 5px #ada6a6;
+        .camera_img{
+          width: 27px;
+          height: 22px;
+          margin: 6px auto 6px;
+          display: block;
+          display: block;
+        }
       }
       .img_input{
         position: absolute;
@@ -135,12 +147,15 @@ export default {
     border-bottom: 1px solid #eaeaea;
     display: flex;
     justify-content: space-between;
-    
+    label{
+      width: 150px;
+      display: inline-block;
+    }
     input{
       background: transparent;
       font-size: 24px;
       text-align: right;
-      min-width: 150px;
+      width: 300px;
     }
   }
   .prompt{

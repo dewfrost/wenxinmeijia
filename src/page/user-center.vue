@@ -13,7 +13,7 @@
             <span>推荐人：</span><span class="recommended">{{user.phone}}</span>
           </div>
         </div>
-        <i class="info_you iconfont icon-you"></i>
+        <router-link tag="i" to="editInformation" class="info_you iconfont icon-you"></router-link>
       </div>
     </div>
     <!-- 公告列表 -->
@@ -73,7 +73,7 @@ export default {
       add: ['withdraw', 'moneyAccount', 'recommendAwards', 'promotionAwards', 'managementSalary'],
       setList: ['我的账本', '我的伙伴', '二维码', '收货地址', '客服中心', '更换手机号', '账户绑定', '账号设置'],
       iconfontList: ['qianbao', 'kehu', 'erweima', 'dingwei', 'zuoji', 'dianhuaben', 'youhuiquan', 'hekriconshebeisuokai'],
-      setLink: ['accountBook', 'partner', 'qrCode', 'manageAddress', 'customerCenter', 'changePhone', 'accountBind', 'settingAccount']
+      setLink: ['accountBook', 'partner', 'qrCode', 'manageAddress', 'customerCenter', 'changePhone?type=now', 'accountBind', 'settingAccount']
     };
   },
   beforeCreate: function () { // 创建之前
@@ -165,7 +165,7 @@ export default {
     }
   }
   .public{
-    padding: 0 38px;
+    padding: 0 30px;
     font-size: 20px;
     display: flex;
     align-items: center;
@@ -183,7 +183,7 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      margin-left: -42px;
+      margin-left: -38px;
     }
     .more{
       min-width: 80px;
