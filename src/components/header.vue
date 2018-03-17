@@ -1,8 +1,12 @@
 <template>
   <div class="header_top" :class="headerClass" v-show="show">
-    <span class="iconfont back" @click="leftMethod" :class="{'icon-zuo': !left, 'left_name': left}">{{left}}</span>
-    <h1 class="title" @click="goodDetailsCallback()">{{title}}</h1>
-    <span class="header_right" v-if="right" @click="rightMethod">{{right}}</span>
+    <span class="iconfont back" @click.stop="leftMethod" :class="{'icon-zuo': !left, 'left_name': left}">{{left}}</span>
+    <h1 class="title" @click.stop="goodDetailsCallback()">
+      <a href="#goods" v-if="(headerClass === 'goods_details_details') || (headerClass === 'goods_details_goods')">{{title}}</a>
+      <span v-if="(headerClass !== 'goods_details_details') && (headerClass !== 'goods_details_goods')">{{title}}</span>
+    </h1>
+    <a href="#goodsDetails" class="header_right" v-if="(headerClass === 'goods_details_details') || (headerClass === 'goods_details_goods') && right" @click.stop="rightMethod">{{right}}</a>
+    <span class="header_right" v-if="(headerClass !== 'goods_details_details') && (headerClass !== 'goods_details_goods') && right" @click.stop="rightMethod">{{right}}</span>
   </div>
 </template>
 
@@ -37,6 +41,7 @@ export default {
       eventBus.$on('header', function (data) {
         if (!data) {
           box.show = false;
+          box.headerClass = '';
         } else {
           box.headerClass = data.class; // 头部类名
           box.show = !data.show; // 是否显示头部(默认显示)

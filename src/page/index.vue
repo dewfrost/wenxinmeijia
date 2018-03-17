@@ -83,6 +83,7 @@ export default {
   beforeCreate: function () { // 创建之前
   },
   created: function () { // 创建之后
+    eventBus.$emit('header', false);
   },
   beforeMount: function () { // 挂载之前
   },

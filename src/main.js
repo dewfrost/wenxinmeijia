@@ -30,6 +30,16 @@ router.beforeEach((to, from, next) => {
   eventBus.$emit('footer', false);
   next();
 });
+
+router.beforeEach((to, from, next) => {
+  // 把跳到商品页前的路由记录到localStorage
+  if ((from.name !== 'goodsDetails') && (to.name === 'goodsDetails')) {
+    console.log(155);
+    localStorage.goodsDetailsFromPath = from.name;
+  }
+  // 如果商品详情跳转到商品详情不记录
+  next();
+});
 // 公共函数
 
 // 创建ajax

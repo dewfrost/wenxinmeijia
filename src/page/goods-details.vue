@@ -1,5 +1,5 @@
 <template>
-  <div class="goodsDetails" ref="logBox">
+  <div class="goodsDetails" ref="logBox" id="goods">
     <div class="goods_top">
      <img :src="goods.imgurl" alt="商品">
      <div class="title">
@@ -22,7 +22,7 @@
       </div>
     </div>
     <!-- 商品详请 -->
-    <div class="goods_Details">
+    <div class="goods_Details" id="goodsDetails">
       <div class="goods_Details_title">
         <span>商品详请</span>
       </div>
@@ -74,32 +74,36 @@ export default {
   },
   beforeMount: function () {
     this.getDetailsHeader();
-    this.scrollOn();
   },
   mounted: function () {
+    this.scrollOn();
     this.getFooter();
+    this.getFromName();
   },
   beforeDestroy: function () {
+    eventBus.$emit('header', false);
   },
   updated: function () {
     this.getFooter();
   },
   methods: {
+    getFromName () {
+    },
     scrollOn: function () {
-      console.log(22);
       eventBus.$on('contentScroll', (height) => {
-        console.log(1);
-        if (height > 996) {
+        if (height > 986) {
           this.getGoodsHeader();
         } else {
           this.getDetailsHeader();
+        }
+        if (height > 1200) {
+          document.body.scrollTop = 0;
         }
         // 判断滚动方向
         if (((height - this.start) < 100) && ((this.start - height) < 100)) {
           return false;
         }
         if ((height - this.start) > 100) {
-          // eventBus.$emit('header', false);
           this.start = height;
         }
         if ((this.start - height) > 100) {
@@ -109,17 +113,30 @@ export default {
     },
     getDetailsHeader () {
       let that = this;
-      this.getHeader('商品', 'goods_details_details', '详情', function () {
-        that.toast('详情');
+      this.getHeader('商品', 'goods_details_details', '详情', null, null, function () {
+        that.backPath();
+      }, function () {
         that.getGoodsHeader();
       });  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字,第七个参数点击商品的事件
     },
     getGoodsHeader () {
       let that = this;
-      this.getHeader('商品', 'goods_details_goods', '详情', null, null, null, function () {
-        that.toast('商品');
+      this.getHeader('商品', 'goods_details_goods', '详情', null, null, function () {
+        that.backPath();
+      }, function () {
         that.getDetailsHeader();
-      });  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字,第七个参数点击商品的事件
+      });  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字,第七个参数点击商品详情的事件
+    },
+    backPath () {
+      if (localStorage.goodsDetailsFromPath) {
+        if ((localStorage.goodsDetailsFromPath === 'index1') || (localStorage.goodsDetailsFromPath === 'null')) {
+          this.$router.replace('/');
+        } else {
+          this.$router.replace(localStorage.goodsDetailsFromPath);
+        }
+      } else {
+        this.$router.replace('/');
+      }
     },
     add: function () {
       this.toast('' + this.hidePhone('添加购物车成功!'), 'icon-chenggong1');
@@ -142,13 +159,14 @@ export default {
 </script>
 <style lang="scss">
 @import "../assets/css/base.scss";
-.header_top{
+.header_top.goods_details_details, .header_top.goods_details_goods{
   position: relative;
-  h1.title{
+  h1.title a{
     font-size: 24px;
     position: absolute;
     left: 40%;
     top: 0;
+    color: #333;
   }
   .header_right{
     position: absolute;
@@ -157,6 +175,8 @@ export default {
     display: inline-block;
     padding: 0;
   }
+}
+.header_top{
   &.goods_details_details{
     &::before{
       position: absolute;
@@ -190,7 +210,7 @@ export default {
     .header_right{
       color: #333;
     }
-    h1.title{
+    h1.title a{
       color: #777;
     }
   }
@@ -272,6 +292,8 @@ export default {
     }
   }
   .goods_Details{
+    padding-top: 90px;
+    margin-top: -90px;
     .goods_Details_title{
       height:60px;
       line-height:60px;
