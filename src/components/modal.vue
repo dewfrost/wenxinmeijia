@@ -22,7 +22,8 @@
             :class="{'is_focus': ((index) === password.length) && isFocus, 'no_focus': (index) !== password.length}"
             v-for="(item, index) in [0, 1, 2, 3, 4, 5]"
             :key="index">
-            {{password.length > index ? '●' : ''}}
+            <i class="iconfont icon-yuandianxiao" v-if="password.length > index"></i>
+            <i v-if="password.length <= index"></i>
             </li>
           </ul>
         </label>
@@ -266,6 +267,7 @@ export default {
         font-size: 24px;
       }
     }
+    // 优惠券
     .voucher{
       width: 100%;
       position: absolute;
@@ -309,6 +311,7 @@ export default {
         transform: translateX(10px);
       }
     }
+    // 设置支付密码
     .set_password{
       width: 86%;
       position: absolute;
@@ -422,11 +425,12 @@ export default {
         font-size: 26px;
       }
     }
+    // 支付密码弹框
     .pay_password{
       width: 86%;
       position: absolute;
       left: 50%;
-      top: 50%;
+      top: 40%;
       transform: translate(-50%, -50%);
       padding: 0 48px;
       border-radius: 4px;
@@ -466,10 +470,16 @@ export default {
               border: 1px solid #e6e6e6;
               height: 76px;
               line-height: 76px;
-              font-size: 36px;
               display: flex;
               justify-content: center;
               align-items: center;
+              .iconfont{
+                font-size: 40px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
               &:not(:first-child){
                 border-left-color: transparent;
               }

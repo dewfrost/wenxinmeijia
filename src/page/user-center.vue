@@ -105,6 +105,8 @@ export default {
   min-height: 100%;
   padding-bottom: 100px;
   background: #fff;
+  min-height: 100%;
+  padding-bottom: 100px;
   .top{
     width: 600px;
     height: 140px;

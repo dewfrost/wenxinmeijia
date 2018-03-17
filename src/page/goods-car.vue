@@ -60,6 +60,54 @@ export default {
           price: '2.00',
           sum: 33,
           id: 2
+        },
+        {
+          isCheck: true,
+          goodsImg: require('../assets/images/goods2.png'),
+          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
+          price: '80.00',
+          sum: 10,
+          id: 2
+        },
+        {
+          isCheck: true,
+          goodsImg: require('../assets/images/goods3.png'),
+          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
+          price: '2.00',
+          sum: 33,
+          id: 2
+        },
+        {
+          isCheck: true,
+          goodsImg: require('../assets/images/goods2.png'),
+          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
+          price: '80.00',
+          sum: 10,
+          id: 2
+        },
+        {
+          isCheck: true,
+          goodsImg: require('../assets/images/goods3.png'),
+          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
+          price: '2.00',
+          sum: 33,
+          id: 2
+        },
+        {
+          isCheck: true,
+          goodsImg: require('../assets/images/goods2.png'),
+          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
+          price: '80.00',
+          sum: 10,
+          id: 2
+        },
+        {
+          isCheck: true,
+          goodsImg: require('../assets/images/goods3.png'),
+          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
+          price: '2.00',
+          sum: 33,
+          id: 2
         }
       ]
     };
@@ -232,7 +280,7 @@ export default {
   }
   .goods_car_wrap{
     min-height: 100%;
-    padding: 110px 0 100px;
+    padding: 90px 0 180px;
     background-color: #f5f5f5;
     position: relative;
     .none_data{
