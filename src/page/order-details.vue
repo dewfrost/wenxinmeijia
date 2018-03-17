@@ -1,5 +1,5 @@
 <template>
-   <div class="orderd">
+   <div class="orderd" :class="{'none_footer': (order.status === 1) || (order.status === 3)}">
      <div class="top">
        <div class="orderd_top left">
          <span class="number">订单编号：{{order.order_sn}}</span>
@@ -23,7 +23,7 @@
        <img src="../assets/images/address.png" alt="">
      </div>
      <div class="content">
-       <div class="details" v-for="item in goodsInfo">
+       <div class="details" v-for="(item, index) in goodsInfo" :key="index">
           <img :src="item.imgurl" alt="商品">
           <div class="right">
             <div class="one">{{item.name}}</div>
@@ -191,6 +191,9 @@ export default {
 .orderd{
   background: #fff;
   padding: 90px 0 80px 0;
+  &.none_footer{
+    padding: 90px 0 0 0;
+  }
   .top{
     padding:10px 20px;
     width:600px;

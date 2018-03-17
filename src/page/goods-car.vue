@@ -1,6 +1,6 @@
 <template>
   <div class="goods_car_wrap">
-    <div v-if="!goodsList.length && isRequest" class="none-order">
+    <div v-if="!goodsList.length && isRequest" class="none_data">
       <p>此页面暂无内容</p>
     </div>
     <ul class="goods_list">
@@ -32,27 +32,27 @@ export default {
   data () {
     return {
       isRequest: true, // 是否请求
-      isAllCheck: false,
+      isAllCheck: true,
       allCheckGoodsNum: 0,
       allCheckPrice: 0,
       isEdit: false,
       goodsList: [
         {
-          isCheck: false,
+          isCheck: true,
           goodsImg: require('../assets/images/goods1.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '28.00',
           sum: 6
         },
         {
-          isCheck: false,
+          isCheck: true,
           goodsImg: require('../assets/images/goods2.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '80.00',
           sum: 10
         },
         {
-          isCheck: false,
+          isCheck: true,
           goodsImg: require('../assets/images/goods3.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '2.00',
@@ -68,17 +68,24 @@ export default {
   beforeMount: function () { // 挂载之前
   },
   mounted: function () {
+    // 循环所有选中状态，判断选中的商品种数
+    this.allCheckSum();
+    // 计算总价
+    this.computedAllPrice();
     this.getFooter();
     let that = this;
     this.getHeader('购物车', 'goods_car_header', '编辑', function () {
       that.toggleEdit(1);
     });
   },
-  updated: function () {
+  beforeUpdate: function () { // 数据更新时调用,在渲染之前
     // 循环所有选中状态，判断选中的商品种数
     this.allCheckSum();
+    // 计算总价
     this.computedAllPrice();
     this.getFooter();
+  },
+  updated: function () {
   },
   methods: {
     getFooter () {
@@ -93,20 +100,22 @@ export default {
       }, function () {
         that.delGoods();
       }, function () {
-        that.isAllCheck = !that.isAllCheck;
-        // 如果全选按钮选中，循环所有商品的按钮为选中，反之亦然
-        if (that.isAllCheck) {
-          for (let i = 0; i < that.goodsList.length; i++) {
-            that.goodsList[i].isCheck = true;
-          }
-        } else {
-          for (let i = 0; i < that.goodsList.length; i++) {
-            that.goodsList[i].isCheck = false;
-          }
-        }
-        // that.allCheckSum();
-        // that.getFooter();
+        // 点击全选按钮
+        that.goAllCheck();
       });
+    },
+    goAllCheck () {
+      this.isAllCheck = !this.isAllCheck;
+      // 如果全选按钮选中，循环所有商品的按钮为选中，反之亦然
+      if (this.isAllCheck) {
+        for (let i = 0; i < this.goodsList.length; i++) {
+          this.goodsList[i].isCheck = true;
+        }
+      } else {
+        for (let i = 0; i < this.goodsList.length; i++) {
+          this.goodsList[i].isCheck = false;
+        }
+      }
     },
     // 点击是否选中事件
     toggleCheak (index) {
@@ -145,14 +154,21 @@ export default {
             that.toggleEdit(0);
           });
           this.isEdit = true;
+          // 以下两行为编辑状态所有商品为不选中
+          this.isAllCheck = true;
+          this.goAllCheck();
         } else {
           this.getHeader('购物车', 'goods_car_header', '编辑', function () {
             that.toggleEdit(1);
           });
           this.isEdit = false;
+          // 以下两行为正常状态所有商品为选中
+          this.isAllCheck = false;
+          this.goAllCheck();
         }
       }
     },
+    // 增删商品数量
     changeNum (type, index) {
       if (type) {
         if (this.goodsList[index].sum === 1) {
@@ -173,7 +189,7 @@ export default {
           // 先判断是否选中
           if (this.goodsList[i].isCheck) {
             // this.allCheckPrice += this.goodsList[i].sum * parseInt(this.goodsList[i].price);
-            this.goodsList.pop(1);
+            this.goodsList.splice(i, 1);
           }
         }
       }
@@ -212,23 +228,23 @@ export default {
     min-height: 100%;
     padding: 110px 0 100px;
     background-color: #f5f5f5;
-    .goods_list{
-      position: relative;
-      .none-order{
-        background: url(../assets/images/none_01.png) no-repeat center center;
-        position: absolute;
-        top: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 300px;
-        width: 80%;
-        text-align: center;
-        > p{
-          color: #999;
-          font-size: 24px;
-          margin-top: 260px;
-        }
+    position: relative;
+    .none_data{
+      background: url(../assets/images/none_01.png) no-repeat center center;
+      position: absolute;
+      top: 230px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 300px;
+      width: 80%;
+      text-align: center;
+      > p{
+        color: #999;
+        font-size: 24px;
+        margin-top: 260px;
       }
+    }
+    .goods_list{
       .goods{
         background-color: #fff;
         margin-bottom: 10px;

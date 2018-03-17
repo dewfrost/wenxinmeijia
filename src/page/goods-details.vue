@@ -73,11 +73,11 @@ export default {
     };
   },
   beforeMount: function () {
+    this.getDetailsHeader();
+    this.scrollOn();
   },
   mounted: function () {
-    this.getDetailsHeader();
     this.getFooter();
-    this.scrollOn();
   },
   beforeDestroy: function () {
   },
@@ -86,7 +86,9 @@ export default {
   },
   methods: {
     scrollOn: function () {
+      console.log(22);
       eventBus.$on('contentScroll', (height) => {
+        console.log(1);
         if (height > 996) {
           this.getGoodsHeader();
         } else {
