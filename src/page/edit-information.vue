@@ -75,13 +75,9 @@ export default {
       }
     },
     select: function () {
-
     },
     link: function () {
-      let that = this; // 如果回调函数中用到this，则这行代码必须有
-      this.modal('提示', '您已升级到经理L1级别，需要立即完善资料。', '确定', function (index) {
-        that.$router.push('userCenter');
-      }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+      this.$router.go(-1);
     }
   }
 };

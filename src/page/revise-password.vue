@@ -151,7 +151,7 @@ export default {
       width: 170px;
     }
     input{
-      min-width: 314px;
+      min-width: 366px;
       font-size: 24px;
       text-align: right;
       background: transparent;

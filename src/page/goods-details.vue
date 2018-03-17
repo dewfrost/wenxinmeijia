@@ -3,7 +3,7 @@
     <div class="goods_top">
      <img :src="goods.imgurl" alt="商品">
      <div class="title">
-       <div class="title_t">{{goods.title}}</div>
+       <span class="title_t">{{goods.title}}</span>
        <div class="money">￥<span>{{goods.money}}</span></div>
        <div class="freight" :class="{'wu': !goods.freight}">运费：{{goods.freight || "10元，订单满88元包邮"}}</div>
      </div>
@@ -213,8 +213,11 @@ export default {
     .title{
      padding: 20px;
      .title_t{
-       font-size: 24px;
-       color: #000;
+        width: 100%;
+        float: right;
+        margin: 10px 0 20px;
+        font-size: 24px;
+        color: #000;
      }
      .money{
        margin-top: 18px;
@@ -261,7 +264,11 @@ export default {
         .goods_param_list_tit{
           color:#999;
           display:inline-block;
-          width:140px;
+          width:125px;
+        }
+        .goods_param_list_na{
+          display: inline-block;
+          width: 460px;
         }
       }
     }

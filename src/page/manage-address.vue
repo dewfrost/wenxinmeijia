@@ -98,6 +98,7 @@ export default {
 <style lang="scss">
 @import "../assets/css/base.scss";
 .manageAddress{
+  min-height: 100%;
   margin-top: 90px;
   position: relative;
   &:before{

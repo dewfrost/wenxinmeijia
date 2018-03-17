@@ -102,6 +102,8 @@ export default {
 <style  lang="scss">
 @import "../assets/css/base.scss";
 .user_center{
+  min-height: 100%;
+  padding-bottom: 100px;
   background: #fff;
   .top{
     width: 600px;

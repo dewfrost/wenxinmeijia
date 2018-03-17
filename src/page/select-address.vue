@@ -35,7 +35,7 @@ export default {
         {
           name: '杨阳洋',
           phone: '13245678998',
-          address: '河南省郑州市郑东新区农业南路街道如意西路建业大厦F座2306',
+          address: '河南省郑州市郑东新区农业南路街道如意西路建业大厦F座2306河南省郑州市郑东新区农业南路街道如意西路建业大厦F座2306',
           defaultAddress: false
         }
       ]
@@ -95,6 +95,7 @@ export default {
   background: #f5f5f5;
   .manage_list{
     margin-top: 20px;
+    height: 140px;
     background: #fff;
     .name{
       display: flex;
@@ -105,9 +106,18 @@ export default {
       line-height: 57px;
     }
     .address{
+      height: 60px;
       padding: 0px 30px 15px;
       font-size: 22px;
       color: #999999;
+      // float: right;
+      display: flex;
+      flex: 1;
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp:2; 
       span{
         color: $color;
       }
