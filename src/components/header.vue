@@ -2,10 +2,8 @@
   <div class="header_top" :class="headerClass" v-show="show">
     <span class="iconfont back" @click.stop="leftMethod" :class="{'icon-zuo': !left, 'left_name': left}">{{left}}</span>
     <h1 class="title" @click.stop="goodDetailsCallback">
-      <!-- <a href="#goods" v-if="(headerClass === 'goods_details_details') || (headerClass === 'goods_details_goods')">{{title}}</a> -->
       <span>{{title}}</span>
     </h1>
-    <!-- <a href="#goodsDetails" class="header_right" v-if="(headerClass === 'goods_details_details') || (headerClass === 'goods_details_goods') && right" @click.stop="rightMethod">{{right}}</a> -->
     <span class="header_right" v-if="right" @click.stop="rightMethod">{{right}}</span>
   </div>
 </template>

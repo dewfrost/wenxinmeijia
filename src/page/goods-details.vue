@@ -90,10 +90,13 @@ export default {
     },
     scrollOn: function () {
       eventBus.$on('contentScroll', (height) => {
-        if (height > 986) {
-          this.getGoodsHeader();
-        } else {
-          this.getDetailsHeader();
+        // 只在goodsDetails页面监听
+        if (/goodsDetails/g.test(window.location.href)) {
+          if (height > 986) {
+            this.getGoodsHeader();
+          } else {
+            this.getDetailsHeader();
+          }
         }
       });
     },
@@ -101,15 +104,15 @@ export default {
     getDetailsHeader () {
       let that = this;
       this.getHeader('商品', 'goods_details_details', '详情', function () {
-        that.getGoodsHeader();
-        that.backScroll(987);
+        // that.getGoodsHeader();
+        that.backScroll(986);
       });  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字,第七个参数点击商品的事件
     },
     // 点击商品事件
     getGoodsHeader () {
       let that = this;
       this.getHeader('商品', 'goods_details_goods', '详情', null, null, null, function () {
-        that.getDetailsHeader();
+        // that.getDetailsHeader();
         that.backScroll(0);
       });  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字,第七个参数点击商品详情的事件
     },
