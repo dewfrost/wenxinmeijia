@@ -156,6 +156,8 @@ export default {
             }
           ]
         });
+      } else {
+        eventBus.$emit('footer', false);
       }
     },
     // 取消订单
