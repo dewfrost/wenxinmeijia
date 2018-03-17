@@ -1,13 +1,11 @@
 <template>
   <div class="goods_car_wrap">
+    <div v-if="!goodsList.length && isRequest" class="none-order">
+      <p>此页面暂无内容</p>
+    </div>
     <ul class="goods_list">
-      <div v-if="!goodsList.length && isRequest" class="none-order">
-        <p>此页面暂无内容</p>
-      </div>
       <li class="goods" v-for="(item, index) in goodsList" :key="index">
-        <i class="iconfont"
-        @click="toggleCheak(index)"
-        :class="{'icon-30xuanzhongyuanxingfill': item.isCheck, 'icon-30xuanzhongyuanxing': !item.isCheck}"></i>
+        <i class="iconfont" @click="toggleCheak(index)" :class="{'icon-30xuanzhongyuanxingfill': item.isCheck, 'icon-30xuanzhongyuanxing': !item.isCheck}"></i>
         <div class="img">
           <img :src="item.goodsImg" alt="" class="goods_img">
         </div>
@@ -217,7 +215,7 @@ export default {
     .goods_list{
       position: relative;
       .none-order{
-        background: url(../assets/images/none_data.png) no-repeat center center;
+        background: url(../assets/images/none_01.png) no-repeat center center;
         position: absolute;
         top: 30px;
         left: 50%;
@@ -228,7 +226,7 @@ export default {
         > p{
           color: #999;
           font-size: 24px;
-          margin-top: 300px;
+          margin-top: 260px;
         }
       }
       .goods{

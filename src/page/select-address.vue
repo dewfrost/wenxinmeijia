@@ -1,6 +1,6 @@
 <template>
   <div class="selectAddress">
-    <div class="manage_list" v-for="(item, index) in address" :key="index">
+    <div class="manage_list" v-for="(item, index) in address" :key="index" @click="backSubmit()">
       <p class="name">
         <span>{{item.name}}</span>
         <span>{{item.phone}}</span>
@@ -56,6 +56,9 @@ export default {
   }, // 实例销毁前调用,解绑中间层的数据传输
   destroyed: function () {}, // 实例销毁后调用
   methods: {
+    backSubmit () {
+      this.$router.go(-1);
+    },
     // 是否设为默认地址
     selectAddress: function (index, id) {
       // 原来为默认地址的改为非默认

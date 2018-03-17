@@ -68,7 +68,8 @@ export default {
       }, {
         title: '凝胶',
         name: '进口环保水溶性树脂胶'
-      }]
+      }],
+      start: 0
     };
   },
   beforeMount: function () {
@@ -90,6 +91,17 @@ export default {
           this.getGoodsHeader();
         } else {
           this.getDetailsHeader();
+        }
+        // 判断滚动方向
+        if (((height - this.start) < 100) && ((this.start - height) < 100)) {
+          return false;
+        }
+        if ((height - this.start) > 100) {
+          // eventBus.$emit('header', false);
+          this.start = height;
+        }
+        if ((this.start - height) > 100) {
+          this.start = height;
         }
       });
     },
