@@ -13,7 +13,7 @@
     <!-- 提现方式 -->
     <p class="select">提现方式</p>
     <div class="list">
-      <div class="linePay_payType" v-for="(item,index) in payType" @click="toggleType(index)">
+      <div class="linePay_payType" v-for="(item,index) in payType" @click="toggleType(index)" :key="index">
         <div class="left">
           <i class="iconfont" :class="item.icon"></i>
           <span>{{item.title}}</span>
@@ -182,7 +182,8 @@ export default {
         .iconfont{
           font-size: 32px;
           padding-right: 8px;
-          margin-top: 1px;
+          position: relative;
+          top: 4px;
         }
         .icon-zhifubao{
           color: #00a0e9;
@@ -205,6 +206,8 @@ export default {
         .iconfont{
           font-size: 32px;
           padding-left: 13px;
+          position: relative;
+          top: 2px;
         }
         .icon-30xuanzhongyuanxingfill{
           color: $color;

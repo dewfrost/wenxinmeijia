@@ -479,13 +479,15 @@ export default {
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                position: relative;
+                top: 2px;
               }
               &:not(:first-child){
                 border-left-color: transparent;
               }
               &.is_focus{
-                box-shadow: inset 0 0 1px 2px #FFE5E6;
-                border: 1px solid #FFE5E6;
+                box-shadow: inset 0 0 1px 2px #ffe5e6;
+                border: 1px solid #ffe5e6;
                 margin-left: -1px;
               }
             }
