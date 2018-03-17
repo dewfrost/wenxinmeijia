@@ -72,12 +72,12 @@ export default {
     };
   },
   beforeMount: function () {
-    this.getDetailsHeader();
   },
   mounted: function () {
     this.scrollOn();
     this.getFooter();
     this.getFromName();
+    this.getDetailsHeader();
   },
   beforeDestroy: function () {
     eventBus.$emit('header', false);

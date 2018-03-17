@@ -207,7 +207,7 @@ export default {
       justify-content: flex-end;
       .all_price{
         // flex: 1;
-        width: 380px;
+        width: 420px;
         text-align: left;
         padding-left: 24px;
         line-height: 80px;
@@ -329,6 +329,7 @@ export default {
         align-items: center;
         justify-content: center;
         background-color: #fff;
+        border-top: 1px solid #e6e6e6;
         .sum{
           position: absolute;
           left: 60px;

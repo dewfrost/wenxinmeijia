@@ -103,6 +103,8 @@ export default {
 @import "../assets/css/base.scss";
 .user_center{
   background: #fff;
+  min-height: 100%;
+  padding-bottom: 100px;
   .top{
     width: 600px;
     height: 140px;
