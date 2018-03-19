@@ -15,7 +15,7 @@
     <div class="bind">
       <label for="code">验证码</label>
       <input class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
-      <button class="modify_btn" :class="{'send-sms' : !isSend, 'no-send-sms': isSend}" @click ='sendSMS' :disabled ='disabled || sendSMSTime >0'>{{btntxt}}</button>
+      <button class="modify_btn" :class="{'send-sms' : isSend, 'no-send-sms': !isSend}" @click ='sendSMS' :disabled ='disabled || sendSMSTime >0'>{{btntxt}}</button>
     </div>
     <button class="link" @click="link">确认</button>
   </div>
@@ -94,6 +94,7 @@ export default {
         this.toast('手机号不能为空');
       } else {
         this.sendSMSTime = 60;
+        this.isSend = true;
         this.disabled = true;
         this.btntxt = '已发送(' + this.sendSMSTime + ')s';
         let time = setInterval(() => { // 声明一个定时器
@@ -102,6 +103,7 @@ export default {
             this.btntxt = '已发送(' + this.sendSMSTime + ')s';
           } else {
             this.sendSMSTime = 0;
+            this.isSend = false;
             this.btntxt = '重新获取';
             this.disabled = false;
             clearInterval(time);
@@ -111,21 +113,12 @@ export default {
     },
     // 点击确认
     link: function () {
-      if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
-        this.toast('密码格式不正确');
+      if (!this.user.password) {
+        this.toast('密码不能为空');
       } else if (!this.user.code) {
         this.toast('验证码不能为空');
-      } else if (!this.user.phone) {
-        this.toast('手机号不能为空');
-      } else if (!this.password) {
-        this.toast('密码不能为空');
-      } else if (!this.user.phone) {
-        this.toast('手机号不能为空');
-      } else if (!this.user.idCode) {
-        this.toast('支付宝不能为空');
-      } else if (!this.user.name) {
-        this.toast('真实姓名不能为空');
       } else {
+        this.toast('解绑成功');
         this.$router.push('accountBind');
       }
     }
@@ -177,6 +170,12 @@ export default {
       font-size: 24px;
       background: #fff;
       border-left: 1px solid $color;
+      &.send-sms{
+        color: #999;
+      }
+      &.no-send-sms{
+        color: $color;
+      }
     }  
   }
   .link{
