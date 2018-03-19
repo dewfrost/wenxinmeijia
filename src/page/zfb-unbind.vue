@@ -28,7 +28,7 @@ export default {
     return {
       // 数据
       user: {
-        idCode: 'yy123@',
+        idCode: 'yy123@qq.com',
         phone: '13700000000',
         password: '',
         code: ''

@@ -43,7 +43,7 @@ export default {
       applyPrice: '1999.00',
       alipay_id: '13700000000',
       price: '1000',
-      wechatIsBind: true,
+      wechatIsBind: false,
       activeNum: 0,
       payType: [  // 支付方式
         {

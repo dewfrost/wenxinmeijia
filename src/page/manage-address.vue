@@ -144,6 +144,9 @@ export default {
       border-top: 1px solid #f5f5f5;
       .default{
         &:before{
+        position: relative;
+        top: 3px;
+        left: 0;
         font-size: 30px;
         padding-right: 10px;
         }
