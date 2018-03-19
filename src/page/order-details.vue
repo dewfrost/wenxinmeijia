@@ -23,7 +23,7 @@
        <img src="../assets/images/address.png" alt="">
      </div>
      <div class="content">
-       <div class="details" v-for="(item, index) in goodsInfo" :key="index">
+       <div class="details" v-for="(item, index) in goodsInfo" :key="index" @click="goodsDetails(item.id)">
           <img :src="item.imgurl" alt="商品">
           <div class="right">
             <div class="one">{{item.name}}</div>
@@ -123,6 +123,13 @@ export default {
     this.getHeader('订单详情', 'orderd_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
+    goodsDetails (id) {
+      if (this.isEdit) {
+        return false;
+      } else {
+        this.$router.push({path: 'goodsDetails', query: {id: id}});
+      }
+    },
     getFooter () {
       let that = this;
       if (this.order.status === 0) {
