@@ -68,7 +68,7 @@ export default {
     pay () {
       let that = this;
       that.goPay(function () {
-        that.$router.push('withdrawSuccess');
+        that.$router.push('paymentSuccess');
       });
     }
   }
