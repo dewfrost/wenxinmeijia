@@ -3,7 +3,7 @@
      <div class="top">
        <div class="orderd_top left">
          <span class="number">订单编号：{{order.order_sn}}</span>
-         <span class="orderd-time">下单时间：<span class="orderd_time_show" :class="{'orderd_time_no': !order.created_at}">{{order.created_at || '暂无'}}</span></span>
+         <span class="orderd_time">下单时间：<span class="orderd_time_show" >{{order.add_date}}</span></span>
        </div>
        <div class="orderd_top right">
         <i class="iconfont icon-xinyongqiahuankuan"></i>
@@ -23,7 +23,7 @@
        <img src="../assets/images/address.png" alt="">
      </div>
      <div class="content">
-       <div class="details" v-for="(item, index) in goodsInfo" :key="index">
+       <div class="details" v-for="(item, index) in goodsInfo" :key="index" @click="goodsDetails(item.id)">
           <img :src="item.imgurl" alt="商品">
           <div class="right">
             <div class="one">{{item.name}}</div>
@@ -52,10 +52,10 @@
           <span class="price with_money">￥{{order.endPrice || 0}}</span>
         </div>
     </div>
-    <div class="footer_order">
+    <div class="footer_order" v-if="(order.status === 2) || (order.status === 3)">
       <div class="footer_one">
        <span class="name">运单号码：</span>
-       <span class="haoma" :class="{'none': !order.haoma}">{{order.haoma || '暂无'}}</span>
+       <span class="haoma" :class="{'none': !order.haoma}">{{order.haoma || '暂无'}} <span class="copy">复制</span></span>
       </div>
       <div class="footer_one">
        <span class="name">快递公司：</span>
@@ -84,8 +84,8 @@ export default {
         costs: '0.00',
         deduction: '0.00',
         endPrice: '864.00',
-        haoma: 'ffhtrfhytr544',
-        company: ''
+        haoma: '65454154535415415',
+        company: '顺丰快递'
       },
       goodsInfo: [
         {
@@ -123,6 +123,13 @@ export default {
     this.getHeader('订单详情', 'orderd_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
+    goodsDetails (id) {
+      if (this.isEdit) {
+        return false;
+      } else {
+        this.$router.push({path: 'goodsDetails', query: {id: id}});
+      }
+    },
     getFooter () {
       let that = this;
       if (this.order.status === 0) {
@@ -419,6 +426,11 @@ export default {
       }
       .none{
         color: #999;
+      }
+      .copy{
+        font-size: 22px;
+        color: #133bbe;
+        padding-left: 15px;
       }
     }
   }

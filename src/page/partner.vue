@@ -154,12 +154,67 @@ export default {
           level: '推广员',
           money: '1000.00',
           num: 10
+        },
+        {
+          Imgurl: require('../assets/images/r_l.png'),
+          name: 'CRxiaosha',
+          level: '初级代理L1',
+          money: '30000.00',
+          num: 60
+        },
+        {
+          Imgurl: require('../assets/images/r_l.png'),
+          name: 'CRxiaosha',
+          level: '推广员',
+          money: '2000.00',
+          num: 30
+        },
+        {
+          Imgurl: require('../assets/images/r_l.png'),
+          name: 'CRxiaosha',
+          level: '推广员',
+          money: '1500.00',
+          num: 20
+        },
+        {
+          Imgurl: require('../assets/images/r_l.png'),
+          name: 'CRxiaosha',
+          level: '推广员',
+          money: '1000.00',
+          num: 10
+        },
+        {
+          Imgurl: require('../assets/images/r_l.png'),
+          name: 'CRxiaosha',
+          level: '推广员',
+          money: '1000.00',
+          num: 10
         }
       ],
       agent: [
         {
           name: '全部',
           num: 120
+        },
+        {
+          name: '推广员',
+          num: 60
+        },
+        {
+          name: '初级代理L1',
+          num: 30
+        },
+        {
+          name: '初级代理L2',
+          num: 15
+        },
+        {
+          name: '初级代理L3',
+          num: 10
+        },
+        {
+          name: '合伙人L4',
+          num: 5
         },
         {
           name: '推广员',
@@ -236,7 +291,7 @@ export default {
 .partner { 
   background: url(../assets/images/partner.png) no-repeat;
   min-height: 100%;
-  padding-bottom: 30px;
+  padding-bottom: 16px;
   .top{
     color: #fff;
     display: flex;
@@ -280,12 +335,15 @@ export default {
       width: 92%;
       margin: auto;
       border-bottom: 1px solid #e6e6e6;
-        img{
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          margin: auto 20px auto 0;
-        }
+      &:nth-last-child(1){
+        border-bottom: none;
+      }
+      img{
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        margin: auto 20px auto 0;
+      }
       .partner_one{
         width: 40%;
         display: flex;
@@ -299,7 +357,7 @@ export default {
       margin: auto;
       width:  92%;
       height: 70px;
-      border-bottom: 1px solid #e6e6e6;
+      // border-bottom: 1px solid #e6e6e6;
       line-height: 70px;
       .spend_span{
         color: $color;
@@ -315,10 +373,10 @@ export default {
     }
     .agent{
      position: absolute;
-      min-height: 100vh;
+      min-height: 100%;
       width: 100%;
       z-index: 9999;
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.4);
       .agent_all{
         width: 100%;
         padding: 0 4%;
@@ -329,7 +387,7 @@ export default {
         line-height: 70px;
         font-size: 22px;
         background: #fff;
-        border: none;
+        border-bottom: 1px solid #e6e6e6;
         .name{
           color: #666;
         }
@@ -345,6 +403,9 @@ export default {
       width:  92%;
       display: flex;
       justify-content: space-between;
+      &:nth-last-child(1){
+        border-bottom: none;
+      }
       .tou{
         img{
           width: 56px;
