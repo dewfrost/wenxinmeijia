@@ -56,6 +56,7 @@ export default {
         justify-content: space-between;
         overflow: hidden;
         position: relative;
+        align-items: center;
         &::before{
           position: absolute;
           content: '';
