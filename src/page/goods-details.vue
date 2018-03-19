@@ -241,26 +241,26 @@ export default {
       height:350px;
     }
     .swiper-pagination {
-      bottom: 10px;
+      bottom: 20px;
       right: 50%;
       transform: translateX(50%);
       padding: 0 10px;
       margin-left: -75px;
-      background-color: #FFE5E6;
       height: 20px;
       border-radius: 10px;
-      opacity: .9;
     }
     .swiper-pagination-bullet {
-      background: #fff;
+      background: #999;
       margin: 2px 6px;
       width: 16px;
       height: 16px;
       border-radius: 50%;
+      opacity: .9;
     }
     .swiper-pagination-bullet-active {
-      background: $color;
-      width: 16px;
+      background: #fff;
+      width: 46px;
+      border-radius: 8px;
     }
   }
   .goods_top{
