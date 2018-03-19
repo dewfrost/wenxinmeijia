@@ -19,7 +19,15 @@
     <!-- 公告列表 -->
     <p class="public">
       <i class="iconfont icon-laba-copy"></i>
-      <span class="list">{{list}}</span>
+      <span class="list">
+        <swiper :options="swiperinfo" ref="swiperInfo">
+          <!-- slides -->
+          <swiperSlide v-for="item in swiperInfo" :key="item.id"> 
+           {{item.text}}
+          </swiperSlide>
+          <!-- Optional controls -->
+        </swiper>
+      </span>
       <router-link tag="span" to="publicList" class="more">更多</router-link>
     </p>
     <!-- 订单列表 -->
@@ -52,11 +60,30 @@
 </template>
 
 <script>
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
 export default {
   name: 'userCenter',
   data () {
     return {
       // 数据
+      swiperinfo: {
+        notNextTick: true,
+        autoplay: 2000,
+        loop: true,
+        direction: 'vertical'
+      },
+      swiperImg: [], // 轮播
+      swiperInfo: [
+        {
+          text: '张艳艳是中召嘞'
+        },
+        {
+          text: '张艳艳是安阳嘞'
+        },
+        {
+          text: '张艳艳是荷兰嘞'
+        }
+      ],
       user: {
         headImg: require('../assets/images/header.png'),
         name: '宓月',
@@ -95,11 +122,16 @@ export default {
         navShow: true
       });
     }
+  },
+  components: {
+    swiper,
+    swiperSlide
   }
 };
 </script>
 
 <style  lang="scss">
+@import url(../assets/css/swiper-3.4.0.min.css);
 @import "../assets/css/base.scss";
 .user_center{
   min-height: 100%;
@@ -187,7 +219,32 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      margin-left: -38px;
+      margin-left: 140px;
+      height: 40px;
+      line-height: 40px;
+      position: relative;
+      left: -50%;
+      transform: translateX(50%);
+      .index_goodsNews_mess{
+        border-left:1px solid #e6e6e6;
+        // padding-left:20px;
+        font-size:20px;
+        // float:left;
+        .swiper-container{
+          width:400px;
+          height:30px;
+          .swiper-slide{
+            width:400px;
+            height:30px;
+            display: flex;
+            align-items: center;
+            line-height: 32px;
+            &.swiper-slide-active{
+              height: 32px;
+            }
+          }
+        }
+      }
     }
     .more{
       min-width: 80px;
