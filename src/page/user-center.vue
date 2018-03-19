@@ -75,13 +75,13 @@ export default {
       swiperImg: [], // 轮播
       swiperInfo: [
         {
-          text: '张艳艳是中召嘞'
+          text: '带你去美甲！'
         },
         {
-          text: '张艳艳是安阳嘞'
+          text: '指尖秀科技'
         },
         {
-          text: '张艳艳是荷兰嘞'
+          text: '今晚12点整进行更新维护，请大家互相转告'
         }
       ],
       user: {

@@ -12,7 +12,7 @@
     <div class="bind">
       <label for="password">新密码</label>
       <input id="password" type="password" placeholder="请设置新的登录密码（字母+数字）" v-model= 'user.password' v-if="this.$route.query.type === 'login'">
-      <input id="password" type="password" placeholder="请设置新的支付密码" v-model= 'user.password' v-if="this.$route.query.type === 'pay'">
+      <input id="password" type="password" placeholder="请设置6位纯数字密码" v-model= 'user.password' v-if="this.$route.query.type === 'pay'">
     </div>
     <div class="bind">
       <label for="pas">确认密码</label>
@@ -106,21 +106,40 @@ export default {
     },
     // 点击确认
     link: function () {
-      if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
-        this.toast('密码格式不正确');
-      } else if (!this.user.code) {
-        this.toast('验证码不能为空');
-      } else if (!this.user.phone) {
-        this.toast('手机号不能为空');
-      } else if (!this.user.password) {
-        this.toast('新密码不能为空');
-      } else if (!this.user.pas) {
-        this.toast('确认密码不能为空');
+      if (this.$route.query.type === 'login') {
+        if (!this.user.code) {
+          this.toast('验证码不能为空');
+        } else if (!this.user.password) {
+          this.toast('新密码不能为空');
+        } else if (!this.user.pas) {
+          this.toast('确认密码不能为空');
+        } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}$/.test(this.user.password)) {
+          this.toast('密码格式不正确');
+        } else if (this.user.pas !== this.user.password) {
+          this.toast('两次输入的密码不一致');
+        } else {
+          let that = this; // 如果回调函数中用到this，则这行代码必须有
+          this.modal('提示', '登录密码已修改成功，请重新登录。', '确定', function (index) {
+            that.$router.push('login');
+          }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+        }
       } else {
-        let that = this; // 如果回调函数中用到this，则这行代码必须有
-        this.modal('提示', '登录密码已修改成功，请重新登录。', '确定', function (index) {
-          that.$router.push('settingAccount');
-        }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+        if (!this.user.code) {
+          this.toast('验证码不能为空');
+        } else if (!this.user.password) {
+          this.toast('新密码不能为空');
+        } else if (!this.user.pas) {
+          this.toast('确认密码不能为空');
+        } else if (!/^\d{6}$/.test(this.user.password)) {
+          this.toast('密码格式不正确');
+        } else if (this.user.pas !== this.user.password) {
+          this.toast('两次输入的密码不一致');
+        } else {
+          let that = this; // 如果回调函数中用到this，则这行代码必须有
+          this.modal('提示', '支付密码已修改成功', '确定', function (index) {
+            that.$router.go(-1);
+          }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+        }
       }
     }
   }
