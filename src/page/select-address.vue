@@ -107,7 +107,7 @@ export default {
     }
     .address{
       height: 60px;
-      padding: 0px 30px 15px;
+      padding: 0px 30px;
       font-size: 22px;
       color: #999999;
       // float: right;
