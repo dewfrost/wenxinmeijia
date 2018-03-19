@@ -111,10 +111,10 @@ export default {
           this.toast('验证码不能为空');
         } else if (!this.user.password) {
           this.toast('新密码不能为空');
-        } else if (!this.user.pas) {
-          this.toast('确认密码不能为空');
         } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}$/.test(this.user.password)) {
           this.toast('密码格式不正确');
+        } else if (!this.user.pas) {
+          this.toast('确认密码不能为空');
         } else if (this.user.pas !== this.user.password) {
           this.toast('两次输入的密码不一致');
         } else {
@@ -124,14 +124,15 @@ export default {
           }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
         }
       } else {
+        console.log(this.user.password);
         if (!this.user.code) {
           this.toast('验证码不能为空');
         } else if (!this.user.password) {
           this.toast('新密码不能为空');
-        } else if (!this.user.pas) {
-          this.toast('确认密码不能为空');
         } else if (!/^\d{6}$/.test(this.user.password)) {
           this.toast('密码格式不正确');
+        } else if (!this.user.pas) {
+          this.toast('确认密码不能为空');
         } else if (this.user.pas !== this.user.password) {
           this.toast('两次输入的密码不一致');
         } else {

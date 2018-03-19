@@ -23,7 +23,7 @@
        <img src="../assets/images/address.png" alt="">
      </div>
      <div class="content">
-       <div class="details" v-for="(item, index) in goodsInfo" :key="index">
+       <div class="details" v-for="(item, index) in goodsInfo" :key="index" @click="goodsDetails(item.id)">
           <img :src="item.imgurl" alt="商品">
           <div class="right">
             <div class="one">{{item.name}}</div>
@@ -129,6 +129,13 @@ export default {
   methods: {
     copyLink () {
       this.toast('已复制运单号码，若未复制成功，请手动复制');
+    },
+    goodsDetails (id) {
+      if (this.isEdit) {
+        return false;
+      } else {
+        this.$router.push({path: 'goodsDetails', query: {id: id}});
+      }
     },
     getFooter () {
       let that = this;
