@@ -1,12 +1,18 @@
 <template>
   <div class="index">
-    <!-- <swiper :options="swiperOption" ref="mySwiper">
-      <swiperSlide v-for="item in swiperImg" :key="item.id">
-        <img class="swiper-slid_img" :src="item.imgurl" alt="轮播" />
-      </swiperSlide>
-    </swiper> -->
-    <img :src="img" alt="商品">
-    <div class="swiper_pagination">
+    <!-- 轮播  -->
+    <div class="index_banner">
+      <swiper :options="swiperOption" ref="mySwiper">
+        <!-- slides -->
+        <swiperSlide v-for="(item,index) in swiperImg" :key="index">
+          <img class="swiper-slid_img" :src="item.imgurl" alt="轮播" />
+        </swiperSlide>
+        <!-- Optional controls -->
+      </swiper>
+      <div class="swiper-pagination"></div>
+    </div>
+    <!-- <img :src="img" alt="商品"> -->
+    <div class="goods_list">
       <!-- 商品专区 -->
       <p class="title">&nbsp;商品专区&nbsp;</p>
       <div class="details">
@@ -52,10 +58,10 @@ export default {
         notNextTick: true,
         // swiper configs 所有的配置同swiper官方api配置
         autoplay: 3000,
+        speed: 1000,
         loop: true,
         pagination: '.swiper-pagination'
       },
-      // 轮播
       swiperImg: [
         {
           imgurl: require('../assets/images/banner1.jpg')
@@ -67,7 +73,6 @@ export default {
           imgurl: require('../assets/images/banner3.jpg')
         }
       ],
-      img: require('../assets/images/banner1.jpg'),
       // 商品专区
       details: [
         {
@@ -181,11 +186,40 @@ export default {
 </script>
 
 <style lang="scss">
+@import url(../assets/css/swiper-3.4.0.min.css);
 @import "../assets/css/base.scss";
 .index{
-    background: #f5f5f5;
-    margin-bottom: 115px;
-  .swiper_pagination{
+  background: #f5f5f5;
+  margin-bottom: 115px;
+  .index_banner{
+    width:640px;
+    height:350px;
+    overflow: hidden;
+    position: relative;
+    img{
+      width:640px;
+      height:350px;
+    }
+    .swiper-pagination {
+      position: absolute;
+      top: 300px;
+      left: 50%;
+      width: 150px;
+      margin-left: -75px;
+    }
+    .swiper-pagination-bullet {
+      background: #fff;
+      width: 8px;
+      height: 8px;
+      margin: 0 10px;
+      border-radius: 5px;
+    }
+    .swiper-pagination-bullet-active {
+      background: #fff;
+      width:25px;
+    }
+  }
+  .goods_list{
     background: #fff;
     margin-top: 20px;
     .title{
@@ -260,7 +294,6 @@ export default {
         .details_name{
           font-style: 22px;
           color: #000000;
-          line-height: 1.4;
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;

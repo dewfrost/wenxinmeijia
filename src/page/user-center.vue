@@ -73,7 +73,7 @@ export default {
       add: ['withdraw', 'moneyAccount', 'recommendAwards', 'promotionAwards', 'managementSalary'],
       setList: ['我的账本', '我的伙伴', '二维码', '收货地址', '客服中心', '更换手机号', '账户绑定', '账号设置'],
       iconfontList: ['qianbao', 'kehu', 'erweima', 'dingwei', 'zuoji', 'dianhuaben', 'youhuiquan', 'hekriconshebeisuokai'],
-      setLink: ['accountBook', 'partner', 'qrCode', 'manageAddress', 'customerCenter', 'changePhone?type=now', 'accountBind', 'settingAccount']
+      setLink: ['accountBook', 'partner', 'qrCode', 'manageAddress', 'customerCenter', 'changePhone', 'accountBind', 'settingAccount']
     };
   },
   beforeCreate: function () { // 创建之前

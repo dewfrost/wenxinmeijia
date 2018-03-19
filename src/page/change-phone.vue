@@ -1,25 +1,25 @@
 <template>
   <div class="changePhone">
-    <div class="bind" v-if="this.$route.query.type === 'now'">
+    <div class="bind" v-if="step === 1">
       <label for="phone">当前手机号</label>
-      <input id="phone" type="text" placeholder="请输入您的手机号"  v-model= 'showPhone' @input = 'isRightPhone' :disabled="phoneDisablrd">
+      <input id="phone" type="text" placeholder="请输入您的手机号"  v-model= 'showPhone' @input='isRightPhone' :disabled="phoneDisablrd">
     </div>
-    <div class="bind" v-if="this.$route.query.type === 'new'">
+    <div class="bind" v-if="step === 2">
       <label for="phone">新手机号</label>
-      <input id="phone" type="number" placeholder="请输入要绑定的新手机号"  v-model= 'user.newPhone' @input = 'isRightPhone' :disabled="phoneDisablrd">
+      <input id="phone" type="number" placeholder="请输入要绑定的新手机号"  v-model= 'user.newPhone' @input='isRightPhone' :disabled="phoneDisablrd">
     </div>
-    <div class="bind" v-if="this.$route.query.type === 'now'">
+    <div class="bind" v-if="step === 1">
       <label for="code">验证码</label>
       <input class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
-      <button class="modify_btn" :class="{'send-sms' : isSend, 'no-send-sms': !isSend}" @click ='sendSMS1' :disabled ='disabled1 || sendSMSTime1 >0'>{{btntxt1}}</button>
+      <button class="modify_btn" :class="{'send-sms' : isSend1, 'no-send-sms': !isSend1}" @click ='sendSMS1' :disabled ='disabled1 || sendSMSTime1 >0'>{{btntxt1}}</button>
     </div>
-    <div class="bind" v-if="this.$route.query.type === 'new'">
+    <div class="bind" v-if="step === 2">
       <label for="code">验证码</label>
       <input  class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.newCode'>
-      <button class="modify_btn" :class="{'send-sms' : !isSend, 'no-send-sms': isSend}" @click ='sendSMS2' :disabled ='disabled2 || sendSMSTime2 >0'>{{btntxt2}}</button>
+      <button class="modify_btn" :class="{'send-sms' : isSend2, 'no-send-sms': !isSend2}" @click ='sendSMS2' :disabled ='disabled2 || sendSMSTime2 >0'>{{btntxt2}}</button>
     </div>
-    <button class="link" @click="next" v-if="this.$route.query.type === 'now'">下一步</button>
-    <button class="link" @click="sure" v-if="this.$route.query.type === 'new'">确认</button>
+    <button class="link" @click="next" v-if="step === 1">下一步</button>
+    <button class="link" @click="sure" v-if="step === 2">确认</button>
   </div>
 </template>
 
@@ -28,6 +28,7 @@ export default {
   name: 'changePhone',
   data () {
     return {
+      step: 1,
       // 数据
       user: {
         phone: '13700000000',
@@ -36,7 +37,8 @@ export default {
         newCode: ''
       },
       phoneDisablrd: false,
-      isSend: false,
+      isSend1: false,
+      isSend2: false,
       sendSMSTime1: 0,
       sendSMSTime2: 0,
       disabled1: false,
@@ -72,12 +74,22 @@ export default {
       }
       // 判断手机格式是否正确，阻止用户发送验证码
       let checkPhone = /^(1[3-9])\d{9}$/;
-      if (checkPhone.test(this.user.phone)) {
-        this.isSend = false;
-        this.disabled = false;
+      if (this.step === 1) {
+        if (checkPhone.test(this.user.phone)) {
+          this.isSend1 = false;
+          this.disabled1 = false;
+        } else {
+          this.isSend1 = true;
+          this.disabled1 = true;
+        }
       } else {
-        this.isSend = true;
-        this.disabled = true;
+        if (checkPhone.test(this.user.newPhone)) {
+          this.isSend2 = false;
+          this.disabled2 = false;
+        } else {
+          this.isSend2 = true;
+          this.disabled2 = true;
+        }
       }
     },
     // 获取验证码
@@ -87,7 +99,7 @@ export default {
         this.toast('手机号不能为空');
       } else {
         this.sendSMSTime1 = 60;
-        this.isSend = true;
+        this.isSend1 = true;
         this.disabled1 = true;
         this.btntxt1 = '已发送(' + this.sendSMSTime1 + ')s';
         let time = setInterval(() => { // 声明一个定时器
@@ -96,7 +108,7 @@ export default {
             this.btntxt1 = '已发送(' + this.sendSMSTime1 + ')s';
           } else {
             this.sendSMSTime1 = 0;
-            this.isSend = false;
+            this.isSend1 = false;
             this.btntxt1 = '重新获取';
             this.disabled1 = false;
             clearInterval(time);
@@ -110,6 +122,7 @@ export default {
         this.toast('手机号不能为空');
       } else {
         this.sendSMSTime2 = 60;
+        this.isSend2 = true;
         this.disabled2 = true;
         this.btntxt2 = '已发送(' + this.sendSMSTime2 + ')s';
         let time = setInterval(() => { // 声明一个定时器
@@ -118,6 +131,7 @@ export default {
             this.btntxt2 = '已发送(' + this.sendSMSTime2 + ')s';
           } else {
             this.sendSMSTime2 = 0;
+            this.isSend2 = false;
             this.btntxt2 = '重新获取';
             this.disabled2 = false;
             clearInterval(time);
@@ -129,7 +143,7 @@ export default {
       if (!this.user.code) {
         this.toast('验证码不能为空');
       } else {
-        this.$router.push({path: 'changePhone', query: {type: 'new'}});
+        this.step = 2;
       }
     },
     sure: function () {
@@ -140,7 +154,7 @@ export default {
       } else {
         let that = this; // 如果回调函数中用到this，则这行代码必须有
         this.modal('提示', '手机号已修改成功，请重新登录。', '确定', function (index) {
-          that.$router.push('userCenter');
+          that.$router.push('login');
         }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
       }
     }

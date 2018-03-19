@@ -4,13 +4,13 @@
       <p>此页面暂无内容</p>
     </div>
     <ul class="goods_list">
-      <li class="goods" v-for="(item, index) in goodsList" :key="index">
+      <li class="goods" v-for="(item, index) in goodsList" :key="index" @click="seeGoodsDetails(item.id)">
         <i class="iconfont" @click.stop="toggleCheak(index)" :class="{'icon-30xuanzhongyuanxingfill': item.isCheck, 'icon-30xuanzhongyuanxing': !item.isCheck}"></i>
-        <div class="img" @click="seeGoodsDetails(item.id)">
+        <div class="img">
           <img :src="item.goodsImg" alt="" class="goods_img">
         </div>
         <div class="goods_details">
-          <span class="name" @click="seeGoodsDetails(item.id)">{{item.goodsName}}</span>
+          <span class="name">{{item.goodsName}}</span>
           <span class="bottom">
             <span class="price"><span>￥</span>{{item.price || 0}}</span>
             <span class="sum" v-show="!isEdit">x{{item.sum}}</span>
@@ -32,13 +32,13 @@ export default {
   data () {
     return {
       isRequest: true, // 是否请求
-      isAllCheck: true,
+      isAllCheck: false,
       allCheckGoodsNum: 0,
       allCheckPrice: 0,
       isEdit: false,
       goodsList: [
         {
-          isCheck: true,
+          isCheck: false,
           goodsImg: require('../assets/images/goods1.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '28.00',
@@ -46,7 +46,7 @@ export default {
           id: 2
         },
         {
-          isCheck: true,
+          isCheck: false,
           goodsImg: require('../assets/images/goods2.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '80.00',
@@ -54,7 +54,7 @@ export default {
           id: 2
         },
         {
-          isCheck: true,
+          isCheck: false,
           goodsImg: require('../assets/images/goods3.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '2.00',
@@ -62,7 +62,7 @@ export default {
           id: 2
         },
         {
-          isCheck: true,
+          isCheck: false,
           goodsImg: require('../assets/images/goods2.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '80.00',
@@ -70,7 +70,7 @@ export default {
           id: 2
         },
         {
-          isCheck: true,
+          isCheck: false,
           goodsImg: require('../assets/images/goods3.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '2.00',
@@ -78,7 +78,7 @@ export default {
           id: 2
         },
         {
-          isCheck: true,
+          isCheck: false,
           goodsImg: require('../assets/images/goods2.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '80.00',
@@ -86,7 +86,7 @@ export default {
           id: 2
         },
         {
-          isCheck: true,
+          isCheck: false,
           goodsImg: require('../assets/images/goods3.png'),
           goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
           price: '2.00',
@@ -124,7 +124,11 @@ export default {
   },
   methods: {
     seeGoodsDetails (id) {
-      this.$router.push({path: 'goodsDetails', query: {id: id}});
+      if (this.isEdit) {
+        return false;
+      } else {
+        this.$router.push({path: 'goodsDetails', query: {id: id}});
+      }
     },
     getFooter () {
       let that = this;
@@ -193,16 +197,16 @@ export default {
           });
           this.isEdit = true;
           // 以下两行为编辑状态所有商品为不选中
-          this.isAllCheck = true;
-          this.goAllCheck();
+          // this.isAllCheck = true;
+          // this.goAllCheck();
         } else {
           this.getHeader('购物车', 'goods_car_header', '编辑', function () {
             that.toggleEdit(1);
           });
           this.isEdit = false;
           // 以下两行为正常状态所有商品为选中
-          this.isAllCheck = false;
-          this.goAllCheck();
+          // this.isAllCheck = false;
+          // this.goAllCheck();
         }
       }
     },
