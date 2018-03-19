@@ -75,10 +75,10 @@ export default {
       swiperImg: [], // 轮播
       swiperInfo: [
         {
-          text: '带你去美甲！'
+          text: '带你去美甲！带你去美甲！带你去美甲！带你去美甲！'
         },
         {
-          text: '指尖秀科技'
+          text: '指尖秀科技指尖秀科技指尖秀科技指尖秀科技指尖秀科技指尖秀科技指尖秀科技指尖秀科技'
         },
         {
           text: '今晚12点整进行更新维护，请大家互相转告'
@@ -201,14 +201,19 @@ export default {
     }
   }
   .public{
-    padding: 0 30px;
+    width: 100%;
+    padding: 0 20px;
     font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #eaeaea;
     padding-bottom: 10px;
+    justify-content: space-between;
+    position: relative;
     .icon-laba-copy{
+      position: absolute;
+      left: 20px;
       font-size: 32px;
       color: #fe7000;
       background: linear-gradient(90deg, #fe8800 , #ff6a00);     /* 背景色渐变 */
@@ -216,41 +221,39 @@ export default {
       -webkit-text-fill-color: transparent;  /* 防止字体颜色覆盖 */
     }
     .list{
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      margin-left: 140px;
+      flex: 1;
+      padding-left: 64px;
+      display: flex;
+      align-items: center;
       height: 40px;
       line-height: 40px;
       position: relative;
       left: -50%;
       transform: translateX(50%);
-      .index_goodsNews_mess{
-        border-left:1px solid #e6e6e6;
-        // padding-left:20px;
-        font-size:20px;
-        // float:left;
-        .swiper-container{
-          width:400px;
+      width: 300px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      .swiper-container{
+        // min-width:500px;
+        height:30px;
+        .swiper-slide{
+          // min-width:500px;
           height:30px;
-          .swiper-slide{
-            width:400px;
-            height:30px;
-            display: flex;
-            align-items: center;
-            line-height: 32px;
-            &.swiper-slide-active{
-              height: 32px;
-            }
+          display: flex;
+          align-items: center;
+          line-height: 32px;
+          &.swiper-slide-active{
+            height: 32px;
           }
         }
       }
     }
     .more{
-      min-width: 80px;
+      // min-width: 120px;
+      padding-left: 10px;
       height: 18px;
       line-height: 18px;
-      text-align: center;
       border-left: 2px solid #999;
     }
   }

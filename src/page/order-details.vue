@@ -55,7 +55,7 @@
     <div class="footer_order" v-if="(order.status === 2) || (order.status === 3)">
       <div class="footer_one">
        <span class="name">运单号码：</span>
-       <span class="haoma" :class="{'none': !order.haoma}">{{order.haoma || '暂无'}} <span class="copy">复制</span></span>
+       <span class="haoma" :class="{'none': !order.haoma}">{{order.haoma || '暂无'}} <span class="copy btn" :data-clipboard-text="order.haoma" ref="copy" @click="copyLink">复制</span></span>
       </div>
       <div class="footer_one">
        <span class="name">快递公司：</span>
@@ -67,10 +67,12 @@
 </template>
 
 <script>
+import Clipboard from 'clipboard';
 export default {
   name: 'orderDetails',
   data () {
     return {
+      copyBtn: null,
       status: ['待付款', '待发货', '待收货', '已完成'],
       type: 0,
       order: {
@@ -84,7 +86,7 @@ export default {
         costs: '0.00',
         deduction: '0.00',
         endPrice: '864.00',
-        haoma: '65454154535415415',
+        haoma: '0000',
         company: '顺丰快递'
       },
       goodsInfo: [
@@ -119,10 +121,15 @@ export default {
     // 挂载之前
   },
   mounted: function () {
+    this.copyBtn = new Clipboard('.btn');
+    console.log(this.copyBtn);
     this.getFooter();
     this.getHeader('订单详情', 'orderd_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
+    copyLink () {
+      this.toast('已复制运单号码，若未复制成功，请手动复制');
+    },
     getFooter () {
       let that = this;
       if (this.order.status === 0) {
