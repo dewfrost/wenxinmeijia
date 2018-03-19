@@ -15,7 +15,7 @@
         <input type="password" id="password" v-model="user.password" placeholder="请设置您的密码（字母+数字）" />
       </label>
       <label for="pwd" class="iconfont icon-suo">
-        <input type="password" id="pwd" v-model="user.pwd" placeholder="请确认您的密码" />
+        <input type="password" id="pwd" v-model="user.pad" placeholder="请确认您的密码" />
       </label>
       <button class="register_btn" @click="registerSubmit">注册</button>
     </div>
@@ -104,14 +104,14 @@ export default {
         this.toast('手机号格式错误');
       } else if (!this.user.code) {
         this.toast('验证码不能为空');
-      } else if (!this.password) {
-        this.toast('密码不能为空');
-      } else if (!this.pad) {
+      } else if (!this.user.password) {
+        this.toast('设置密码不能为空');
+      } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}$/.test(this.user.password)) {
+        this.toast('设置的密码格式不正确');
+      } else if (!this.user.pad) {
         this.toast('确认密码不能为空');
-      } else if (this.password !== this.pad) {
-        this.toast('两次输入的密码不同');
-      } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
-        this.toast('密码格式不正确');
+      } else if (this.user.pad !== this.user.password) {
+        this.toast('两次输入的密码不一致');
       } else {
         this.$router.push('login');
       }
