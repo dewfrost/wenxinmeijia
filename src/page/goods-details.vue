@@ -1,7 +1,17 @@
 <template>
   <div class="goodsDetails" ref="logBox" id="goods">
+    <!-- 轮播  -->
+    <div class="goods_details_banner">
+      <swiper :options="swiperOption" ref="mySwiper">
+        <!-- slides -->
+        <swiperSlide v-for="(item,index) in swiperImg" :key="index">
+          <img class="swiper-slid_img" :src="item.imgurl" alt="轮播" />
+        </swiperSlide>
+        <!-- Optional controls -->
+      </swiper>
+      <div class="swiper-pagination"></div>
+    </div>
     <div class="goods_top">
-     <img :src="goods.imgurl" alt="商品">
      <div class="title">
        <div class="title_t">{{goods.title}}</div>
        <div class="money">￥<span>{{goods.money}}</span></div>
@@ -39,12 +49,34 @@
 </template>
 
 <script>
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
 export default {
   name: 'goodsDetails',
   data () {
     return {
+      // 轮播图配置
+      swiperOption: { // 以下配置不懂的，可以去swiper官网看api，链接http://www.swiper.com.cn/api/
+        // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，
+        // 也就意味着你可以在第一时间获取到swiper对象，<br>假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
+        notNextTick: true,
+        // swiper configs 所有的配置同swiper官方api配置
+        autoplay: false,
+        speed: 1000,
+        loop: true,
+        pagination: '.swiper-pagination'
+      },
+      swiperImg: [
+        {
+          imgurl: require('../assets/images/banner1.jpg')
+        },
+        {
+          imgurl: require('../assets/images/banner2.jpg')
+        },
+        {
+          imgurl: require('../assets/images/banner3.jpg')
+        }
+      ],
       goods: {
-        imgurl: require('../assets/images/goods_details.png'),
         title: '可穿戴美甲贴片奢华组合套装#210',
         money: '288.00',
         freight: '免运费',
@@ -130,10 +162,15 @@ export default {
         that.$router.push('submitOrder');
       });
     }
+  },
+  components: {
+    swiper,
+    swiperSlide
   }
 };
 </script>
 <style lang="scss">
+@import url(../assets/css/swiper-3.4.0.min.css);
 @import "../assets/css/base.scss";
 .header_top.goods_details_details, .header_top.goods_details_goods{
   position: relative;
@@ -194,6 +231,38 @@ export default {
 .goodsDetails{
   min-height: 100%;
   padding: 90px 0 80px;
+  .goods_details_banner{
+    width:640px;
+    height:350px;
+    overflow: hidden;
+    position: relative;
+    img{
+      width:640px;
+      height:350px;
+    }
+    .swiper-pagination {
+      bottom: 10px;
+      right: 50%;
+      transform: translateX(50%);
+      padding: 0 10px;
+      margin-left: -75px;
+      background-color: #FFE5E6;
+      height: 20px;
+      border-radius: 10px;
+      opacity: .9;
+    }
+    .swiper-pagination-bullet {
+      background: #fff;
+      margin: 2px 6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+    }
+    .swiper-pagination-bullet-active {
+      background: $color;
+      width: 16px;
+    }
+  }
   .goods_top{
     position: relative;
     padding-bottom: 20px;

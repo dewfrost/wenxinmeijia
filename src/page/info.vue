@@ -101,7 +101,7 @@ export default {
     .icon{
       display: inline-block;
       color: #fff;
-      padding: 15px;
+      padding: 14px 16px;
       font-size: 35px;
       border-radius: 50%;
         &.icon-jiangli{

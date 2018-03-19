@@ -201,22 +201,26 @@ export default {
       height:350px;
     }
     .swiper-pagination {
-      position: absolute;
-      top: 300px;
-      left: 50%;
-      width: 150px;
+      bottom: 10px;
+      right: 50%;
+      transform: translateX(50%);
+      padding: 0 10px;
       margin-left: -75px;
+      background-color: #FFE5E6;
+      height: 20px;
+      border-radius: 10px;
+      opacity: .9;
     }
     .swiper-pagination-bullet {
       background: #fff;
-      width: 8px;
-      height: 8px;
-      margin: 0 10px;
-      border-radius: 5px;
+      margin: 2px 6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
     }
     .swiper-pagination-bullet-active {
-      background: #fff;
-      width:25px;
+      background: $color;
+      width: 16px;
     }
   }
   .goods_list{
