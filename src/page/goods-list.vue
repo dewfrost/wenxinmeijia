@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { swiper, swiperSlide } from 'vue-awesome-swiper';
 export default {
   name: 'goodsList',
   data () {
@@ -132,6 +131,9 @@ export default {
     buyGoods (id) {
       this.$router.push({path: 'submitOrder', query: {id: id}});
     },
+    buyParts (id) {
+      this.$router.push({path: 'submitOrder', query: {id: id}});
+    },
     getFooter () {
       eventBus.$emit('footer', {
         button: [],
@@ -146,10 +148,6 @@ export default {
     parts_more: function () {
       this.parts = this.parts.concat(this.parts);
     }
-  },
-  components: {
-    swiper,
-    swiperSlide
   }
 };
 </script>
@@ -158,7 +156,6 @@ export default {
 @import "../assets/css/base.scss";
 .goodsList{
   padding-top: 90px;
-  margin-bottom: 115px;
   .title{
     line-height: 80px;
     text-align: center;
@@ -218,12 +215,12 @@ export default {
           right: 13px;
         }
       }
-      // &:not(:last-child){
-      //   position: relative;
-      //   &:after{
-      //     display: none;
-      //   }
-      // }
+      &:last-child{
+        position: relative;
+        &:after{
+          display: none;
+        }
+      }
       img{
         width: 284px;
         height: 284px;
