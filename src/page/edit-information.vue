@@ -11,7 +11,7 @@
     </div>
     <div class="show_option">
       <label for="name">用户昵称</label>
-      <input id="name" type="text" v-model="user.name" placeholder="请输入昵称">
+      <input id="name" type="text" v-model="user.name" placeholder="请输入昵称" disabled>
     </div>
     <div class="show_option">
       <label for="phone">手机号</label>
