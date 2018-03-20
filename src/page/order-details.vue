@@ -250,7 +250,7 @@ export default {
     }
     .dizhi{
       margin-top: 8px;
-      height: 60px;
+      height: 64px;
       line-height: 30px;
       font-size: 24px;
       color: #999;
