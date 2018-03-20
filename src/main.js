@@ -212,11 +212,31 @@ Vue.prototype.hidePhone = function (phone) {
 
 // AJAX获取手机号
 Vue.prototype.getPhone = function (giveObj) {
-  this.axios.post('/userp/phone', {
+  this.axios.get('/user/phone', {
   })
     .then(({data}) => {
       if (data.status === 1) {
-        giveObj = data.phone;
+        giveObj.phone = data.data;
+      } else {
+        this.toast(data.message);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
+
+// AJAX获取手机验证码
+Vue.prototype.getCode = function (phone, type, callback) {
+  this.axios.get('/login/sms', {
+    params: {
+      phone: phone,
+      type: type
+    }
+  })
+    .then(({data}) => {
+      if (data.status === 1) {
+        callback();
       } else {
         this.toast(data.message);
       }

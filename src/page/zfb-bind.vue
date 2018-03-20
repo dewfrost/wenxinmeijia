@@ -34,7 +34,7 @@ export default {
       user: {
         idCode: '',
         name: '',
-        phone: '13700000000',
+        phone: '',
         password: '',
         code: ''
       },
@@ -46,7 +46,9 @@ export default {
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    this.getPhone(this.user);
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('支付宝绑定', 'zfbBind_top');
   }, // 挂载之后
