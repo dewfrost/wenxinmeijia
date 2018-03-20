@@ -94,10 +94,26 @@ export default {
       if (!this.user.phone || !this.user.password) {
         this.toast('手机号或密码不能为空');
       } else {
-        this.passMemory(this.memory);
-        this.$router.push('index');
-        this.toast('登录成功');
+        this.toLogin();
       }
+    },
+    toLogin () {
+      this.axios.post('/login/login', {
+        phone: this.user.phone,
+        password: this.user.password
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            this.passMemory(this.memory);
+            this.toast('登录成功');
+            this.$router.push('/');
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 };

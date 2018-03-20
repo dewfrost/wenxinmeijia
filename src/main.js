@@ -210,6 +210,21 @@ Vue.prototype.hidePhone = function (phone) {
   return phoneStr.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
 };
 
+// AJAX获取手机号
+Vue.prototype.getPhone = function (giveObj) {
+  this.axios.post('/userp/phone', {
+  })
+    .then(({data}) => {
+      if (data.status === 1) {
+        giveObj = data.phone;
+      } else {
+        this.toast(data.message);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
 // const Other = ['index', 'login', 'register', 'findPassword', 'setting', 'registrantionProtocol', 'platformIntroduction', 'beginnerGuide', 'newProclamation', 'customCenter', 'afterMarket', 'aftermarketDetails', 'goodsDetails', 'newGoodsArea', 'newProclamationDetail', 'saleArea', 'promotionsArea', 'panicBuyingArea'];
 // router.beforeEach((to, from, next) => {
 //   // 跳转前判断是否登录
@@ -249,9 +264,7 @@ Vue.prototype.axios.interceptors.request.use(function (config) {
 // 添加一个返回拦截器
 Vue.prototype.axios.interceptors.response.use(function (response) {
   // 对返回的数据进行一些处理
-  window.eventBus.$emit('loading', {
-    loadShow: false
-  });
+  window.eventBus.$emit('loading', false);
   if (response.data.status === '10000') {
     eventBus.$emit('toast', {
       show: true,
@@ -262,9 +275,7 @@ Vue.prototype.axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
   // 对返回的错误进行一些处理
-  window.eventBus.$emit('loading', {
-    loadShow: false
-  });
+  window.eventBus.$emit('loading', false);
   if (error.message.includes('timeout')) {
     eventBus.$emit('toast', {
       show: true,
