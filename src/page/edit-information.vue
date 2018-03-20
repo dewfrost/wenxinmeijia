@@ -11,7 +11,7 @@
     </div>
     <div class="show_option">
       <label for="name">用户昵称</label>
-      <input id="name" type="text" v-model="user.name" placeholder="请输入昵称" disabled>
+      <input id="name" type="text" v-model="user.name" placeholder="请输入昵称">
     </div>
     <div class="show_option">
       <label for="phone">手机号</label>
@@ -27,7 +27,7 @@
       <label for="age">年龄</label>
       <input id="age" type="text" placeholder="请填写您的年龄" v-model="user.age">
     </div>
-    <button class="link" @click="link">确认</button>
+    <button class="link" @click="submit">确认</button>
   </div>
 </template>
 
@@ -42,13 +42,15 @@ export default {
         phone: 13700000000,
         sex: '',
         age: ''
-      }
+      },
+      isSameInfo: null
     };
   },
   created: function () {},
   beforeMount: function () {}, // 挂载之前
   mounted: function () {
     this.getHeader('', 'editInformation_top');
+    this.isSameInfo = JSON.parse(JSON.stringify(this.user));
   }, // 挂载之后
   beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
   updated: function () {}, // 数据更新后,渲染后调用(禁止)
@@ -76,8 +78,15 @@ export default {
     },
     select: function () {
     },
-    link: function () {
-      this.$router.go(-1);
+    submit: function () {
+      if ((this.isSameInfo.headImg === this.user.headImg) && (this.isSameInfo.name === this.user.name)) {
+        this.toast('资料没有改动');
+      } else if (!this.user.name) {
+        this.toast('请填写用户昵称');
+      } else {
+        this.toast('资料修改成功');
+        this.$router.go(-1);
+      }
     }
   }
 };
@@ -144,7 +153,7 @@ export default {
     display: flex;
     justify-content: space-between;
     label{
-      width: 150px;
+      flex: 1;
       display: inline-block;
     }
     input{

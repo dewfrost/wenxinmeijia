@@ -108,9 +108,8 @@ export default {
     // 计算总价
     this.computedAllPrice();
     this.getFooter();
-    let that = this;
-    this.getHeader('购物车', 'goods_car_header', '编辑', function () {
-      that.toggleEdit(1);
+    this.getHeader('购物车', 'goods_car_header', '编辑', () => {
+      this.toggleEdit(1);
     });
   },
   beforeUpdate: function () { // 数据更新时调用,在渲染之前
@@ -131,19 +130,17 @@ export default {
       }
     },
     getFooter () {
-      let that = this;
       // 调用购物车底部，第四个参数为结算事件, 第五个参数为删除事件，第六个参数为全选事件
-      this.getGoodscarFooter(this.isAllCheck, this.allCheckGoodsNum, this.allCheckPrice, this.isEdit, function () {
-        if (!that.allCheckGoodsNum) {
-          that.toast('没有选中商品');
+      this.getGoodscarFooter(this.isAllCheck, this.allCheckGoodsNum, this.allCheckPrice, this.isEdit, () => {
+        if (!this.allCheckGoodsNum) {
+          this.toast('没有选中商品');
         } else {
-          that.$router.push('submitOrder');
+          this.$router.push('submitOrder');
         }
-      }, function () {
-        that.delGoods();
-      }, function () {
-        // 点击全选按钮
-        that.goAllCheck();
+      }, () => {
+        this.delGoods();
+      }, () => {
+        this.goAllCheck(); // 点击全选按钮
       });
     },
     goAllCheck () {

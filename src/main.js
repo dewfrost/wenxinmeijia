@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
 
 // 创建ajax
 Vue.prototype.axios = axios.create({
-  baseURL: '',
+  baseURL: 'http://wx.ewtouch.com/index/',
   timeout: 10000,
   withCredentials: true,
  // 这时候我们通过Qs.stringify转换为表单查询参数
