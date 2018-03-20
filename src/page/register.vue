@@ -113,6 +113,7 @@ export default {
       } else if (this.user.pad !== this.user.password) {
         this.toast('两次输入的密码不一致');
       } else {
+        this.toast('注册成功');
         this.$router.push('login');
       }
     },

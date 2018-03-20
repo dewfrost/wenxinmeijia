@@ -28,9 +28,9 @@
     <!-- 提现规则 -->
     <div class="rules">
       <p class="rules_list">提现规则：</p>
-      <p class="rules_list">1. 限每天提现1次，每次限额2000元</p>
-      <p class="rules_list">2. 提现到账周期：T+1 </p>
-      <p class="rules_list">3. 提现手续费： 1-3 %</p>
+      <p class="rules_list">1. 限每天提现1次，每次限额{{lintPrice}}元</p>
+      <p class="rules_list">2. 提现到账周期：{{cycle}} </p>
+      <p class="rules_list">3. 提现手续费： {{charge}} %</p>
     </div>
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
       applyPrice: '1999.00',
       alipay_id: '13700000000',
       price: '1000',
-      wechatIsBind: true,
+      wechatIsBind: false,
       activeNum: 0,
       payType: [  // 支付方式
         {
@@ -56,7 +56,10 @@ export default {
           icon: 'icon-zhifubao',
           state: true
         }
-      ]
+      ],
+      lintPrice: '2000',
+      cycle: 'T+1',
+      charge: '1-3'
     };
   },
   created: function () {},

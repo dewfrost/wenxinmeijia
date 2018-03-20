@@ -78,7 +78,7 @@ export default {
           text: '带你去美甲！带你去美甲！带你去美甲！带你去美甲！'
         },
         {
-          text: '指尖秀科技指尖秀科技指尖秀科技指尖秀科技指尖秀科技指尖秀科技指尖秀科技指尖秀科技'
+          text: '指尖秀科技指尖秀科技指尖秀科技指尖秀科技'
         },
         {
           text: '今晚12点整进行更新维护，请大家互相转告'
@@ -95,9 +95,9 @@ export default {
       msgList: ['待付款', '待发货', '待收货', '已完成'],
       orderList: [0, 2, 100000, 55],
       iconList: ['xinyongqiahuankuan', 'kuaidi', 'suishendai', 'chenggong'],
-      addList: ['可提现余额', '货款余额', '推荐奖励', '晋级奖励', '管理薪资'],
+      addList: ['可提现余额', '货款余额', '推荐奖励', '管理薪资', '晋级奖励'],
       money: ['10000.00', '10000.00', '10512.00', '10512.00', '10512.00'],
-      add: ['withdraw', 'moneyAccount', 'recommendAwards', 'promotionAwards', 'managementSalary'],
+      add: ['withdraw', 'moneyAccount', 'recommendAwards', 'managementSalary', 'promotionAwards'],
       setList: ['我的账本', '我的伙伴', '二维码', '收货地址', '客服中心', '更换手机号', '账户绑定', '账号设置'],
       iconfontList: ['qianbao', 'kehu', 'erweima', 'dingwei', 'zuoji', 'dianhuaben', 'youhuiquan', 'hekriconshebeisuokai'],
       setLink: ['accountBook', 'partner', 'qrCode', 'manageAddress', 'customerCenter', 'changePhone', 'accountBind', 'settingAccount']
@@ -190,7 +190,6 @@ export default {
           span{
           }
           .recommended{
-
           }
         }
       }

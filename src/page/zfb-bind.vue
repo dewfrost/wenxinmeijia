@@ -10,7 +10,7 @@
     </div>
     <div class="bind">
       <label for="phone">手机号</label>
-      <input id="phone" type="number" placeholder="请输入您的手机号"  v-model= 'user.phone' @input = 'isRightPhone' :disabled="phoneDisablrd">
+      <input id="phone" type="text" placeholder="请输入您的手机号"  v-model='showPhone' @input = 'isRightPhone' :disabled="phoneDisablrd">
     </div>
     <div class="bind">
       <label for="password">登录密码</label>
@@ -19,7 +19,7 @@
     <div class="bind">
       <label for="code">验证码</label>
       <input id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
-      <button class="modify-btn" :class="{'send-sms' : !isSend, 'no-send-sms': isSend}" @click ='sendSMS' :disabled ='disabled || sendSMSTime >0'>{{btntxt}}</button>
+      <button class="modify-btn" :class="{'send-sms' : isSend, 'no-send-sms': !isSend}" @click ='sendSMS' :disabled ='disabled || sendSMSTime >0'>{{btntxt}}</button>
     </div>
     <button class="link" @click="link">确认</button>
   </div>
@@ -59,12 +59,7 @@ export default {
   computed: {
     // 手机号隐藏中间数字
     showPhone () {
-      if (!this.user.phone) {
-        return false;
-      } else {
-        let phone = this.user.phone;
-        return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
-      }
+      return this.hidePhone(this.user.phone);
     }
   },
   methods: {
@@ -91,6 +86,7 @@ export default {
         this.toast('手机号不能为空');
       } else {
         this.sendSMSTime = 60;
+        this.isSend = true;
         this.disabled = true;
         this.btntxt = '已发送(' + this.sendSMSTime + ')s';
         let time = setInterval(() => { // 声明一个定时器
@@ -99,6 +95,7 @@ export default {
             this.btntxt = '已发送(' + this.sendSMSTime + ')s';
           } else {
             this.sendSMSTime = 0;
+            this.isSend = false;
             this.btntxt = '重新获取';
             this.disabled = false;
             clearInterval(time);
@@ -108,21 +105,20 @@ export default {
     },
     // 点击确认
     link: function () {
-      if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
+      if (!this.user.idCode) {
+        this.toast('支付宝账号不能为空');
+      } else if (!/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$|^(?:13\d|15\d|18\d)-?\d{5}(\d{3}|\*{3})$/.test(this.user.idCode)) {
+        this.toast('支付宝账号输入不合法');
+      } else if (!this.user.name) {
+        this.toast('真实姓名不能为空');
+      } else if (!this.password) {
+        this.toast('密码不能为空');
+      } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
         this.toast('密码格式不正确');
       } else if (!this.user.code) {
         this.toast('验证码不能为空');
-      } else if (!this.user.phone) {
-        this.toast('手机号不能为空');
-      } else if (!this.password) {
-        this.toast('密码不能为空');
-      } else if (!this.user.phone) {
-        this.toast('手机号不能为空');
-      } else if (!this.user.idCode) {
-        this.toast('支付宝不能为空');
-      } else if (!this.user.name) {
-        this.toast('真实姓名不能为空');
       } else {
+        this.toast('绑定成功');
         this.$router.push('accountBind');
       }
     }
@@ -168,6 +164,12 @@ export default {
       font-size: 24px;
       background: #fff;
       border-left: 1px solid $color;
+      &.send-sms{
+        color: #999;
+      }
+      &.no-send-sms{
+        color: $color;
+      }
     }  
   }
   .link{
