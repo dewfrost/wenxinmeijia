@@ -71,21 +71,43 @@ export default {
       if (!this.user.phone) {
         this.toast('手机号不能为空');
       } else {
-        this.sendSMSTime = 60;
-        this.disabled = true;
-        this.btntxt = '已发送(' + this.sendSMSTime + ')s';
-        let time = setInterval(() => { // 声明一个定时器
-          if (this.sendSMSTime > 0) {
-            this.sendSMSTime--;
-            this.btntxt = '已发送(' + this.sendSMSTime + ')s';
-          } else {
-            this.sendSMSTime = 0;
-            this.btntxt = '重新获取';
-            this.disabled = false;
-            clearInterval(time);
-          }
-        }, 1000);
+        this.getCode();
       }
+    },
+    timer () {
+      let time = setInterval(() => { // 声明一个定时器
+        if (this.sendSMSTime > 0) {
+          this.sendSMSTime--;
+          this.btntxt = '已发送(' + this.sendSMSTime + ')s';
+        } else {
+          this.sendSMSTime = 0;
+          this.btntxt = '重新获取';
+          this.disabled = false;
+          clearInterval(time);
+        }
+      }, 1000);
+    },
+    // 获取验证码
+    getCode () {
+      this.axios.get('/login/sms', {
+        params: {
+          phone: this.user.phone,
+          type: 2
+        }
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.sendSMSTime = 60;
+          this.disabled = true;
+          this.btntxt = '已发送(' + this.sendSMSTime + ')s';
+          this.timer();
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     },
     // 点击登录跳转页面
     findPasswordSubmit: function () {
@@ -104,9 +126,29 @@ export default {
       } else if (!/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}$/.test(this.user.password)) {
         this.toast('密码格式不正确');
       } else {
-        this.toast('找回密码成功，请登录');
-        this.$router.push('login');
+        // 找回密码成功
+        this.doSubmit();
       }
+    },
+    // 忘记密码
+    doSubmit () {
+      this.axios.post('/login/retrieve', {
+        phone: this.user.phone,
+        code: this.user.code,
+        password: this.user.password,
+        repassword: this.user.pad
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.toast('找回密码成功，请登录');
+          this.$router.push('login');
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
   }
 };
