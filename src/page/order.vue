@@ -13,19 +13,19 @@
     <div class="order_min">
       <div class="center" v-for="(item,index) in orderData" @click="seeOrderDetails(status, 0)" :key="index">
         <div class="content" v-for="(list,index) in item.goodsInfo"  :key="index">
-          <img :src="item.goodsInfo[index].imgurl" alt="商品">
+          <img :src="item.goodsInfo[index].gimg " alt="商品">
           <div class="right">
             <div class="one">{{item.goodsInfo[index].name}}</div>
             <div class="price">
-              <span class="money"> &yen;<span class="money_big">{{item.goodsInfo[index].price}}</span>  </span>
-              <span class="goodsnum">x{{item.goodsInfo[index].goodsnum}}</span>
+              <span class="money"> &yen;<span class="money_big">{{item.goodsInfo[index].gprice}}</span>  </span>
+              <span class="goodsnum">x{{item.goodsInfo[index].g_num}}</span>
             </div>
           </div>
         </div>
         <!--  待支付每个订单底部 -->
         <div class="order_footer" v-if="status === 0">
           <div class="order_footer_top">
-              <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.amount }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
+              <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
           </div>
           <div class="footer_btn" v-if="!item.hasMsg">
             <button class="btn order_out" @click.stop="goodsOut(index, item.id)">取消订单</button>
@@ -35,13 +35,13 @@
         <!-- 待发货 -->
         <div class="order_footer" v-if="status === 1">
           <div class="order_footer_top">
-              <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.amount }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
+              <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
           </div>
         </div>
         <!-- 待收货 -->
         <div class="order_footer" v-if="status === 2">
           <div class="order_footer_top">
-            <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.amount }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
+            <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
           </div>
           <div class="footer_btn" v-if="!item.hasMsg">
               <button class="btn order_pay" @click.stop="receipt(index, item.id, item.amount)">确认收货</button>
@@ -50,7 +50,7 @@
         <!-- 已完成 -->
         <div class="order_footer" v-if="status === 3">
           <div class="order_footer_top">
-              <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.amount }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
+              <span>共{{ item.sum }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.costs}}元)</span></span>
           </div>
         </div>
       </div>
@@ -67,39 +67,40 @@ export default {
       tabName: ['待付款', '待发货', '待收货', '已完成'],
       status: parseInt(this.$route.query.status) || 0,
       orderData: [
-        {
-          goodsInfo: [
-            {
-              imgurl: require('../assets/images/goods.png'),
-              name: '可穿戴美甲贴片奢华组合套装#210',
-              price: '288.00',
-              goodsnum: 2
-            },
-            {
-              imgurl: require('../assets/images/goods2.png'),
-              name: '可穿戴美甲贴片奢华组合套装#210',
-              price: '288.00',
-              goodsnum: 2
-            }
-          ],
-          sum: 6,
-          amount: '96.00',
-          costs: '0.00'
-        },
-        {
-          goodsInfo: [
-            {
-              imgurl: require('../assets/images/goods3.png'),
-              name: '可穿戴美甲贴片玫瑰香薰 球#265',
-              price: '68.00',
-              goodsnum: 2
-            }
-          ],
-          sum: 6,
-          amount: '96.00',
-          costs: '0.00'
-        }
-      ]
+        // {
+        //   goodsInfo: [
+        //     {
+        //       imgurl: require('../assets/images/goods.png'),
+        //       name: '可穿戴美甲贴片奢华组合套装#210',
+        //       price: '288.00',
+        //       goodsnum: 2
+        //     },
+        //     {
+        //       imgurl: require('../assets/images/goods2.png'),
+        //       name: '可穿戴美甲贴片奢华组合套装#210',
+        //       price: '288.00',
+        //       goodsnum: 2
+        //     }
+        //   ],
+        //   sum: 6,
+        //   amount: '96.00',
+        //   costs: '0.00'
+        // },
+        // {
+        //   goodsInfo: [
+        //     {
+        //       imgurl: require('../assets/images/goods3.png'),
+        //       name: '可穿戴美甲贴片玫瑰香薰 球#265',
+        //       price: '68.00',
+        //       goodsnum: 2
+        //     }
+        //   ],
+        //   sum: 6,
+        //   amount: '96.00',
+        //   costs: '0.00'
+        // }
+      ],
+      goodsInfo: []
     };
   },
   beforeCreate: function () {
@@ -110,6 +111,8 @@ export default {
   },
   beforeMount: function () {
     // 挂载之前
+    // 我的订单
+    this.getOrderInfo(this.$route.query.status);
   },
   mounted: function () {
     this.getHeader('我的订单', 'order_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
@@ -138,7 +141,7 @@ export default {
     changeType: function (index) {
       this.status = index;
       this.$router.replace({path: 'order', query: {status: index}});
-      // this.getOrderInfo(n);
+      this.getOrderInfo(index);
     },
     // 是否删除
     goodsOut: function (id, index) {
@@ -159,6 +162,25 @@ export default {
         that.toast('确认收货成功');
         that.orderData.splice(index, 1);
       });
+    },
+    // 请求我的订单
+    getOrderInfo (index) {
+      this.axios.get('/order/orderList', {
+        params: {
+          status: parseInt(index) + 1
+        }
+      })
+        .then(({data}) => {
+          console.log(data.status);
+          if (parseInt(data.status) === 1) {
+            this.orderData = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 };

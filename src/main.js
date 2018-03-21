@@ -206,7 +206,12 @@ Vue.prototype.toast = function (message, icon) {
 
 // 手机号码隐藏中间四位
 Vue.prototype.hidePhone = function (phone) {
-  let phoneStr = phone.toString();
+  let phoneStr;
+  if (typeof (phone) !== 'string') {
+    phoneStr = phone.toString();
+  } else {
+    phoneStr = phone;
+  }
   return phoneStr.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
 };
 

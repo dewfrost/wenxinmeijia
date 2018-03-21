@@ -1,13 +1,13 @@
 <template>
   <div class="publicList">
     <div class="list" v-for="item in list">
-      <div class="time">{{item.time}}</div>
-      <router-link to="publicDetails" tag="div" class="list_center">
-        <span class="list_top">
-          <span class="title" :class="{'title1': !item.isClick, 'title2': item.isClick}">{{item.title}}<i class="iconfont icon-you"></i></span>
+      <div class="time">{{item.create_time}}</div>
+      <div class="list_center" @click="seeDetails(item.id)">
+        <span class="list_top" >
+          <span class="title" :class="{'title1': item.read, 'title2': !item.read}">{{item.title}}<i class="iconfont icon-you"></i></span>
         </span>
-        <div class="center">{{item.center}}</div>
-      </router-link>
+        <div class="center">{{item.description}}</div>
+      </div>
     </div>
     <div class="bottom">已经到底了...</div>
   </div>
@@ -18,26 +18,7 @@ export default {
   name: 'publicList',
   data () {
     return {
-      list: [
-        {
-          isClick: false,
-          time: '2017-12-09 12:26:03',
-          title: '系统通知',
-          center: '新系统可以开始注单了！首先热烈祝贺我们平台正式上线！欢迎家人登录平台新系统>>'
-        },
-        {
-          isClick: true,
-          time: '2017-12-09 12:26:03',
-          title: '系统通知',
-          center: '新系统可以开始注单了！首先热烈祝贺我们平台正式上线！欢迎家人登录平台新系统>>'
-        },
-        {
-          isClick: true,
-          time: '2017-12-09 12:26:03',
-          title: '系统通知',
-          center: '新系统可以开始注单了！首先热烈祝贺我们平台正式上线！欢迎家人登录平台新系统>>'
-        }
-      ]
+      list: []
     };
   },
   beforeCreate: function () {
@@ -48,6 +29,8 @@ export default {
   },
   beforeMount: function () {
     // 挂载之前
+    // 请求公告列表
+    this.getList();
   },
   mounted: function () {
     this.getHeader('公告列表', 'public_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
@@ -69,6 +52,26 @@ export default {
           console.log(that.modalMsg);
         }
       ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+    },
+    // 请求公告列表
+    getList () {
+      this.axios.get('/user/articles', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.list = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    seeDetails (id) {
+      // 此处请求未读的接口
+      this.$router.push({path: 'publicDetails', query: {id: id}});
     }
   }
 };
@@ -106,7 +109,7 @@ export default {
           &.title1{
             color:#333;
           }
-          &.title1{
+          &.title2{
            color: $color;
           }
         }
