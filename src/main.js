@@ -208,10 +208,8 @@ Vue.prototype.toast = function (message, icon) {
 Vue.prototype.hidePhone = function (phone) {
   let phoneStr;
   if (typeof (phone) !== 'string') {
-    console.log(typeof (phone));
     phoneStr = phone.toString();
   } else {
-    console.log(typeof (phone));
     phoneStr = phone;
   }
   return phoneStr.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');

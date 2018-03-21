@@ -18,9 +18,6 @@
       <input id="phone" type="text" disabled="disabled" v-model="showPhone">
     </div>
     <p class="prompt">以下内容填写过后将不能修改</p>
-    <!-- <div class="show_option select_sex"> -->
-      <!-- <label for="sex">性别</label> -->
-      <!-- <input id="sex" type="text" placeholder="请填写您的性别" :disabled="sexDisabled" v-model="user.sex" @click="doSelect('sex')"> -->
     <div class="sex" @click="doSelect('sex')">
       <span class="name">性别</span>
       <span class="details">
@@ -58,8 +55,8 @@ export default {
     return {
       sexArr: ['男', '女'],
       user: {
-        headimgurl: require('../assets/images/header.png'),
-        nickname: '宓月',
+        headimgurl: null,
+        nickname: '',
         phone: null,
         sex: '',
         age: ''
