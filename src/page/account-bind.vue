@@ -10,7 +10,7 @@
     <div class="bind zhifubao" @click="bind('zhifubao')">
       <span class="bind_list iconfont icon-zhifubao">支付宝绑定</span>
       <p class="is_bind">
-        <span class="phone">{{bindPhone}}</span>
+        <span class="phone" >{{showZhifubao}}</span>
         <span class="unbind" v-if="zhifubao">解绑</span>
         <i class="iconfont icon-you"></i>
       </p>
@@ -25,8 +25,7 @@ export default {
     return {
       // 数据
       wechat: false,
-      bindPhone: '136****2541',
-      zhifubao: true
+      zhifubao: ''
     };
   },
   created: function () {},
@@ -40,6 +39,17 @@ export default {
     eventBus.$emit('header', false);
   }, // 实例销毁前调用,解绑中间层的数据传输
   destroyed: function () {}, // 实例销毁后调用
+  computed: {
+    showZhifubao () {
+      if (!this.zhifubao) {
+        return '未绑定';
+      } else if ((/@/g).test(this.zhifubao)) {
+        return this.zhifubao.replace(/(\w{2})\w*(@)/, '$1***$2');
+      } else {
+        return this.zhifubao.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+      }
+    }
+  },
   methods: {
     // 绑定
     bind: function (type) {
