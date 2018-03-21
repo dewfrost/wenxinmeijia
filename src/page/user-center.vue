@@ -7,7 +7,10 @@
         <div class="info">
           <div class="info_top">
             <span class="name">{{user.name}}</span>
-            <span class="user_level"><i class="iconfont icon-huiyuan"></i>{{user.class}}</span>
+            <span class="user_level">
+              <span class="level" :class="'level' + level"></span>
+              <span>{{user.class}}</span>
+            </span>
           </div>
           <div class="info_bottom">
             <span>推荐人：</span><span class="recommended">{{user.phone}}</span>
@@ -66,6 +69,8 @@ export default {
   data () {
     return {
       // 数据
+      levelArr: ['见习推广员', '推广员', '初级代理', '中级代理', '高级代理', '合伙人'],
+      level: 4,
       swiperinfo: {
         notNextTick: true,
         autoplay: 2000,
@@ -111,8 +116,6 @@ export default {
   },
   mounted: function () {
     this.getFooter();
-    // 展示代金券弹窗,参数为金额
-    this.getVoucherModal('1450.00');
     // this.getHeader('个人中心');
   },
   methods: {
@@ -177,11 +180,29 @@ export default {
             font-size: 30px;
           }
           .user_level{
-            color: #ffe400;
+            color: #FFDD06;
             display: flex;
-            .icon-huiyuan{
-              padding-right: 8px;
-              font-size: 32px;
+            align-items: center;
+            .level{
+              width: 24px;
+              height: 24px;
+              margin-right: 6px;
+              &.level1{
+                background: url(../assets/images/L1.png) no-repeat left center;
+                background-size: 24px;
+              }
+              &.level2{
+                background: url(../assets/images/L2.png) no-repeat left center;
+                background-size: 24px;
+              }
+              &.level3{
+                background: url(../assets/images/L3.png) no-repeat left center;
+                background-size: 24px;
+              }
+              &.level4{
+                background: url(../assets/images/L4.png) no-repeat left center;
+                background-size: 24px;
+              }
             }
           }
         }

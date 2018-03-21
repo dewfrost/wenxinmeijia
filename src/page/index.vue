@@ -150,6 +150,8 @@ export default {
   },
   mounted: function () {
     this.getFooter();
+    // 展示代金券弹窗,参数为金额
+    this.getVoucherModal('1450.00');
   },
   methods: {
     // 点击商品的跳转商品详情
