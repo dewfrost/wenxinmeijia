@@ -31,7 +31,7 @@ export default {
       step: 1,
       // 数据
       user: {
-        phone: '',
+        phone: '13700000000',
         newPhone: '',
         code: '',
         newCode: ''
@@ -48,9 +48,7 @@ export default {
     };
   },
   created: function () {},
-  beforeMount: function () {
-    this.getPhone(this.user);
-  }, // 挂载之前
+  beforeMount: function () {}, // 挂载之前
   mounted: function () {
     this.getHeader('更换手机号', 'changePhone_top');
   }, // 挂载之后

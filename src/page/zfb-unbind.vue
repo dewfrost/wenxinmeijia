@@ -28,7 +28,7 @@ export default {
     return {
       // 数据
       user: {
-        idCode: 'yy123@qq.com',
+        idCode: '',
         phone: '',
         password: '',
         code: ''
@@ -43,6 +43,7 @@ export default {
   created: function () {},
   beforeMount: function () {
     this.getPhone(this.user);
+    this.getCode();
   }, // 挂载之前
   mounted: function () {
     this.getHeader('支付宝解绑', 'zfbUnbind_top');
@@ -128,7 +129,41 @@ export default {
       } else {
         this.toast('解绑成功');
         this.$router.push('accountBind');
+        this.submit();
       }
+    },
+    getCode () {
+      this.axios.get('/userp/zhifubao', {
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          console.log(data.message);
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+    submit () {
+      // 解绑
+      this.axios.post('/user/unAlipay', {
+        phone: this.user.phone,
+        password: this.user.password,
+        code: this.user.code
+      })
+        .then(({data}) => {
+          if (data.status === 200) {
+            this.$router.go(-1);
+            eventBus.$emit('toast', {message: data.message});
+          } else {
+            eventBus.$emit('toast', {message: data.message});
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 };

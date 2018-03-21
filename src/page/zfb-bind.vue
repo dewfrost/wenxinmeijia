@@ -122,7 +122,11 @@ export default {
       } else {
         this.toast('绑定成功');
         this.$router.push('accountBind');
+        this.submit();
       }
+    },
+    // 绑定支付宝号
+    submit: function () {
     }
   }
 };

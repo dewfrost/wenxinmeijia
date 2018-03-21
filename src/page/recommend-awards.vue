@@ -1,22 +1,21 @@
 <template>
   <div class="recommendAwards">
     <div class="top">
-      <span>￥<span class="all_sum">{{account.money}}</span></span>
+      <span>&yen;<span class="all_sum">{{account.money}}</span></span>
       <span>总额</span>
     </div>
     <div class="center">
       <span class="iconfont icon-web__jiangli"> <span class="jilu">奖励记录</span> </span>
       <ul>
-        <li class="recommend_li" v-for="item in user">
+        <li class="recommend_li" v-for="(item, index) in user" :key="index">
           <div>
-            <!-- <img src="../assets/images/r_l.png" alt=""> -->
-            <img :src="item.imgurl" alt="头像">
+            <img :src="item.headimgurl" alt="头像">
             <div class="user">
-            <div class="recommend_div">{{item.name}}</div>
-            <div class="recommend_time">2018-03-10 20:15:00</div>
-            </div>
+              <div class="recommend_div">{{item.from_uid}}</div>
+              <div class="recommend_time">{{item.create_time}}</div>
+              </div>
           </div>
-          <span class="recommend_span">￥{{item.morey}}</span>
+          <span class="recommend_span">&yen;{{item.code}}</span>
         </li>
       </ul>
     </div>
@@ -31,48 +30,7 @@ export default {
       account: {
         money: '1000.00'
       },
-      user: [
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          morey: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          morey: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          morey: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          morey: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          morey: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          morey: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          morey: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          morey: '300.00'
-        }
-      ]
+      user: []
     };
   },
   beforeCreate: function () {
@@ -83,6 +41,8 @@ export default {
   },
   beforeMount: function () {
     // 挂载之前
+    // 请求推荐奖励
+    this.tuijian();
   },
   mounted: function () {
     this.getHeader('推荐奖励', 'recommend_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
@@ -104,6 +64,22 @@ export default {
           console.log(that.modalMsg);
         }
       ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+    },
+    // 请求推荐奖励
+    tuijian () {
+      this.axios.get('/user/Recommend', {
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            this.account.money = data.data.count;
+            this.user = data.data.recommend;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 };
