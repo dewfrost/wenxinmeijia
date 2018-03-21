@@ -31,7 +31,7 @@ export default {
       step: 1,
       // 数据
       user: {
-        phone: '13700000000',
+        phone: '',
         newPhone: '',
         code: '',
         newCode: ''
@@ -48,7 +48,9 @@ export default {
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    this.getPhone(this.user);
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('更换手机号', 'changePhone_top');
   }, // 挂载之后
@@ -99,7 +101,7 @@ export default {
         this.toast('手机号不能为空');
       } else {
         // 获取验证码
-        this.getCode(this.user.phone, 0, () => {
+        this.getCode(this.user.phone, 5, () => {
           this.sendSMSTime1 = 60;
           this.isSend1 = true;
           this.disabled1 = true;
@@ -127,7 +129,7 @@ export default {
         let time = setInterval(() => { // 声明一个定时器
           if (this.sendSMSTime2 > 0) {
             this.sendSMSTime2--;
-            this.btntxt2 = '已发送(' + this.sendSMSTime + ')s';
+            this.btntxt2 = '已发送(' + this.sendSMSTime2 + ')s';
           } else {
             this.sendSMSTime2 = 0;
             this.btntxt2 = '重新获取';
@@ -157,8 +159,27 @@ export default {
       if (!this.user.code) {
         this.toast('验证码不能为空');
       } else {
+        this.submitNext();
         this.step = 2;
       }
+    },
+    // 获取下一个-接口
+    submitNext () {
+      this.axios.get('/user/changePhone', {
+        params: {
+          code: this.user.code
+        }
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.toast('验证成功');
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     },
     sure: function () {
       if (!this.user.newPhone) {
@@ -166,11 +187,31 @@ export default {
       } else if (!this.user.newCode) {
         this.toast('验证码不能为空');
       } else {
+        this.submitSure();
         let that = this; // 如果回调函数中用到this，则这行代码必须有
         this.modal('提示', '手机号已修改成功，请重新登录。', '确定', function (index) {
           that.$router.push('login');
         }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
       }
+    },
+    // 确认接口
+    submitSure () {
+      this.axios.get('/user/newphone', {
+        params: {
+          phone: this.user.newPhone,
+          code: this.user.newCode
+        }
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.toast('手机号修改成功');
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
   }
 };

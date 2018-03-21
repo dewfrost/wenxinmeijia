@@ -87,23 +87,29 @@ export default {
       if (!this.user.phone) {
         this.toast('手机号不能为空');
       } else {
-        this.sendSMSTime = 60;
-        this.isSend = true;
-        this.disabled = true;
-        this.btntxt = '已发送(' + this.sendSMSTime + ')s';
-        let time = setInterval(() => { // 声明一个定时器
-          if (this.sendSMSTime > 0) {
-            this.sendSMSTime--;
-            this.btntxt = '已发送(' + this.sendSMSTime + ')s';
-          } else {
-            this.sendSMSTime = 0;
-            this.isSend = false;
-            this.btntxt = '重新获取';
-            this.disabled = false;
-            clearInterval(time);
-          }
-        }, 1000);
+        // 获取验证码
+        this.getCode(this.user.phone, 6, () => {
+          this.sendSMSTime = 60;
+          this.isSend = true;
+          this.disabled = true;
+          this.btntxt = '已发送(' + this.sendSMSTime + ')s';
+          this.timer();
+        });
       }
+    },
+    timer () {
+      let time = setInterval(() => { // 声明一个定时器
+        if (this.sendSMSTime > 0) {
+          this.sendSMSTime--;
+          this.btntxt = '已发送(' + this.sendSMSTime + ')s';
+        } else {
+          this.sendSMSTime = 0;
+          this.isSend = false;
+          this.btntxt = '重新获取';
+          this.disabled = false;
+          clearInterval(time);
+        }
+      }, 1000);
     },
     // 点击确认
     link: function () {
@@ -113,20 +119,36 @@ export default {
         this.toast('支付宝账号输入不合法');
       } else if (!this.user.name) {
         this.toast('真实姓名不能为空');
-      } else if (!this.password) {
+      } else if (!this.user.password) {
         this.toast('密码不能为空');
       } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
         this.toast('密码格式不正确');
       } else if (!this.user.code) {
         this.toast('验证码不能为空');
       } else {
-        this.toast('绑定成功');
         this.$router.push('accountBind');
         this.submit();
       }
     },
-    // 绑定支付宝号
-    submit: function () {
+    // 绑定支付宝号-接口
+    submit () {
+      this.axios.post('/user/alipayBound', {
+        zhifubao: this.user.idCode,
+        alname: this.user.name,
+        phone: this.user.phone,
+        password: this.user.password,
+        code: this.user.code
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.toast('绑定成功');
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
   }
 };
