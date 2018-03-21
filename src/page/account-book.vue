@@ -6,7 +6,7 @@
     </div>
     <div class="center">
       <ul>
-        <li class="account_li" v-for="(item, index) in user">
+        <li class="account_li" v-for="(item, index) in user" :key="index">
           <div>
             <!-- <img src="../assets/images/r_l.png" alt=""> -->
             <!-- <img :src="item.imgurl" alt="头像"> -->
