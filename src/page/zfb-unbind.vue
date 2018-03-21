@@ -28,8 +28,8 @@ export default {
     return {
       // 数据
       user: {
-        idCode: 'yy123@qq.com',
-        phone: '13700000000',
+        idCode: '',
+        phone: '',
         password: '',
         code: ''
       },
@@ -41,7 +41,10 @@ export default {
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    this.getPhone(this.user);
+    this.getCode();
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('支付宝解绑', 'zfbUnbind_top');
   }, // 挂载之后
@@ -93,23 +96,29 @@ export default {
       if (!this.user.phone) {
         this.toast('手机号不能为空');
       } else {
-        this.sendSMSTime = 60;
-        this.isSend = true;
-        this.disabled = true;
-        this.btntxt = '已发送(' + this.sendSMSTime + ')s';
-        let time = setInterval(() => { // 声明一个定时器
-          if (this.sendSMSTime > 0) {
-            this.sendSMSTime--;
-            this.btntxt = '已发送(' + this.sendSMSTime + ')s';
-          } else {
-            this.sendSMSTime = 0;
-            this.isSend = false;
-            this.btntxt = '重新获取';
-            this.disabled = false;
-            clearInterval(time);
-          }
-        }, 1000);
+        // 获取验证码
+        this.getCode(this.user.phone, 5, () => {
+          this.sendSMSTime = 60;
+          this.isSend = true;
+          this.disabled = true;
+          this.btntxt = '已发送(' + this.sendSMSTime + ')s';
+          this.timer();
+        });
       }
+    },
+    timer () {
+      let time = setInterval(() => { // 声明一个定时器
+        if (this.sendSMSTime > 0) {
+          this.sendSMSTime--;
+          this.btntxt = '已发送(' + this.sendSMSTime + ')s';
+        } else {
+          this.sendSMSTime = 0;
+          this.isSend = false;
+          this.btntxt = '重新获取';
+          this.disabled = false;
+          clearInterval(time);
+        }
+      }, 1000);
     },
     // 点击确认
     link: function () {
@@ -120,7 +129,41 @@ export default {
       } else {
         this.toast('解绑成功');
         this.$router.push('accountBind');
+        this.submit();
       }
+    },
+    getCode () {
+      this.axios.get('/userp/zhifubao', {
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          console.log(data.message);
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+    submit () {
+      // 解绑
+      this.axios.post('/user/unAlipay', {
+        phone: this.user.phone,
+        password: this.user.password,
+        code: this.user.code
+      })
+        .then(({data}) => {
+          if (data.status === 200) {
+            this.$router.go(-1);
+            eventBus.$emit('toast', {message: data.message});
+          } else {
+            eventBus.$emit('toast', {message: data.message});
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 };

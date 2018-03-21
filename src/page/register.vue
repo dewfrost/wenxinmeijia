@@ -79,7 +79,13 @@ export default {
         this.toast('手机号不能为空');
       } else {
         // 获取验证码
-        this.getCode();
+        this.getCode(this.user.phone, 1, () => {
+          this.sendSMSTime = 60;
+          this.isSend = true;
+          this.disabled = true;
+          this.btntxt = '已发送(' + this.sendSMSTime + ')s';
+          this.timer();
+        });
       }
     },
     timer () {
@@ -94,27 +100,6 @@ export default {
           clearInterval(time);
         }
       }, 1000);
-    },
-    getCode () {
-      this.axios.get('/login/sms', {
-        params: {
-          phone: this.user.phone,
-          type: 1
-        }
-      })
-        .then(({data}) => {
-          if (data.status === 1) {
-            this.sendSMSTime = 60;
-            this.disabled = true;
-            this.btntxt = '已发送(' + this.sendSMSTime + ')s';
-            this.timer();
-          } else {
-            this.toast(data.message);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
     },
     // 点击注册
     registerSubmit: function () {

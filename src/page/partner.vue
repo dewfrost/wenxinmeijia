@@ -10,7 +10,7 @@
     </div>
     <div class="center" v-if="tabActive === 1">
       <ul>
-        <li class="partner_li" v-for="item in user">
+        <li class="partner_li" v-for="(item, index) in user" :key="index">
           <div class="partner_one">
             <img :src="item.imgurl" alt="头像">
             <div class="partner_div">{{item.name}}</div>
@@ -27,18 +27,21 @@
         <span class="spend_num">共{{people.num}}人</span>
      </div>
      <ul v-show="isShow" class="agent">
-          <li class="agent_all" v-for="item in agent" @click="select()">
+          <li class="agent_all" v-for="(item, index) in agent" @click="select()" :key="index">
             <span class="name">{{item.name}}</span>
             <span class="num">{{item.num}}</span>
           </li>
       </ul>
      <ul>
-       <li class="spend_li" v-for="item in member">
+       <li class="spend_li" v-for="(item, index) in member" :key="index">
          <div class="tou">
            <img :src="item.Imgurl" alt="头像">
            <div class="s_d">
             <div>{{item.name}}</div>
-            <div class="level" @click="all()"><i class="iconfont icon-huiyuan"></i>{{item.level}} </div>
+            <div class="level" @click="all()">
+              <span class="level_logo" :class="'level' + (parseInt(item.level) - 2)" v-if="parseInt(item.level) > 2"></span>
+              <span>{{levelArr[parseInt(item.level) - 1]}}</span>
+            </div>
            </div>
          </div>
          <div class="spend_money">
@@ -56,6 +59,7 @@ export default {
   name: 'partner',
   data () {
     return {
+      levelArr: ['见习推广员', '推广员', '初级代理', '中级代理', '高级代理', '合伙人'],
       isShow: false,
       tabActive: 1,
       account: {
@@ -102,91 +106,91 @@ export default {
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '合伙人L4',
+          level: '6',
           money: '200000.00',
           num: 120
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '高级代理L3',
+          level: '4',
           money: '50000.00',
           num: 100
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '中级代理L2',
+          level: '3',
           money: '40000.00',
           num: 80
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '初级代理L1',
+          level: '3',
           money: '30000.00',
           num: 60
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '推广员',
+          level: '2',
           money: '2000.00',
           num: 30
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '推广员',
+          level: '1',
           money: '1500.00',
           num: 20
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '推广员',
+          level: '2',
           money: '1000.00',
           num: 10
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '推广员',
+          level: '2',
           money: '1000.00',
           num: 10
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '初级代理L1',
+          level: '1',
           money: '30000.00',
           num: 60
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '推广员',
+          level: '1',
           money: '2000.00',
           num: 30
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '推广员',
+          level: '1',
           money: '1500.00',
           num: 20
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '推广员',
+          level: '1',
           money: '1000.00',
           num: 10
         },
         {
           Imgurl: require('../assets/images/r_l.png'),
           name: 'CRxiaosha',
-          level: '推广员',
+          level: '5',
           money: '1000.00',
           num: 10
         }
@@ -427,8 +431,30 @@ export default {
         }
         .level{
           font-size: 20px;
-         color: #fd8f01;
-         }
+          color: #FFDD06;
+          display: flex;
+            .level_logo{
+              width: 24px;
+              height: 24px;
+              margin-right: 6px;
+              &.level1{
+                background: url(../assets/images/L1.png) no-repeat left center;
+                background-size: 24px;
+              }
+              &.level2{
+                background: url(../assets/images/L2.png) no-repeat left center;
+                background-size: 24px;
+              }
+              &.level3{
+                background: url(../assets/images/L3.png) no-repeat left center;
+                background-size: 24px;
+              }
+              &.level4{
+                background: url(../assets/images/L4.png) no-repeat left center;
+                background-size: 24px;
+              }
+            }
+          }
         }
       }
       .spend_money{

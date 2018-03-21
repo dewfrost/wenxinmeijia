@@ -43,7 +43,9 @@ export default {
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    this.getPhone(this.user);
+  }, // 挂载之前
   mounted: function () {
     if (this.$route.query.type === 'login') {
       this.getHeader('修改登录密码', 'revisePassword_top');

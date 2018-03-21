@@ -2,7 +2,7 @@
   <div class="editInformation">
     <div class="head">
       <label for="submitImg" class="img_label">
-        <img class="show_img" :src="user.headImg" alt="头像">
+        <img class="show_img" :src="user.headimgurl" alt="头像">
         <span class="camera">
           <img class="camera_img" src="../assets/images/camera.png" alt="相机">
         </span>
@@ -11,7 +11,7 @@
     </div>
     <div class="show_option">
       <label for="name">用户昵称</label>
-      <input id="name" type="text" v-model="user.name" placeholder="请输入昵称">
+      <input id="name" type="text" v-model="user.nickname" placeholder="请输入昵称">
     </div>
     <div class="show_option">
       <label for="phone">手机号</label>
@@ -20,12 +20,11 @@
     <p class="prompt">以下内容填写过后将不能修改</p>
     <div class="show_option select_sex">
       <label for="sex">性别</label>
-      <input id="sex" type="text" placeholder="请填写您的性别" v-model="user.sex" @click="select">
-     
+      <input id="sex" type="text" placeholder="请填写您的性别" :disabled="sexDisabled" v-model="user.sex" @click="select">
     </div>
     <div class="show_option">
       <label for="age">年龄</label>
-      <input id="age" type="text" placeholder="请填写您的年龄" v-model="user.age">
+      <input id="age" type="text" placeholder="请填写您的年龄" :disabled="ageDisabled" v-model="user.age">
     </div>
     <button class="link" @click="submit">确认</button>
   </div>
@@ -37,18 +36,21 @@ export default {
   data () {
     return {
       user: {
-        headImg: require('../assets/images/header.png'),
-        name: '宓月',
-        phone: 13700000000,
+        headimgurl: require('../assets/images/header.png'),
+        nickname: '宓月',
+        phone: null,
         sex: '',
         age: ''
       },
+      sexDisabled: false,
+      ageDisabled: false,
       isSameInfo: null
     };
   },
   created: function () {},
   beforeMount: function () {}, // 挂载之前
   mounted: function () {
+    this.getInfo();
     this.getHeader('', 'editInformation_top');
     this.isSameInfo = JSON.parse(JSON.stringify(this.user));
   }, // 挂载之后
@@ -64,6 +66,29 @@ export default {
     }
   },
   methods: {
+    getInfo () {
+      this.axios.get('/user/info', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.user = data.data;
+            // 如果获取到性别，则不能修改
+            if (data.data.sex) {
+              this.sexDisabled = true;
+            }
+            // 如果获取到年龄，则不能修改
+            if (data.data.age) {
+              this.ageDisabled = true;
+            }
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 图片选择
     selectImg: function (e) {
       this.file = e.target.files[0];
