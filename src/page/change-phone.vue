@@ -98,19 +98,40 @@ export default {
       if (!this.user.phone) {
         this.toast('手机号不能为空');
       } else {
-        this.sendSMSTime1 = 60;
-        this.isSend1 = true;
-        this.disabled1 = true;
-        this.btntxt1 = '已发送(' + this.sendSMSTime1 + ')s';
+        // 获取验证码
+        this.getCode(this.user.phone, 0, () => {
+          this.sendSMSTime1 = 60;
+          this.isSend1 = true;
+          this.disabled1 = true;
+          this.btntxt1 = '已发送(' + this.sendSMSTime1 + ')s';
+          this.timer();
+        });
+      }
+    },
+    timer () {
+      // 第一步
+      if (this.step === 1) {
         let time = setInterval(() => { // 声明一个定时器
           if (this.sendSMSTime1 > 0) {
             this.sendSMSTime1--;
             this.btntxt1 = '已发送(' + this.sendSMSTime1 + ')s';
           } else {
             this.sendSMSTime1 = 0;
-            this.isSend1 = false;
             this.btntxt1 = '重新获取';
             this.disabled1 = false;
+            clearInterval(time);
+          }
+        }, 1000);
+      } else {
+        // 第二步
+        let time = setInterval(() => { // 声明一个定时器
+          if (this.sendSMSTime2 > 0) {
+            this.sendSMSTime2--;
+            this.btntxt2 = '已发送(' + this.sendSMSTime + ')s';
+          } else {
+            this.sendSMSTime2 = 0;
+            this.btntxt2 = '重新获取';
+            this.disabled2 = false;
             clearInterval(time);
           }
         }, 1000);
@@ -121,25 +142,18 @@ export default {
       if (!this.user.phone) {
         this.toast('手机号不能为空');
       } else {
-        this.sendSMSTime2 = 60;
-        this.isSend2 = true;
-        this.disabled2 = true;
-        this.btntxt2 = '已发送(' + this.sendSMSTime2 + ')s';
-        let time = setInterval(() => { // 声明一个定时器
-          if (this.sendSMSTime2 > 0) {
-            this.sendSMSTime2--;
-            this.btntxt2 = '已发送(' + this.sendSMSTime2 + ')s';
-          } else {
-            this.sendSMSTime2 = 0;
-            this.isSend2 = false;
-            this.btntxt2 = '重新获取';
-            this.disabled2 = false;
-            clearInterval(time);
-          }
-        }, 1000);
+        // 获取验证码
+        this.getCode(this.user.newPhone, 0, () => {
+          this.sendSMSTime2 = 60;
+          this.isSend2 = true;
+          this.disabled2 = true;
+          this.btntxt2 = '已发送(' + this.sendSMSTime2 + ')s';
+          this.timer();
+        });
       }
     },
     next: function () {
+      // 请求接口
       if (!this.user.code) {
         this.toast('验证码不能为空');
       } else {

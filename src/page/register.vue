@@ -79,7 +79,7 @@ export default {
         this.toast('手机号不能为空');
       } else {
         // 获取验证码
-        this.getCode(this.user.phone, 1, function () {
+        this.getCode(this.user.phone, 1, () => {
           this.sendSMSTime = 60;
           this.isSend = true;
           this.disabled = true;
