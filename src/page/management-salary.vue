@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       account: {
-        money: '2050.00'
+        money: ''
       },
       user: []
     };

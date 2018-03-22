@@ -1,21 +1,19 @@
 <template>
   <div class="info_wrap">
     <ul>
-      <router-link to="infoDetails">
-      <li class="info_li" v-for="(item, index) in info" :key="index">
-         <i class="icon iconfont" :class="iconArr[item.type]"></i>
-         <div class="info_div">
-          <div class="info_top">
-             <span class="title">
-               <span class="click" :class="{'click1': !item.isClick, 'click2': item.isClick}"></span>
-               {{item.title}}
-               </span>
-             <span class="time">{{item.time}}</span>
+        <li class="info_li" v-for="(item, index) in info" :key="index" @click="seeInfoDetails(item.id)">
+          <i class="icon iconfont" :class="iconArr[item.type - 1]"></i>
+          <div class="info_div">
+            <div class="info_top">
+              <span class="title">
+                <span class="click" :class="{'click1': item.is_look == 2, 'click2': item.is_look == 1}"></span>
+                {{item.title}}
+                </span>
+              <span class="time">{{item.create_time}}</span>
+            </div>
+            <div class="bottom">{{item.content}}</div>
           </div>
-          <div class="bottom">{{item.cenetr}}</div>
-         </div>
-      </li>
-      </router-link>
+        </li>
     </ul>
   </div>
 </template>
@@ -26,33 +24,7 @@ export default {
   data () {
     return {
       iconArr: ['icon-laba-copy', 'icon-jiangli'],
-      info: [
-        {
-          type: 1,
-          isClick: true,
-          title: '推荐奖励',
-          time: '2018-03-12 15:36:26',
-          cenetr: '恭喜获得推荐奖励，多劳多得加油哦！恭喜获得推荐奖励，多劳多得加油哦'
-        },
-        {
-          type: 1,
-          title: '推荐奖励',
-          time: '2018-03-12 15:36:26',
-          cenetr: '恭喜获得推荐奖励，多劳多得加油哦！恭喜获得推荐奖励，多劳多得加油哦'
-        },
-        {
-          type: 1,
-          title: '推荐奖励',
-          time: '2018-03-12 15:36:26',
-          cenetr: '恭喜获得推荐奖励，多劳多得加油哦！恭喜获得推荐奖励，多劳多得加油哦'
-        },
-        {
-          type: 0,
-          title: '推荐奖励',
-          time: '2018-03-12 15:36:26',
-          cenetr: '恭喜获得推荐奖励，多劳多得加油哦！恭喜获得推荐奖励，多劳多得加油哦'
-        }
-      ]
+      info: []
     };
   },
   beforeCreate: function () { // 创建之前
@@ -60,6 +32,8 @@ export default {
   created: function () { // 创建之后
   },
   beforeMount: function () { // 挂载之前
+    // 请求用户消息接口
+    this.getInfo();
   },
   mounted: function () {
     this.getFooter();
@@ -71,6 +45,27 @@ export default {
         button: [],
         navShow: true
       });
+    },
+    // 请求用户消息接口
+    getInfo () {
+      this.axios.get('/user_news/get_all', {
+      })
+        .then(({data}) => {
+          if (parseInt(data.status) === 1) {
+            console.log(data.data);
+            // 列表
+            this.info = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    seeInfoDetails (id) {
+      // 此处请求未读的接口
+      this.$router.push({path: 'infoDetails', query: {id: id}});
     }
   }
 };
