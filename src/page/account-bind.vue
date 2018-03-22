@@ -29,7 +29,9 @@ export default {
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    this.getZhifubao();
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('账户绑定', 'accountBind_top');
   }, // 挂载之后
@@ -73,6 +75,21 @@ export default {
           this.$router.push('weixinBind');
         }
       }
+    },
+    // 绑定支付宝账号
+    getZhifubao () {
+      this.axios.get('/user/zhifubao', {
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.zhifubao = data.data[0].zhifubao;
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
   }
 };

@@ -3,7 +3,8 @@
     <div class="top">
       <span>可提现余额</span>
       <span>￥<span class="all_sum">{{account.money}}</span></span>
-      <router-link tag="span" to="withdrawApply" class="out">去提现</router-link>
+      <!-- <router-link tag="span" to="withdrawApply" class="out">去提现</router-link> -->
+      <span @click="seeWithdraw()"  class="out">去提现</span>
     </div>
     <div class="center">
       <span class="center_top iconfont icon-tixian"> <span class="jilu">提现记录</span> </span>
@@ -32,50 +33,9 @@ export default {
     return {
       stateArr: ['now', 'fail', 'success'],
       account: {
-        money: '1999.00'
+        money: ''
       },
-      user: [
-        {
-          stateArr: 'now',
-          money: '2000.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          stateArr: 'fail',
-          money: '2000.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          stateArr: 'success',
-          money: '2000.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          stateArr: 'success',
-          money: '2000.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          stateArr: 'success',
-          money: '2000.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          stateArr: 'fail',
-          money: '2000.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          stateArr: 'success',
-          money: '2000.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          stateArr: 'success',
-          money: '2000.00',
-          time: '2018-03-10 20:15:00'
-        }
-      ]
+      user: []
     };
   },
   beforeCreate: function () {
@@ -86,6 +46,8 @@ export default {
   },
   beforeMount: function () {
     // 挂载之前
+    // 请求可提现
+    this.getWithdraw();
   },
   mounted: function () {
     this.getHeader('', 'with_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
@@ -107,6 +69,26 @@ export default {
           console.log(that.modalMsg);
         }
       ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+    },
+    // 请求可提现接口
+    getWithdraw () {
+      this.axios.get('/withdrawals/log', {
+      })
+        .then(({data}) => {
+          if (parseInt(data.status) === 1) {
+            console.log(data.data);
+            // 列表
+            this.account = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    seeWithdraw () {
+      this.$router.push({path: 'withdrawApply'});
     }
   }
 };

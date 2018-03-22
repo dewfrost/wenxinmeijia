@@ -15,7 +15,7 @@
               <div class="recommend_time">{{item.create_time}}</div>
               </div>
           </div>
-          <span class="recommend_span">&yen;{{item.code}}</span>
+          <span class="recommend_span">&yen;{{item.score}}</span>
         </li>
       </ul>
     </div>
@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       account: {
-        money: '1000.00'
+        money: ''
       },
       user: []
     };
