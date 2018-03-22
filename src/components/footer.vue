@@ -59,7 +59,7 @@ export default {
   name: 'footerTab',
   data () {
     return {// 数据
-      noReadMessage: '222',
+      noReadMessage: '0',
       goodsAmount: null,
       goodscarIsEdit: false,
       isCheck: false,
@@ -108,6 +108,8 @@ export default {
   beforeMount: function () {
     this.getEvent();
     this.getRoute();
+    // 请求未读消息数量
+    this.getNoRead();
   },
   watch: {
     $route (to, from) {
@@ -119,12 +121,31 @@ export default {
     }
   },
   methods: {
+    getNoRead () {
+      this.axios.get('/user_news/no_look_num', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.noReadMessage = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 监听事件函数
     getEvent () {
       eventBus.$on('footer', (data) => {
         if (!data) {
           this.show = false;
         } else {
+          if (this.$route.name === 'info') {
+            // 如果是info页面请求未读消息数量
+            this.getNoRead();
+          }
           this.show = true;
           this.navShow = data.navShow;
           this.button = data.button;
@@ -191,6 +212,7 @@ export default {
           .no_read{
             position: absolute;
             height: 24px;
+            line-height: 24px;
             min-width: 24px;
             border-radius: 12px;
             left: 50%;
@@ -199,7 +221,7 @@ export default {
             background-color: #FE0154;
             color: #fff;
             font-size: 18px;
-            padding: 0 6px;
+            padding: 0 4px;
           }
         }
     		.iconfont{

@@ -1,7 +1,7 @@
 <template>
   <div class="header_top" :class="headerClass" v-show="show">
     <span class="iconfont back" @click.stop="leftMethod" :class="{'icon-zuo': !left, 'left_name': left}">{{left}}</span>
-    <h1 class="title" @click.stop="goodDetailsCallback">
+    <h1 class="title" @click.stop="details">
       <span>{{title}}</span>
     </h1>
     <span class="header_right" v-if="right" @click.stop="rightMethod">{{right}}</span>
@@ -33,6 +33,13 @@ export default {
   beforeDestroy: function () {
   },
   methods: {
+    details () {
+      if (!this.goodDetailsCallback) {
+        return false;
+      } else {
+        this.goodDetailsCallback();
+      }
+    },
     getEvent () {
       let box = this;
       eventBus.$on('header', function (data) {
@@ -52,8 +59,12 @@ export default {
       });
     },
     leftMethod: function () {
-      if (!this.leftBack) return this.$router.go(-1);
-      else return this.leftBack();
+      if (!this.leftBack) {
+        this.$router.go(-1);
+        document.getElementById('content').scrollTop = 0;
+      } else {
+        this.leftBack();
+      }
     },
     rightMethod: function () {
       if (this.rightBack) return this.rightBack();
