@@ -17,7 +17,7 @@
             <div class="account_time">{{item.time}}</div>
             </div>
           </div>
-          <span class="account_span">{{tabActive === 1 ? '+' : '-'}}￥{{item.morey}}</span>
+          <span class="account_span">{{tabActive === 1 ? '+' : '-'}}&yen;{{item.morey}}</span>
         </li>
       </ul>
     </div>

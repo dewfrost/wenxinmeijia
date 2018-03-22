@@ -3,7 +3,7 @@
      <div class="top">
        <div class="orderd_top left">
          <span class="number">订单编号：{{order.order_sn}}</span>
-         <span class="orderd_time">下单时间：<span class="orderd_time_show" >{{order.add_date}}</span></span>
+         <span class="orderd_time">下单时间：<span class="orderd_time_show" >{{order.created_at}}</span></span>
        </div>
        <div class="orderd_top right">
         <i class="iconfont icon-xinyongqiahuankuan"></i>
@@ -12,24 +12,24 @@
      </div>
      <div class="address">
         <div class="user">
-          <span class="name">{{order.name}}</span>
-          <span class="phone">{{order.phone}}</span>
+          <span class="name">{{order.address_name}}</span>
+          <span class="phone">{{order.address_phone}}</span>
         </div>
         <div class="dizhi">
-          {{order.address}}
+          {{order.city}}{{order.address_detail }}
         </div>
      </div>
      <div class="cai">
        <img src="../assets/images/address.png" alt="">
      </div>
      <div class="content">
-       <div class="details" v-for="(item, index) in goodsInfo" :key="index" @click="goodsDetails(item.id)">
-          <img :src="item.imgurl" alt="商品">
+       <div class="details" v-for="(item, index) in order.goods" :key="index" @click="goodsDetails(item.id)">
+          <img :src="item.gimg" alt="商品">
           <div class="right">
-            <div class="one">{{item.name}}</div>
+            <div class="one">{{item.gname}}</div>
               <div class="price">
-                <span class="money"> &yen;<span class="money_big">{{item.price}}</span>  </span>
-                <span class="goodsnum">x{{item.goodsnum}}</span>
+                <span class="money"> &yen;<span class="money_big">{{item.gprice}}</span>  </span>
+                <span class="goodsnum">x{{item.gnum}}</span>
               </div>
           </div>
        </div>
@@ -37,29 +37,29 @@
     <div class="list_info_wrap">
         <div class="order_list_info">
           <span class="name order_money">订单金额</span>
-          <span class="price">￥{{order.amount || 0}}</span>
+          <span class="price">&yen;{{order.price || 0}}</span>
         </div>
         <div class="order_list_info">
           <span class="name">运费：</span>
-          <span class="price">￥{{order.costs || 0}}</span>
+          <span class="price">&yen;{{order.postage || 0}}</span>
         </div>
         <div class="order_list_info">
           <span class="name">代金券抵用：</span>
-          <span class="price deduction">-￥{{order.deduction || 0}}</span>
+          <span class="price deduction">-&yen;{{order.score || 0}}</span>
         </div>
         <div class="order_list_info">
           <span class="name">需付款：</span>
-          <span class="price with_money">￥{{order.endPrice || 0}}</span>
+          <span class="price with_money">&yen;{{(parseFloat(order.price) - parseFloat(order.score)) || 0}}</span>
         </div>
     </div>
-    <div class="footer_order" v-if="(order.status === 2) || (order.status === 3)">
+    <div class="footer_order" v-if="(pageStatus === 2) || (pageStatus === 3)">
       <div class="footer_one">
        <span class="name">运单号码：</span>
-       <span class="haoma" :class="{'none': !order.haoma}">{{order.haoma || '暂无'}} <span class="copy btn" :data-clipboard-text="order.haoma" ref="copy" @click="copyLink">复制</span></span>
+       <span class="haoma" :class="{'none': !order.wuliu_ma}">{{order.wuliu_ma || '暂无'}} <span class="copy btn" :data-clipboard-text="order.wuliu_ma" ref="copy" @click="copyLink" v-if="order.wuliu_ma">复制</span></span>
       </div>
       <div class="footer_one">
        <span class="name">快递公司：</span>
-       <span class="company" :class="{'none': !order.company}">{{order.company || '暂无'}}</span>
+       <span class="company" :class="{'none': !order.wuliu}">{{order.wuliu || '暂无'}}</span>
       </div>
     </div>
 
@@ -75,38 +75,11 @@ export default {
       copyBtn: null,
       status: ['待付款', '待发货', '待收货', '已完成'],
       type: 0,
-      order: {
-        status: parseInt(this.$route.query.status),
-        order_sn: '13845699654',
-        add_date: '2018-03-20  10:10:10',
-        name: '宓知月',
-        phone: '17000000000',
-        address: '河南省郑州市金水区黄河路文化路交叉口大幅度小区7层706',
-        amount: '864.00',
-        costs: '0.00',
-        deduction: '0.00',
-        endPrice: '864.00',
-        haoma: '0000',
-        company: '顺丰快递'
-      },
-      goodsInfo: [
-        {
-          imgurl: require('../assets/images/goods.png'),
-          name: '可穿戴美甲贴片奢华组合套装#210',
-          price: '288.00',
-          goodsnum: 2
-        },
-        {
-          imgurl: require('../assets/images/goods2.png'),
-          name: '可穿戴美甲贴片玫瑰香薰 球#265',
-          price: '68.00',
-          goodsnum: 2
-        }
-      ],
-      pageStatus: parseInt(this.$route.query.status) || 0,
+      order: {},
+      pageStatus: parseInt(this.$route.query.status) || 0
       // 订单id
-      orderId: parseInt(this.$route.query.id) || 0,
-      orderSn: this.$route.query.order_sn || 0
+      // orderId: parseInt(this.$route.query.id) || 0,
+      // orderSn: this.$route.query.order_sn || 0
     };
   },
   beforeCreate: function () {
@@ -119,6 +92,9 @@ export default {
   },
   beforeMount: function () {
     // 挂载之前
+    // 请求我的订单详情页接口
+    this.getOrderDetails();
+    console.log(this.$route.query.id);
   },
   mounted: function () {
     this.copyBtn = new Clipboard('.btn');
@@ -139,24 +115,24 @@ export default {
     },
     getFooter () {
       let that = this;
-      if (this.order.status === 0) {
+      if (this.pageStatus === 0) {
         eventBus.$emit('footer', {
           button: [
             {
               inner: '取消订单',
               callback: () => {
-                that.cancelOrder();
+                that.cancelOrder(this.$route.query.id);
               }
             },
             {
               inner: '立即支付',
               callback: () => {
-                that.$router.push('payment');
+                that.payOrder(this.$route.query.id);
               }
             }
           ]
         });
-      } else if (this.order.status === 2) {
+      } else if (this.pageStatus === 2) {
         eventBus.$emit('footer', {
           button: [
             {
@@ -174,10 +150,34 @@ export default {
         eventBus.$emit('footer', false);
       }
     },
+    // 是否删除
+    cancelOrder: function (index, id) {
+      let that = this;
+      this.modal('提示', '确定取消订单？', '确定', function () {
+        that.goCancelOrder(index, id);
+      });
+    },
     // 取消订单
-    cancelOrder () {
-      this.toast('取消订单成功');
-      this.$router.go(-1);
+    goCancelOrder (index, id) {
+      let that = this;
+      this.axios.post('/order/ordercancel', {
+        id: this.$route.query.id
+      })
+        .then(({data}) => {
+          if (parseInt(data.status) === 1) {
+            this.toast(data.message);
+            // 删除待付款的订单
+            that.$router.go(-1);
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    payOrder: function (id) {
+      this.$router.push({path: 'payment', query: {id: id}});
     },
     showToast: function () {
       // 引用toast组件
@@ -195,6 +195,24 @@ export default {
           console.log(that.modalMsg);
         }
       ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+    },
+    // 请求我的订单
+    getOrderDetails () {
+      this.axios.get('/order/orderDetail', {
+        params: {
+          id: this.$route.query.id
+        }
+      })
+        .then(({data}) => {
+          if (parseInt(data.status) === 1) {
+            this.order = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 };
