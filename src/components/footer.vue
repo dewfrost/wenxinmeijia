@@ -14,7 +14,10 @@
         <span>全选</span>
       </span>
       <div class="right">
-        <span class="all_price" v-if="!goodscarIsEdit"><span class="warn">不含运费</span>  共计：<span class="small"> ￥</span><span class="price">{{price}}</span></span>
+        <span class="all_price" v-if="!goodscarIsEdit">
+          <span class="warn" v-if="goodsNum">不含运费</span>  共计：<span class="small"> ￥</span>
+          <span class="price">{{price}}</span>
+        </span>
         <div class="buttons">
           <span @click="goodsDelCallback" v-if="goodscarIsEdit">删除</span>
           <span @click="button[0].callback" v-if="!goodscarIsEdit">结算({{goodsNum}})</span>
@@ -45,6 +48,7 @@
       <div class="footerNav" v-for="(item,index) in nav" @click="toggle(index)"  :class="{ 'navTitle-xz' : item.router === navRoute}" :key="item.id">
       	<span class="iconfont" :class="[item.router === navRoute ? item.class1 : item.class ]"></span>
       	<span class="nav-title">{{item.title}}</span>
+        <span class="no_read" v-if="index === 2">{{noReadMessage}}</span>
       </div>
     </div>
   </div>
@@ -55,6 +59,7 @@ export default {
   name: 'footerTab',
   data () {
     return {// 数据
+      noReadMessage: '222',
       goodsAmount: null,
       goodscarIsEdit: false,
       isCheck: false,
@@ -181,11 +186,26 @@ export default {
     	.footerNav{
     		flex-grow: 1;
     		color:#666;
+        &:nth-child(3){
+          position: relative;
+          .no_read{
+            position: absolute;
+            height: 24px;
+            min-width: 24px;
+            border-radius: 12px;
+            left: 50%;
+            transform: translateX(10px);
+            top: -6px;
+            background-color: #FE0154;
+            color: #fff;
+            font-size: 18px;
+            padding: 0 6px;
+          }
+        }
     		.iconfont{
     			font-size:40px;
     			display:block;
     		}
-    		
     		.icon-shouye2,.icon-gouwuche2,.icon-yonghu2{
     			color:$color;
     		}
