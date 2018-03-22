@@ -69,8 +69,14 @@ export default {
     line-height: 90px;  
     position: relative;
     text-align: center;
-    background: #fff;
+    background-color: #fff;
     color: #333;
+    transition: background-color .8s;
+    &.no_transparent{
+      background-color: $color;
+      color: #fff;
+      border: none;
+    }
     @include border;
     .back {
       position: absolute;

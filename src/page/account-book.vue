@@ -1,5 +1,5 @@
 <template>
-  <div class="accountBook">
+  <div class="accountBook" ref="logBox">
     <div class="top">
      <span class="tab_in" :class="{'active': tabActive === 1}" @click="headerTab(1)">收入</span>
      <span class="tab_out" :class="{'active': tabActive === 2}" @click="headerTab(2)">支出</span>
@@ -94,9 +94,23 @@ export default {
     // 挂载之前
   },
   mounted: function () {
+    this.scrollOn();
     this.getHeader('我的账单', 'account_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
+    scrollOn: function () {
+      eventBus.$on('contentScroll', (height) => {
+        // 只在goodsDetails页面监听
+        if (/accountBook/g.test(window.location.href)) {
+          if (document.getElementById('content').scrollTop > 100) {
+            console.log(document.getElementById('content').scrollTop);
+            this.getHeader('我的账单', 'no_transparent');
+          } else {
+            this.getHeader('我的账单', 'account_top');
+          }
+        }
+      });
+    },
     showToast: function () {
       // 引用toast组件
       this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
@@ -169,8 +183,8 @@ export default {
         margin: auto;
         border-bottom: 1px solid #e6e6e6;
         .iconfont{
-          font-size: 30px;
-          margin: 18px 18px 0 0;
+          font-size: 28px;
+          margin: 16px 18px 0 0;
             &.icon-jiankangshangcheng{
               color: #24a5fe;
             }

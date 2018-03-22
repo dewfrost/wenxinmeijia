@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="index" :class="{'is_ios': isIos}">
     <!-- 轮播  -->
     <div class="index_banner">
       <swiper :options="swiperOption" ref="mySwiper">
@@ -51,6 +51,7 @@ export default {
   name: 'index',
   data () {
     return {
+      isIos: false,
       // 轮播图配置
       swiperOption: { // 以下配置不懂的，可以去swiper官网看api，链接http://www.swiper.com.cn/api/
         // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，
@@ -152,8 +153,16 @@ export default {
     this.getFooter();
     // 展示代金券弹窗,参数为金额
     this.getVoucherModal('1450.00');
+    // 检查是否是IOS
+    this.checkIsIos();
   },
   methods: {
+    checkIsIos () {
+      // 是否IOS系统
+      if (navigator.userAgent.toLowerCase().match(/iphone|ipad/i)) {
+        this.isIos = true;
+      }
+    },
     // 点击商品的跳转商品详情
     seeDetails (id) {
       this.$router.push({path: 'goodsDetails', query: {id: id}});
@@ -174,6 +183,7 @@ export default {
     // 点击商品的查看更多
     goods_more: function () {
       this.$router.push({path: 'goodsList', query: {type: 'goods'}});
+      // window.location.href = './goodsList?type=goods';
     },
     // 点击配件的查看更多
     parts_more: function () {
@@ -193,6 +203,9 @@ export default {
 .index{
   background: #f5f5f5;
   margin-bottom: 115px;
+  &.is_ios{
+    margin-bottom: 140px;
+  }
   .index_banner{
     width:640px;
     height:350px;

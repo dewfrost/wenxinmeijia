@@ -1,5 +1,5 @@
 <template>
-  <div class="partner">
+  <div class="partner" ref="logBox">
     <div class="top">
       <span>总人数</span>
       <span class="all_sum">{{account.num}}</span>
@@ -256,9 +256,23 @@ export default {
     // 挂载之前
   },
   mounted: function () {
+    this.scrollOn();
     this.getHeader('我的伙伴', 'partner_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
+    scrollOn: function () {
+      eventBus.$on('contentScroll', (height) => {
+        // 只在goodsDetails页面监听
+        if (/partner/g.test(window.location.href)) {
+          if (document.getElementById('content').scrollTop > 100) {
+            console.log(document.getElementById('content').scrollTop);
+            this.getHeader('我的伙伴', 'no_transparent');
+          } else {
+            this.getHeader('我的伙伴', 'partner_top');
+          }
+        }
+      });
+    },
     showToast: function () {
       // 引用toast组件
       this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
