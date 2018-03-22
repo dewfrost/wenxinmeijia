@@ -2,7 +2,7 @@
   <div class="withdraw">
     <div class="top">
       <span>可提现余额</span>
-      <span>￥<span class="all_sum">{{account.money}}</span></span>
+      <span>&yen; <span class="all_sum">{{account.money}}</span></span>
       <!-- <router-link tag="span" to="withdrawApply" class="out">去提现</router-link> -->
       <span @click="seeWithdraw()"  class="out">去提现</span>
     </div>
@@ -10,15 +10,14 @@
       <span class="center_top iconfont icon-tixian"> <span class="jilu">提现记录</span> </span>
       <ul>
         <li class="center_li" v-for="item in user">
-          <div :class="['center_div', item.stateArr === 'success' ? '' : 'now']">
-            <span class="money">&yen;{{item.money}}</span>
-            <!-- <span class="state" :class="stateArr[item.type]">{{item.stateArr === 'now' ? '审核中' : item.stateArr === 'fail' ? '审核失败' : '已到账'}}</span> -->
-            <div class="audit" v-if="item.stateArr === 'now'">
+          <div :class="['center_div', item.status === '已到账' ? 'center_div' : 'now'] ">
+            <span class="money">&yen; {{item.money}}</span>
+            <div class="audit" v-if="item.status === '审核中'">
               <i class="iconfont icon-biaoqian"><span>审核中</span></i>
            </div>
-           <span class="state" v-else>{{item.stateArr === 'fail' ? '审核失败' : '已到账'}}</span>
+           <span class="state" v-else>{{item.status === '审核失败' ? '审核失败' : '已到账'}}</span>
           </div>
-          <div class="time">{{item.time}}</div>
+          <div class="time">{{item.created_at}}</div>
         </li>
       </ul>
     </div>
@@ -31,7 +30,6 @@ export default {
   name: 'withdraw',
   data () {
     return {
-      stateArr: ['now', 'fail', 'success'],
       account: {
         money: ''
       },
@@ -79,6 +77,7 @@ export default {
             console.log(data.data);
             // 列表
             this.account = data.data;
+            this.user = data.data.log;
           } else {
             this.toast(data.message);
           }
@@ -154,7 +153,6 @@ export default {
     justify-content: space-between;  
     border-bottom: 1px solid #e6e6e6;
     .center_div{
-      
       position: relative;
       padding-left: 15px;
       &::after{
