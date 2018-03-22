@@ -43,7 +43,7 @@ export default {
   created: function () {},
   beforeMount: function () {
     this.getPhone(this.user);
-    this.getCode();
+    this.getIdcode();
   }, // 挂载之前
   mounted: function () {
     this.getHeader('支付宝解绑', 'zfbUnbind_top');
@@ -59,9 +59,10 @@ export default {
     showAlipay () {
       if (!this.user.idCode) {
         return false;
+      } else if ((/@/g).test(this.user.idCode)) {
+        return this.user.idCode.replace(/(\w{2})\w*(@)/, '$1***$2');
       } else {
-        let alipay = this.user.idCode;
-        return alipay.replace(/(\w{2})\w*(@)/, '$1***$2');
+        return this.user.idCode.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
       }
     },
     showPhone () {
@@ -97,7 +98,7 @@ export default {
         this.toast('手机号不能为空');
       } else {
         // 获取验证码
-        this.getCode(this.user.phone, 5, () => {
+        this.getCode(this.user.phone, 6, () => {
           this.sendSMSTime = 60;
           this.isSend = true;
           this.disabled = true;
@@ -127,17 +128,34 @@ export default {
       } else if (!this.user.code) {
         this.toast('验证码不能为空');
       } else {
-        this.toast('解绑成功');
-        this.$router.push('accountBind');
+        // this.toast('解绑成功');
         this.submit();
       }
     },
-    getCode () {
-      this.axios.get('/userp/zhifubao', {
+    // 确认-接口
+    submit () {
+      this.axios.post('/user/unAlipay', {
+        password: this.user.password,
+        code: this.user.code
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            this.$router.go(-1);
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 获取支付宝账号
+    getIdcode () {
+      this.axios.get('/user/zhifubao', {
       })
       .then(({data}) => {
         if (data.status === 1) {
-          console.log(data.message);
+          this.user.idCode = data.data[0].zhifubao;
         } else {
           this.toast(data.message);
         }
@@ -145,25 +163,6 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
-    },
-    submit () {
-      // 解绑
-      this.axios.post('/user/unAlipay', {
-        phone: this.user.phone,
-        password: this.user.password,
-        code: this.user.code
-      })
-        .then(({data}) => {
-          if (data.status === 200) {
-            this.$router.go(-1);
-            eventBus.$emit('toast', {message: data.message});
-          } else {
-            eventBus.$emit('toast', {message: data.message});
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
     }
   }
 };

@@ -7,12 +7,12 @@
     <a href="tel:400-000-0000">
       <div class="list">
         <span>客服电话</span>
-        <span>400-000-0000</span>
+        <span>{{phone}}</span>
       </div>
     </a>
     <div class="list">
       <span>服务时间</span>
-      <span>9:00 - 22:00</span>
+      <span>{{time}}</span>
     </div>
   </div>
 </template>
@@ -23,11 +23,15 @@ export default {
   data () {
     return {
       // 数据
-      qr_code: require('../assets/images/qr_code.png')
+      phone: '',
+      time: '',
+      qr_code: ''
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    this.getCustomer();
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('客服中心', 'customerCenter_top');
   }, // 挂载之后
@@ -38,6 +42,25 @@ export default {
   }, // 实例销毁前调用,解绑中间层的数据传输
   destroyed: function () {}, // 实例销毁后调用
   methods: {
+    // 接口
+    getCustomer () {
+      this.axios.post('/index/kefu', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.qr_code = data.data.kefu_ma;
+            this.phone = data.data.kefu_phone;
+            this.time = data.data.kefu_time;
+            this.toast('修改成功');
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }
 };
 </script>
