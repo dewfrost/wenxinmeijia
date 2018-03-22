@@ -8,16 +8,13 @@
       <ul>
         <li class="account_li" v-for="(item, index) in user" :key="index">
           <div>
-            <!-- <img src="../assets/images/r_l.png" alt=""> -->
-            <!-- <img :src="item.imgurl" alt="头像"> -->
-            <i :class="['iconfont', index === 1 ? 'icon-web__jiangli' : index === 2 ? 'icon-huokuanyifu' : index === 3 ? 'icon-huojian' : 
-            index === 4 ? 'icon-xinzi' : index === 5 ? 'icon-tixian' : 'icon-jiankangshangcheng']"></i>
+            <i class="icon iconfont" :class="iconArr[item.type - 1]"></i>
             <div class="user">
-            <div class="account_div">{{item.name}}</div>
-            <div class="account_time">{{item.time}}</div>
+              <div class="account_div">{{item.remark}}</div>
+              <div class="account_time">{{item.create_time}}</div>
             </div>
           </div>
-          <span class="account_span">{{tabActive === 1 ? '+' : '-'}}￥{{item.morey}}</span>
+          <span class="account_span">{{item.score}}</span>
         </li>
       </ul>
     </div>
@@ -30,58 +27,8 @@ export default {
   data () {
     return {
       tabActive: 1,
-      user: [
-        {
-          name: '推荐奖励',
-          morey: '300.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          name: '晋级奖励',
-          morey: '300.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          name: '管理薪资',
-          morey: '300.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          name: '销售货款',
-          morey: '300.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          name: '推荐奖励',
-          morey: '300.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          name: '晋级奖励',
-          morey: '300.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          name: '管理薪资',
-          morey: '300.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          name: '管理薪资',
-          morey: '300.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          name: '管理薪资',
-          morey: '300.00',
-          time: '2018-03-10 20:15:00'
-        },
-        {
-          name: '管理薪资',
-          morey: '300.00',
-          time: '2018-03-10 20:15:00'
-        }
-      ]
+      iconArr: ['icon-web__jiangli', 'icon-huokuanyifu', 'icon-huojian', 'icon-xinzi', 'icon-tixian', 'icon-jiankangshangcheng'],
+      user: []
     };
   },
   beforeCreate: function () {
@@ -92,6 +39,10 @@ export default {
   },
   beforeMount: function () {
     // 挂载之前
+    // 请求我的账本收入接口
+    this.getIncome();
+    // 请求我的账本支出接口
+    // this.getExpenditure(this.tabActive);
   },
   mounted: function () {
     this.scrollOn();
@@ -129,7 +80,49 @@ export default {
       ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
     },
     headerTab: function (num) {
+      if (num === this.tabActive) {
+        return false;
+      }
       this.tabActive = num;
+      if (num === 1) {
+        this.getIncome();
+      } else {
+        this.getExpenditure();
+      }
+    },
+    // 请求我的账本收入接口
+    getIncome () {
+      this.axios.get('/user/income', {
+      })
+        .then(({data}) => {
+          if (parseInt(data.status) === 1) {
+            console.log(data.data);
+            // 列表
+            this.user = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 请求我的账本支出接口
+    getExpenditure () {
+      this.axios.get('/user/expenditure', {
+      })
+        .then(({data}) => {
+          if (parseInt(data.status) === 1) {
+            console.log(data.data);
+            // 列表
+            this.user = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 };
