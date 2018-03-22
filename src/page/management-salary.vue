@@ -1,5 +1,5 @@
 <template>
-  <div class="managementSalary">
+  <div class="managementSalary" ref="logBox">
     <div class="top">
       <span>￥<span class="all_sum">{{account.money}}</span></span>
       <span>总额</span>
@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       account: {
-        money: '2050.00'
+        money: ''
       },
       user: []
     };
@@ -45,9 +45,23 @@ export default {
     this.getSalary();
   },
   mounted: function () {
+    this.scrollOn();
     this.getHeader('管理薪资', 'management_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
+    scrollOn: function () {
+      eventBus.$on('contentScroll', (height) => {
+        // 只在goodsDetails页面监听
+        if (/managementSalary/g.test(window.location.href)) {
+          if (document.getElementById('content').scrollTop > 100) {
+            console.log(document.getElementById('content').scrollTop);
+            this.getHeader('管理薪资', 'no_transparent');
+          } else {
+            this.getHeader('管理薪资', 'management_top');
+          }
+        }
+      });
+    },
     showToast: function () {
       // 引用toast组件
       this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');

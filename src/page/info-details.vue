@@ -3,12 +3,9 @@
     <div class="details">
       <div class="top">
         <span class="title">{{info.title}}</span>
-        <span class="time">{{info.time}}</span>
+        <span class="time">{{info.create_time}}</span>
       </div>
-      <div class="center">
-        <p>你终于通过一步步的闯过，手机号码验证输入，短信验证输入，设置密密码，确认密码等一系列繁琐的操作最后闯关成功。恭喜你注册成功，继续你的购物之旅吧！</p>
-        <p>你终于通过一步步的闯过，手机号码验证输入，短信验证输入，设置密密码，确认密码等一系列繁琐的操作最后闯关成功。恭喜你注册成功，继续你的购物之旅吧！</p>
-      </div>
+      <div class="center" v-html="info.content"></div>
     </div>
   </div>
 </template>
@@ -18,10 +15,7 @@ export default {
   name: 'infoDetails',
   data () {
     return {
-      info: {
-        title: '注册成功',
-        time: '2018-02-06 15:17:06'
-      }
+      info: {}
     };
   },
   beforeCreate: function () { // 创建之前
@@ -29,11 +23,32 @@ export default {
   created: function () { // 创建之后
   },
   beforeMount: function () { // 挂载之前
+  // 请求用户信息详情接口
+    this.getInfoDetails();
   },
   mounted: function () {
     this.getHeader('消息详情');
   },
   methods: {
+    // 请求用户信息详情接口
+    getInfoDetails () {
+      this.axios.get('/user_news/detail', {
+        params: {
+          id: this.$route.query.id
+        }
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.info = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }
 };
 </script>

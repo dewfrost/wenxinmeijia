@@ -1,5 +1,5 @@
 <template>
-  <div class="recommendAwards">
+  <div class="recommendAwards" ref="logBox">
     <div class="top">
       <span>&yen;<span class="all_sum">{{account.money}}</span></span>
       <span>总额</span>
@@ -15,7 +15,7 @@
               <div class="recommend_time">{{item.create_time}}</div>
               </div>
           </div>
-          <span class="recommend_span">&yen;{{item.code}}</span>
+          <span class="recommend_span">&yen;{{item.score}}</span>
         </li>
       </ul>
     </div>
@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       account: {
-        money: '1000.00'
+        money: ''
       },
       user: []
     };
@@ -45,9 +45,23 @@ export default {
     this.tuijian();
   },
   mounted: function () {
+    this.scrollOn();
     this.getHeader('推荐奖励', 'recommend_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
+    scrollOn: function () {
+      eventBus.$on('contentScroll', (height) => {
+        // 只在goodsDetails页面监听
+        if (/recommendAwards/g.test(window.location.href)) {
+          if (document.getElementById('content').scrollTop > 100) {
+            console.log(document.getElementById('content').scrollTop);
+            this.getHeader('推荐奖励', 'no_transparent');
+          } else {
+            this.getHeader('推荐奖励', 'recommend_top');
+          }
+        }
+      });
+    },
     showToast: function () {
       // 引用toast组件
       this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');

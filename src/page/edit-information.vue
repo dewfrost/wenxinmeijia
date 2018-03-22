@@ -61,6 +61,7 @@ export default {
         sex: '',
         age: ''
       },
+      showPhone: '',
       sexDisabled: false,
       ageDisabled: false,
       isSameInfo: null,
@@ -76,13 +77,6 @@ export default {
   mounted: function () {
     this.getInfo();
     this.getHeader('', 'editInformation_top');
-    // 保存用户信息，来判断是否变动资料
-    this.isSameInfo = JSON.parse(JSON.stringify(this.user));
-  },
-  computed: {
-    showPhone: function () {
-      return this.hidePhone(this.user.phone);
-    }
   },
   methods: {
     // 年龄选择点击事件
@@ -102,9 +96,12 @@ export default {
       this.axios.get('/user/info', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.user = data.data;
+            // 获取到用户手机号之后隐藏中间四位
+            this.showPhone = this.hidePhone(this.user.phone);
+            // 保存用户信息，来判断是否变动资料
+            this.isSameInfo = JSON.parse(JSON.stringify(this.user));
             // 如果获取到性别，则不能修改
             if (data.data.sex) {
               this.sexDisabled = true;
@@ -137,6 +134,7 @@ export default {
       }
     },
     getImgUrl: function () {
+      // 如果图片没有改变，直接请求修改接口，否则先把图片存到服务器，成功了之后请求修改接口
       if (!this.file) {
         this.doEdit();
       } else {
@@ -316,6 +314,7 @@ export default {
         justify-content: space-between;
         background-color: #fff;
         padding: 0 30px;
+        border-bottom: 1px solid #e6e6e6;
       }
     }
   }
