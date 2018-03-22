@@ -44,8 +44,24 @@ export default {
     link: function () {
       let that = this; // 如果回调函数中用到this，则这行代码必须有
       this.modal('提示', '确定退出该账号吗？', '确定', function (index) {
-        that.$router.push('login');
+        that.submit();
       }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+    },
+    // 退出登录接口
+    submit () {
+      this.axios.post('/user/exitlogin', {
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.$router.push('login');
+          this.toast(data.message);
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
   }
 };
