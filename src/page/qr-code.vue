@@ -13,16 +13,16 @@ export default {
       tempData: [], // 保存用户的信息，用来判断是否有变化
       qrcodeImg: null,
       userId: null,
+      headImg: null,
       endShowImg: null, // 最后生成的图片
-      baseUrl: 'http://www.jiliya.net.cn/',
+      baseUrl: 'http://wenxin.ewtouch.com/',
+      backgroundImg: require('../assets/images/qrcode_bg1.png'),
       imgArr: [
-        require('../assets/images/goods3.png'),
-        require('../assets/images/qrcode_img.png'),
+        // require('../assets/images/goods3.png'),
+        // require('../assets/images/qrcode_img.png'),
         require('../assets/images/qrcode_bg1.png')
       ],
-      listImg: [
-        // 'http://www.cwfpp.cn/static/headimg/201801041718411840000003623391614.jpg'
-      ],
+      listImg: [],
       userName: '带你去美甲',
       size: [
         { // 二维码
@@ -52,9 +52,9 @@ export default {
     };
   },
   created: function () {
-    this.loading();
+    this.loading(true);
     // 存储到服务器，否则因为画布污染会报错
-    // this.pushServer();
+    this.pushServer();
     // 微信浏览器请求
     // if (navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) {
     //   this.wechatShare();
@@ -63,64 +63,73 @@ export default {
   beforeMount: function () {
     this.getHeader('', 'qrcode_header');
     // 对接口前调用画图
-    this.NewCanvas();
+    // this.NewCanvas();
   },
   mounted: function () {
   },
   methods: {
-    loading: function () {
-      eventBus.$emit('loading', true);
-    },
     pushServer: function () {
       this.getStart();
     },
     getStart: function () {
-      this.axios.post('/users/QRCode')
+      this.axios.get('/user/get_code')
         .then((data) => {
-          if (data.data.status === 200) {
-            // 把用户信息填到数组里面
-            this.tempData[0] = (data.data.data.username);
-            this.tempData[1] = (data.data.data.headimg);
-            // 如果当前获取到的用户信息和缓存里的有变动，则二维码重新加载，否则用缓存里面的图片
-            if (localStorage.storageEndImg && localStorage.tempData && data.data.data.username === JSON.parse(localStorage.tempData)[0] && data.data.data.headimg === JSON.parse(localStorage.tempData)[1]) {
-              eventBus.$emit('loading', false);
-              this.flag = true;
-              this.endShowImg = JSON.parse(localStorage.storageEndImg);
-              return false;
-            } else {
-              localStorage.removeItem('qrcodeImg');
-              localStorage.removeItem('tempData');
-            }
-            this.userName = data.data.data.username;
-            this.userId = data.data.data.number;
-            this.qrcodeImg = data.data.data.path;
-            if (data.data.data.headimg === 'http://www.jiliya.net.cn/static/headimg/default.png') {
+          if (data.data.status === 1) {
+            // 如果本地有缓存的图片，不用往服务器上传图
+            this.inOutStorage(data);
+            // 用户名字
+            this.userName = data.data.data.nickname;
+            // 用户id
+            this.userId = data.data.data.id;
+            // 用户二维码图片
+            this.qrcodeImg = data.data.data.img;
+            // 用户头像
+            this.headImg = data.data.data.headimgurl;
+            // 如果是默认头像
+            if (data.data.data.headimgurl === 'http://wenxin.ewtouch.com/static/headimg/default.png') {
               this.imgArr.push('./static/headimg/default.png');
               this.getQrcode();
-            } else if (/www.jiliya.net.cn\//g.test(data.data.data.headimg)) {
-              // data.data.data.headimg = data.data.data.headimg.replace(/http:\/\/www\.jiliya\.net\.cn/, '');
-              this.imgArr.push(data.data.data.headimg);
+            } else if (/wenxin.ewtouch.com\//g.test(this.headImg)) {
+              // 如果头像是同源地址的头像
+              this.imgArr.push(this.headImg);
+              console.log(this.imgArr);
               this.getQrcode();
-              // this.saveServerImg(data.data.data.headimg, 1, data.data.data.number, this.baseUrl + 'static/upload1.php');
             } else {
-              this.saveServerImg(data.data.data.headimg, 1, data.data.data.number, this.baseUrl + 'static/upload1.php');
+              // 否则，存到本地服务器
+              this.saveServerImg(this.headImg, 1, this.userId, this.baseUrl + 'static/upload1.php');
             }
             this.flag = true;
           } else {
-            eventBus.$emit('loading', false);
+            this.loading(false);
           }
         })
         .catch(function (error) {
           console.log(error);
         });
     },
+    inOutStorage (data) {
+      // 把用户信息填到数组里面
+      this.tempData[0] = (data.data.data.nickname);
+      this.tempData[1] = (data.data.data.headimgurl);
+      // 如果当前获取到的用户信息和缓存里的有变动，则二维码重新加载，否则用缓存里面的图片
+      if (localStorage.storageEndImg && localStorage.tempData && data.data.data.nickname === JSON.parse(localStorage.tempData)[0] && data.data.data.headimgurl === JSON.parse(localStorage.tempData)[1]) {
+        this.loading(false);
+        this.flag = true;
+        this.endShowImg = JSON.parse(localStorage.storageEndImg);
+        return false;
+      } else {
+        localStorage.removeItem('qrcodeImg');
+        localStorage.removeItem('tempData');
+      }
+    },
     getQrcode: function () {
       this.saveServerImg(this.qrcodeImg, 2, this.userId, this.baseUrl + 'static/upload2.php');
     },
     saveServerImg: function (img, index, id, url) {
       this.axios.post(url, {filecode: img, userId: id})
-        .then((msg) => {
-          let imgData = msg.data;
+        .then((data) => {
+          let imgData = data.data;
+          console.log(data);
           if (/headimg/g.test(imgData.data)) {
             // 此处要赋值
             imgData.data = imgData.data.replace(/headimg/g, 'static/headimg');
@@ -138,8 +147,10 @@ export default {
           }
         })
         .catch(() => {
-          eventBus.$emit('loading', false);
-          this.modal('生成出错了，请刷新重试');
+          this.loading(false);
+          this.modal('错误', '生成出错了，请刷新重试', '确定', () => {
+            this.$router.go(-1);
+          }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
         });
     },
     // 初始创建绘画页面
@@ -157,7 +168,6 @@ export default {
           this.size[length].x,
           this.size[length].y,
           this.imgArr.pop(),
-          // console.log(this.imgArr);
           num);
       }
     },
@@ -200,7 +210,7 @@ export default {
       localStorage.storageEndImg = JSON.stringify(this.endShowImg);
       // 把名字、头像、二维码缓存到本地存储
       localStorage.tempData = JSON.stringify(this.tempData);
-      eventBus.$emit('loading', false);
+      this.loading(false);
     },
     wechatShare () {
       // wx是微信sdk的方法，需要下载包----weixin-js-sdk

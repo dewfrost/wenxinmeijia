@@ -2,18 +2,20 @@
   <div class="user_center">
     <!-- 个人信息 -->
     <div class="top">
-      <router-link tag="img" class="head_img" to="editInformation" :src="user.headImg" alt="头像"></router-link>
+      <div class="left">
+        <router-link tag="img" class="head_img" to="editInformation" :src="user.headimgurl" alt="头像"></router-link>
+      </div>
       <div class="right">
         <div class="info">
           <div class="info_top">
-            <span class="name">{{user.name}}</span>
+            <span class="name">{{user.nickname}}</span>
             <span class="user_level">
-              <span class="level" :class="'level' + level"></span>
-              <span>{{user.class}}</span>
+              <span class="level" :class="'level' + (user.t_class - 2)"></span>
+              <span>{{levelArr[user.t_class]}}</span>
             </span>
           </div>
           <div class="info_bottom">
-            <span>推荐人：</span><span class="recommended">{{user.phone}}</span>
+            <span>推荐人：</span><span class="recommended">{{showPhone}}</span>
           </div>
         </div>
         <router-link tag="i" to="editInformation" class="info_you iconfont icon-you"></router-link>
@@ -26,7 +28,7 @@
         <swiper :options="swiperinfo" ref="swiperInfo">
           <!-- slides -->
           <swiperSlide v-for="item in swiperInfo" :key="item.id"> 
-           {{item.text}}
+           {{item.description}}
           </swiperSlide>
           <!-- Optional controls -->
         </swiper>
@@ -48,7 +50,7 @@
         <span class="add_name">累计收益</span>
       </div>
       <router-link tag="div" class="add_list" v-for="(addName, index) in addList" :to="{path: add[index], query:{status: index}}" :key="index">
-        <span class="money">{{money[index]}}</span>
+        <span class="money">{{money[index] || '0.00'}}</span>
         <span class="add_name">{{addName}}</span>
       </router-link>
     </div>
@@ -69,8 +71,8 @@ export default {
   data () {
     return {
       // 数据
+      showPhone: '',
       levelArr: ['见习推广员', '推广员', '初级代理', '中级代理', '高级代理', '合伙人'],
-      level: 4,
       swiperinfo: {
         notNextTick: true,
         autoplay: 2000,
@@ -80,28 +82,21 @@ export default {
       swiperImg: [], // 轮播
       swiperInfo: [
         {
-          text: '带你去美甲！带你去美甲！带你去美甲！带你去美甲！'
-        },
-        {
-          text: '指尖秀科技指尖秀科技指尖秀科技指尖秀科技'
-        },
-        {
-          text: '今晚12点整进行更新维护，请大家互相转告'
+          description: '带你去美甲！带你去美甲！带你去美甲！带你去美甲！'
         }
       ],
       user: {
-        headImg: require('../assets/images/header.png'),
-        name: '宓月',
-        class: '推广员',
-        phone: '13845699654'
+        headimgurl: null,
+        nickname: '',
+        t_class: null,
+        pphone: ''
       },
       // 公告
-      list: '今晚12点整进行更新维护，请大家互相转告',
       msgList: ['待付款', '待发货', '待收货', '已完成'],
-      orderList: [0, 2, 100000, 55],
+      orderList: [],
       iconList: ['xinyongqiahuankuan', 'kuaidi', 'suishendai', 'chenggong'],
       addList: ['可提现余额', '货款余额', '推荐奖励', '管理薪资', '晋级奖励'],
-      money: ['10000.00', '10000.00', '10512.00', '10512.00', '10512.00'],
+      money: [],
       add: ['withdraw', 'moneyAccount', 'recommendAwards', 'managementSalary', 'promotionAwards'],
       setList: ['我的账本', '我的伙伴', '二维码', '收货地址', '客服中心', '更换手机号', '账户绑定', '账号设置'],
       iconfontList: ['qianbao', 'kehu', 'erweima', 'dingwei', 'zuoji', 'dianhuaben', 'youhuiquan', 'hekriconshebeisuokai'],
@@ -112,18 +107,69 @@ export default {
   },
   created: function () { // 创建之后
   },
-  beforeMount: function () { // 挂载之前
+  beforeMount: function () {
+    // 获取订单角标
+    this.getOrderSum();
+    // 获取用户信息
+    this.getInfo();
+    // 获取公告轮播列表
+    this.getCarouselList();
   },
   mounted: function () {
     this.getFooter();
-    // this.getHeader('个人中心');
   },
   methods: {
+    getOrderSum () {
+      this.axios.get('/user/angle', {
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            this.orderList = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getCarouselList () {
+      this.axios.get('/user/articles', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.swiperInfo = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getInfo () {
+      this.axios.get('/user/info', {
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            this.user = data.data;
+            // 手机号隐藏中间四位
+            if (data.data.pphone) {
+              this.showPhone = this.hidePhone(data.data.pphone);
+            } else {
+              this.showPhone = '无';
+            }
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     getFooter () {
-      eventBus.$emit('footer', {
-        button: [],
-        navShow: true
-      });
+      eventBus.$emit('footer', {navShow: true});
     }
   },
   components: {
@@ -153,12 +199,17 @@ export default {
     margin: 43px auto 18px;
     justify-content: space-between;
     align-items: center;
-    .head_img{
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      border: 5px solid #f2a9bb;
-      margin:  0 32px;
+    .left{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .head_img{
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        border: 5px solid #f2a9bb;
+        margin:  0 32px;
+      }
     }
     .right{
       display: flex;
@@ -255,7 +306,7 @@ export default {
       white-space: nowrap;
       text-overflow: ellipsis;
       .swiper-container{
-        // min-width:500px;
+        min-width:100%;
         height:30px;
         .swiper-slide{
           // min-width:500px;
@@ -298,7 +349,7 @@ export default {
         // box-sizing: content-box;
         padding: 0 4px;
         position: absolute;
-        top: 0;
+        top: -10px;
         font-size: 16px;
         left: 56%;
       }

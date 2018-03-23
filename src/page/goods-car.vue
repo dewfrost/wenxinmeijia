@@ -5,18 +5,18 @@
     </div>
     <ul class="goods_list">
       <li class="goods" v-for="(item, index) in goodsList" :key="index" @click="seeGoodsDetails(item.id)">
-        <i class="iconfont" @click.stop="toggleCheak(index)" :class="{'icon-30xuanzhongyuanxingfill': item.isCheck, 'icon-30xuanzhongyuanxing': !item.isCheck}"></i>
+        <i class="iconfont" @click.stop="toggleCheak(index)" :class="{'icon-30xuanzhongyuanxingfill': item.isClick, 'icon-30xuanzhongyuanxing': !item.isClick}"></i>
         <div class="img">
-          <img :src="item.goodsImg" alt="" class="goods_img">
+          <img :src="item.goods.img" alt="" class="goods_img">
         </div>
         <div class="goods_details">
-          <span class="name">{{item.goodsName}}</span>
+          <span class="name">{{item.goods.name}}</span>
           <span class="bottom">
-            <span class="price"><span>￥</span>{{item.price || 0}}</span>
-            <span class="sum" v-show="!isEdit">x{{item.sum}}</span>
+            <span class="price"><span>￥</span>{{item.goods.price || 0}}</span>
+            <span class="sum" v-show="!isEdit">x{{item.num}}</span>
             <span class="edit_sum" v-show="isEdit">
               <span class="reduce" @click.stop="changeNum(1, index)">-</span>
-              <span class="sum">{{item.sum}}</span>
+              <span class="sum">{{item.num}}</span>
               <span class="add" @click.stop="changeNum(0, index)">+</span>
             </span>
           </span>
@@ -31,76 +31,21 @@ export default {
   name: 'goodsCar',
   data () {
     return {
-      isRequest: true, // 是否请求
+      isRequest: false, // 是否请求
       isAllCheck: false,
       allCheckGoodsNum: 0,
       allCheckPrice: 0,
       isEdit: false,
-      goodsList: [
-        {
-          isCheck: false,
-          goodsImg: require('../assets/images/goods1.png'),
-          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '28.00',
-          sum: 6,
-          id: 2
-        },
-        {
-          isCheck: false,
-          goodsImg: require('../assets/images/goods2.png'),
-          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '80.00',
-          sum: 10,
-          id: 2
-        },
-        {
-          isCheck: false,
-          goodsImg: require('../assets/images/goods3.png'),
-          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '2.00',
-          sum: 33,
-          id: 2
-        },
-        {
-          isCheck: false,
-          goodsImg: require('../assets/images/goods2.png'),
-          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '80.00',
-          sum: 10,
-          id: 2
-        },
-        {
-          isCheck: false,
-          goodsImg: require('../assets/images/goods3.png'),
-          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '2.00',
-          sum: 33,
-          id: 2
-        },
-        {
-          isCheck: false,
-          goodsImg: require('../assets/images/goods2.png'),
-          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '80.00',
-          sum: 10,
-          id: 2
-        },
-        {
-          isCheck: false,
-          goodsImg: require('../assets/images/goods3.png'),
-          goodsName: '可穿戴美甲贴片奢华组合套装#210可穿戴美甲贴片奢华组合套装可穿戴美甲贴片奢华组合套装',
-          price: '2.00',
-          sum: 33,
-          id: 2
-        }
-      ]
+      goodsList: []
     };
   },
   beforeCreate: function () { // 创建之前
   },
   created: function () { // 创建之后
   },
-  beforeMount: function () { // 挂载之前
+  beforeMount: function () {
+    // 获取购物车列表
+    this.getList();
   },
   mounted: function () {
     // 循环所有选中状态，判断选中的商品种数
@@ -129,6 +74,26 @@ export default {
         this.$router.push({path: 'goodsDetails', query: {id: id}});
       }
     },
+    getList () {
+      this.axios.get('/cart/index', {
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            // 请求成功
+            this.isRequest = true;
+            this.goodsList = data.data;
+            // 把所有商品是否选中的状态数组填充赋值
+            for (let i = 0; i < this.goodsList.length; i++) {
+              this.goodsList[i].isClick = false;
+            }
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     getFooter () {
       // 调用购物车底部，第四个参数为结算事件, 第五个参数为删除事件，第六个参数为全选事件
       this.getGoodscarFooter(this.isAllCheck, this.allCheckGoodsNum, this.allCheckPrice, this.isEdit, () => {
@@ -148,24 +113,24 @@ export default {
       // 如果全选按钮选中，循环所有商品的按钮为选中，反之亦然
       if (this.isAllCheck) {
         for (let i = 0; i < this.goodsList.length; i++) {
-          this.goodsList[i].isCheck = true;
+          this.goodsList[i].isClick = true;
         }
       } else {
         for (let i = 0; i < this.goodsList.length; i++) {
-          this.goodsList[i].isCheck = false;
+          this.goodsList[i].isClick = false;
         }
       }
     },
     // 点击是否选中事件
     toggleCheak (index) {
-      this.goodsList[index].isCheck = !this.goodsList[index].isCheck;
+      this.goodsList[index].isClick = !this.goodsList[index].isClick;
       // 如果当前点击的变为未选中，则return，不再循环是否全选
-      if (!this.goodsList[index].isCheck) {
+      if (!this.goodsList[index].isClick) {
         this.isAllCheck = false;
       } else {
         // 循环所有选中状态，判断是否全选
         for (let i = 0; i < this.goodsList.length; i++) {
-          if (!this.goodsList[i].isCheck) {
+          if (!this.goodsList[i].isClick) {
             this.isAllCheck = false;
             return false;
           }
@@ -177,7 +142,7 @@ export default {
       // 循环所有选中状态，判断选中的商品种数
       this.allCheckGoodsNum = 0;
       for (let i = 0; i < this.goodsList.length; i++) {
-        if (this.goodsList[i].isCheck) {
+        if (this.goodsList[i].isClick) {
           this.allCheckGoodsNum++;
         }
       }
@@ -210,33 +175,75 @@ export default {
     // 增删商品数量
     changeNum (type, index) {
       if (type) {
-        if (this.goodsList[index].sum === 1) {
+        if (this.goodsList[index].num === 1) {
           return false;
         } else {
-          this.goodsList[index].sum --;
+          this.goodsList[index].num --;
         }
       } else {
-        this.goodsList[index].sum ++;
+        this.goodsList[index].num ++;
       }
+      this.doEditSum(index, this.goodsList[index].num);
+    },
+    doEditSum (index, sum) {
+      this.axios.post('/cart/edit', {
+        cid: this.goodsList[index].gid,
+        num: sum
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     // 删除事件
     delGoods () {
       if (!this.allCheckGoodsNum) {
         this.toast('没选中商品');
       } else {
+        let delIdArr = [];
         for (let i = this.goodsList.length - 1; i >= 0; i--) {
           // 先判断是否选中
-          if (this.goodsList[i].isCheck) {
-            // this.allCheckPrice += this.goodsList[i].sum * parseInt(this.goodsList[i].price);
-            this.goodsList.splice(i, 1);
+          if (this.goodsList[i].isClick) {
+            delIdArr.push(this.goodsList[i].id);
           }
         }
+        this.axios.post('/cart/del', {
+          cid: delIdArr.join()
+        })
+          .then(({data}) => {
+            if (data.status === 1) {
+              // 循环从页面删除
+              for (let i = this.goodsList.length - 1; i >= 0; i--) {
+                // 先判断是否选中
+                if (this.goodsList[i].isClick) {
+                  this.goodsList.splice(i, 1);
+                }
+              }
+              this.toast('删除成功');
+              // 变为非编辑状态
+              this.getHeader('购物车', 'goods_car_header', '编辑', () => {
+                this.toggleEdit(1);
+              });
+              this.isEdit = false;
+              this.isAllCheck = false;
+            } else {
+              this.toast(data.message);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
       // 如果商品删完了
       if (!this.goodsList.length) {
-        let that = this;
-        this.getHeader('购物车', 'goods_car_header', '编辑', function () {
-          that.toggleEdit(1);
+        this.getHeader('购物车', 'goods_car_header', '编辑', () => {
+          this.toggleEdit(1);
         });
         this.isEdit = false;
         this.isAllCheck = false;
@@ -247,8 +254,10 @@ export default {
       this.allCheckPrice = 0;
       for (let i = 0; i < this.goodsList.length; i++) {
         // 先判断是否选中
-        if (this.goodsList[i].isCheck) {
-          this.allCheckPrice += this.goodsList[i].sum * parseInt(this.goodsList[i].price);
+        if (this.goodsList[i].isClick) {
+          console.log(parseInt(this.goodsList[i].price));
+          console.log(this.goodsList[i].num);
+          this.allCheckPrice += this.goodsList[i].num * parseInt(this.goodsList[i].goods.price);
         }
       }
     }
@@ -308,6 +317,7 @@ export default {
           margin-right: 22px;
         }
         .goods_details{
+          flex: 1;
           display: flex;
           flex-direction: column;
           justify-content: space-between;

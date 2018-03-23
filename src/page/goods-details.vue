@@ -13,9 +13,9 @@
     </div>
     <div class="goods_top">
      <div class="title">
-       <div class="title_t">{{goods.title}}</div>
-       <div class="money">￥<span>{{goods.money}}</span></div>
-       <div class="freight" :class="{'wu': !goods.freight}">运费：{{goods.freight || "10元，订单满88元包邮"}}</div>
+       <div class="title_t">{{goods.name}}</div>
+       <div class="money">￥<span>{{goods.price}}</span></div>
+       <div class="freight" :class="{'wu': !goods.freight}">运费：{{goods.freight || "免运费"}}</div>
      </div>
     </div>
     <div class="content">
@@ -36,14 +36,7 @@
       <div class="goods_Details_title">
         <span>商品详请</span>
       </div>
-      <div class="goods_Detials_img">
-        <img src="../assets/images/goods_details.png" alt="">
-        <img src="../assets/images/goods_details.png" alt="">
-        <img src="../assets/images/goods_details.png" alt="">
-        <img src="../assets/images/goods_details.png" alt="">
-        <img src="../assets/images/goods_details.png" alt="">
-        <img src="../assets/images/goods_details.png" alt="">
-      </div>
+      <div class="goods_details_tag" v-html="detailsHtml"></div>
     </div>
   </div>
 </template>
@@ -54,6 +47,12 @@ export default {
   name: 'goodsDetails',
   data () {
     return {
+      goods: {
+        id: null,
+        price: null,
+        name: ''
+      },
+      goodsCarSum: 0,
       // 轮播图配置
       swiperOption: { // 以下配置不懂的，可以去swiper官网看api，链接http://www.swiper.com.cn/api/
         // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，
@@ -76,12 +75,6 @@ export default {
           imgurl: require('../assets/images/banner3.jpg')
         }
       ],
-      goods: {
-        title: '可穿戴美甲贴片奢华组合套装#210',
-        money: '288.00',
-        freight: '免运费',
-        num: 2
-      },
       param: [{
         title: '品名',
         name: '可穿戴美甲贴片奢华组合套装#210'
@@ -100,10 +93,13 @@ export default {
       }, {
         title: '凝胶',
         name: '进口环保水溶性树脂胶'
-      }]
+      }],
+      detailsHtml: ''
     };
   },
   beforeMount: function () {
+    // 获取商品详情
+    this.getDetails(this.$route.query.id);
   },
   mounted: function () {
     this.scrollOn();
@@ -130,36 +126,76 @@ export default {
         }
       });
     },
+    getDetails (id) {
+      this.axios.get('/goods/goods_detail', {
+        params: {
+          id: id
+        }
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            // 轮播图片
+            this.swiperImg = data.data.lunbo;
+            this.detailsHtml = data.data.description;
+            this.goods = data.data;
+            // 底部购物车数量
+            this.goodsCarSum = data.data.cart_num;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 点击详情事件
     getDetailsHeader () {
-      let that = this;
-      this.getHeader('商品', 'goods_details_details', '详情', function () {
-        // that.getGoodsHeader();
-        that.backScroll(document.getElementById('goodsDetails').offsetTop);
+      this.getHeader('商品', 'goods_details_details', '详情', () => {
+        // 如果详情元素的高度不足屏幕的高度。则不滚动跳转
+        if (document.getElementById('goodsDetails').scrollHeight < window.innerHeight) {
+          return false;
+        }
+        this.backScroll(document.getElementById('goodsDetails').offsetTop);
       });  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字,第七个参数点击商品的事件
     },
     // 点击商品事件
     getGoodsHeader () {
-      let that = this;
-      this.getHeader('商品', 'goods_details_goods', '详情', null, null, null, function () {
-        // that.getDetailsHeader();
-        that.backScroll(0);
+      this.getHeader('商品', 'goods_details_goods', '详情', null, null, null, () => {
+        // 如果滚动轴距离顶部不足详情距离顶部的高度，则return
+        if (document.getElementById('content').scrollTop <= document.getElementById('goodsDetails').offsetTop) {
+          return false;
+        }
+        this.backScroll(0);
       });  // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字,第七个参数点击商品详情的事件
     },
-    add: function () {
-      this.toast('' + this.hidePhone('添加购物车成功!'), 'icon-chenggong1');
-      this.goods.num++;
-      this.getFooter();
+    addGoods: function () {
+      this.axios.post('/cart/add', {
+        num: 1,
+        gid: this.$route.query.id
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.toast('添加购物车成功!', 'icon-chenggong1');
+            // this.goodsCarSum++;
+            this.getFooter();
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     buy: function () {
       this.$router.push({path: 'submitOrder'});
     },
     getFooter () {
-      let that = this;
-      this.getGoodsFooter(this.goods.num, function () {
-        that.add();
-      }, function () {
-        that.$router.push('submitOrder');
+      this.getGoodsFooter(this.goodsCarSum, () => {
+        this.addGoods();
+      }, () => {
+        this.$router.push({path: 'submitOrder', query: {id: this.$route.query.id}});
       });
     }
   },
@@ -369,7 +405,7 @@ export default {
         }
       }
     }
-    .goods_Details_img{
+    .goods_details_tag{
       img{
         width: 640px;
       }

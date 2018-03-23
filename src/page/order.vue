@@ -11,7 +11,7 @@
       <p>此页面暂无内容</p>
     </div>
     <div class="order_min">
-      <div class="center" v-for="(item,index) in orderData" @click="seeOrderDetails(status, 0)" :key="index">
+      <div class="center" v-for="(item,index) in orderData" @click="seeOrderDetails(status, item.id)" :key="index">
         <div class="content" v-for="(list,index) in item.goods" :key="index">
         <!-- <div class="content"> -->
           <img :src="list.gimg " alt="商品">
@@ -136,8 +136,8 @@ export default {
           console.log(error);
         });
     },
-    goodsPay: function (index, id, price) {
-      this.$router.push({path: 'payment', query: {orderId: id, allPrice: price}});
+    goodsPay: function (index, id) {
+      this.$router.push({path: 'payment', query: {id: id}});
     },
     seeOrderDetails: function (status, id) {
       this.$router.push({ path: 'orderDetails', query: {status: status, id: id} });

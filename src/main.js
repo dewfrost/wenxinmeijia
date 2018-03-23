@@ -187,6 +187,15 @@ Vue.prototype.isWechat = function () {
   }
 };
 
+// 名字过长，中间隐藏
+Vue.prototype.hideString = function (str) {
+  if (str.length > 9) {
+    return str.replace(/([\S]{4})\S+([\S]{4})/, '$1****$2');
+  } else {
+    return str;
+  }
+};
+
 // loading加载
 Vue.prototype.loading = function (boolean) {
   if (!boolean) {
