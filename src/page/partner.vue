@@ -2,7 +2,7 @@
   <div class="partner" ref="logBox">
     <div class="top">
       <span>总人数</span>
-      <span class="all_sum">{{account.num}}</span>
+      <span class="all_sum">{{account}}</span>
     </div>
     <div class="two">
       <span class="tab_in" :class="{'active': tabActive === 1}" @click="headerTab(1)">扫码会员</span>
@@ -12,44 +12,54 @@
       <ul>
         <li class="partner_li" v-for="(item, index) in user" :key="index">
           <div class="partner_one">
-            <img :src="item.imgurl" alt="头像">
-            <div class="partner_div">{{item.name}}</div>
+            <div class="img">
+              <img :src="item.headimgurl" alt="头像">
+            </div>
+            <div class="partner_div">{{item.nickname ? hideString(item.nickname) : item.nickname}}</div>
           </div>
-          <span class="partner_span">{{item.phone}}</span>
+          <span class="partner_span">{{item.phone ? hidePhone(item.phone) : item.phone}}</span>
         </li>
       </ul>
     </div>
     <div class="center" v-if="tabActive === 2">
-     <div class="spend">
-        <span>筛选 :
-          <span @click="select()" class="spend_span">全部 <i class="iconfont icon-sanjiao"></i> </span>
+      <div class="spend">
+        <span class="left">
+          <span class="name">筛选 :</span>
+          <span @click="select()" class="spend_span">
+            <span class="show_condition">{{showCondition}}</span>
+            <i class="iconfont icon-sanjiao"></i>
+          </span>
         </span>
-        <span class="spend_num">共{{people.num}}人</span>
-     </div>
-     <ul v-show="isShow" class="agent">
-          <li class="agent_all" v-for="(item, index) in agent" @click="select()" :key="index">
-            <span class="name">{{item.name}}</span>
-            <span class="num">{{item.num}}</span>
-          </li>
+        <span class="spend_num">{{people.num}}</span>
+      </div>
+      <ul v-show="isShowCondition" class="agent">
+        <li class="agent_all" @click="chooseCondition()">
+          <span class="name">全部</span>
+          <span class="num">{{people.num}}</span>
+        </li>
+        <li class="agent_all" v-for="(item, index) in agent" @click="chooseCondition(index)" :key="index" v-if="item.user_num && (index > 1)">
+          <span class="name">{{item.value}}</span>
+          <span class="num">{{item.user_num}}</span>
+        </li>
       </ul>
-     <ul>
-       <li class="spend_li" v-for="(item, index) in member" :key="index">
-         <div class="tou">
-           <img :src="item.Imgurl" alt="头像">
-           <div class="s_d">
-            <div>{{item.name}}</div>
-            <div class="level" @click="all()">
-              <span class="level_logo" :class="'level' + (parseInt(item.level) - 2)" v-if="parseInt(item.level) > 2"></span>
-              <span>{{levelArr[parseInt(item.level) - 1]}}</span>
+      <ul>
+        <li class="spend_li" v-for="(item, index) in member" :key="index">
+          <div class="tou">
+            <img :src="item.headimgurl" alt="头像">
+            <div class="s_d">
+              <div>{{item.nickname ? hideString(item.nickname) : item.nickname}}</div>
+              <div class="level" @click="all()">
+                <span class="level_logo" :class="'level' + (parseInt(item.class_num) - 2)" v-if="parseInt(item.class_num) > 2"></span>
+                <span>{{levelArr[parseInt(item.class_num) - 1]}}</span>
+              </div>
             </div>
-           </div>
-         </div>
-         <div class="spend_money">
-           <div class="spend_one">总收入￥{{item.money}}</div>
-           <div class="spend_two">直推{{item.num}}人</div>
-         </div>
-       </li>
-     </ul>
+          </div>
+          <div class="spend_money">
+            <div class="spend_one">总收入￥{{item.count_money}}</div>
+            <div class="spend_two">直推{{item.count_children}}人</div>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -59,191 +69,27 @@ export default {
   name: 'partner',
   data () {
     return {
+      showCondition: '全部', // 展示的筛选条件
       levelArr: ['见习推广员', '推广员', '初级代理', '中级代理', '高级代理', '合伙人'],
-      isShow: false,
+      isShowCondition: false,
       tabActive: 1,
-      account: {
-        num: 200
-      },
-      user: [
+      page: 1,
+      canRequest: true,
+      noMore: false,
+      account: 0,
+      user: [],
+      member: [],
+      agent: [],
+      agentBase: [
         {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          phone: '13700000000'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          phone: '13700000000'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          phone: '13700000000'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          phone: '13700000000'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          phone: '13700000000'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          phone: '13700000000'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          phone: '13700000000'
-        }
-      ],
-      member: [
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '6',
-          money: '200000.00',
-          num: 120
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '4',
-          money: '50000.00',
-          num: 100
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '3',
-          money: '40000.00',
-          num: 80
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '3',
-          money: '30000.00',
-          num: 60
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '2',
-          money: '2000.00',
-          num: 30
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '1',
-          money: '1500.00',
-          num: 20
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '2',
-          money: '1000.00',
-          num: 10
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '2',
-          money: '1000.00',
-          num: 10
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '1',
-          money: '30000.00',
-          num: 60
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '1',
-          money: '2000.00',
-          num: 30
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '1',
-          money: '1500.00',
-          num: 20
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '1',
-          money: '1000.00',
-          num: 10
-        },
-        {
-          Imgurl: require('../assets/images/r_l.png'),
-          name: 'CRxiaosha',
-          level: '5',
-          money: '1000.00',
-          num: 10
-        }
-      ],
-      agent: [
-        {
-          name: '全部',
-          num: 120
-        },
-        {
-          name: '推广员',
-          num: 60
-        },
-        {
-          name: '初级代理L1',
-          num: 30
-        },
-        {
-          name: '初级代理L2',
-          num: 15
-        },
-        {
-          name: '初级代理L3',
-          num: 10
-        },
-        {
-          name: '合伙人L4',
-          num: 5
-        },
-        {
-          name: '推广员',
-          num: 60
-        },
-        {
-          name: '初级代理L1',
-          num: 30
-        },
-        {
-          name: '初级代理L2',
-          num: 15
-        },
-        {
-          name: '初级代理L3',
-          num: 10
-        },
-        {
-          name: '合伙人L4',
-          num: 5
+          user_num: 0,
+          value: '全部'
         }
       ],
       people: {
-        num: 200
-      }
+        num: 0
+      },
+      requestLevel: null
     };
   },
   beforeCreate: function () {
@@ -253,7 +99,8 @@ export default {
     // 创建之后
   },
   beforeMount: function () {
-    // 挂载之前
+    // 扫码会员列表
+    this.getFreeList(this.page);
   },
   mounted: function () {
     this.scrollOn();
@@ -261,40 +108,123 @@ export default {
   },
   methods: {
     scrollOn: function () {
+      // 头部滚动事件
       eventBus.$on('contentScroll', (height) => {
         // 只在goodsDetails页面监听
         if (/partner/g.test(window.location.href)) {
           if (document.getElementById('content').scrollTop > 100) {
-            console.log(document.getElementById('content').scrollTop);
             this.getHeader('我的伙伴', 'no_transparent');
           } else {
             this.getHeader('我的伙伴', 'partner_top');
           }
         }
       });
-    },
-    showToast: function () {
-      // 引用toast组件
-      this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
-    },
-    showModal: function () {
-      let that = this; // 如果回调函数中用到this，则这行代码必须有
-      // 引用弹窗组件
-      this.toast(
-        '这是弹窗标题',
-        '这是弹窗服饰股份的供热一个头特化工股份合格的合格合格分数高富帅正文',
-        '这是按钮',
-        function () {
-          console.log('调用弹窗成功');
-          console.log(that.modalMsg);
+      // 底部滚动加载事件
+      eventBus.$on('getScrollInfo', (height) => {
+        if (this.$refs.logBox.clientHeight - height < 50 && this.canRequest && !this.noMore) {
+          console.log(this.tabActive);
+          if (this.tabActive === 1) {
+            this.getFreeList(this.page);
+          } else {
+            this.getPayList(this.page, this.requestLevel);
+          }
         }
-      ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+      });
+    },
+    getFreeList (page) {
+      this.canRequest = false;
+      this.axios.get('/user/saoma_members', {
+        params: {
+          page: page
+        }
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.canRequest = true;
+            this.page++;
+            if (data.data.users.length < 10 || !data.data.users.length || !data.data.users) {
+              this.noMore = true;
+            }
+            this.account = data.data.count;
+            this.user = this.user.concat(data.data.users);
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getPayList (page, level) {
+      this.canRequest = false;
+      this.axios.get('/user/xiaofei_members', {
+        params: {
+          page: page,
+          class: level
+        }
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.canRequest = true;
+            this.page++;
+            if (data.data.users.length < 5 || !data.data.users.length || !data.data.users) {
+              this.noMore = true;
+            }
+            // 选择级别的总人数
+            this.people.num = data.data.class_user_count;
+            // 筛选数组
+            this.agent = data.data.class;
+            this.member = this.member.concat(data.data.users);
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     headerTab: function (num) {
+      if (this.tabActive === num) {
+        return false;
+      }
+      // 筛选条件框收起
+      this.isShowCondition = false;
+      // page变为1
+      this.page = 1;
+      this.canRequest = true;
       this.tabActive = num;
+      if (this.tabActive === 1) {
+        // 数组清空
+        this.user = [];
+        this.getFreeList(this.page);
+      } else {
+        // 数组清空
+        this.member = [];
+        this.getPayList(this.page);
+      }
     },
+    // 点击展开收起筛选条件
     select: function () {
-      this.isShow = !this.isShow;
+      this.isShowCondition = !this.isShowCondition;
+    },
+    // 选择条件事件
+    chooseCondition (index) {
+      this.isShowCondition = false;
+      // 数组清空
+      this.member = [];
+      this.canRequest = true;
+      // page变为1
+      this.page = 1;
+      if (!index) {
+        this.getPayList(this.page);
+      }
+      // 请求的等级
+      this.requestLevel = index;
+      this.showCondition = this.agent[index].value;
+      // 筛选条件后的获取列表
+      this.getPayList(this.page, this.requestLevel);
     }
   }
 };
@@ -363,8 +293,8 @@ export default {
         margin: auto 20px auto 0;
       }
       .partner_one{
-        width: 40%;
         display: flex;
+        align-items: center;
       }
     }
     .spend{
@@ -377,12 +307,21 @@ export default {
       height: 70px;
       // border-bottom: 1px solid #e6e6e6;
       line-height: 70px;
-      .spend_span{
-        color: $color;
-        margin-left: 5px;
-        .iconfont{
-          font-size: 12px;
-          margin-top: 5px;
+      .left{
+        display: flex;
+        align-items: center;
+        .spend_span{
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          color: $color;
+          margin-left: 5px;
+          .show_condition{
+            margin: 0 8px;
+          }
+          .iconfont{
+            font-size: 12px;
+          }
         }
       }
       .spend_num{
@@ -439,14 +378,15 @@ export default {
           margin: auto;
           font-size: 24px;
           color: #333;
-        .iconfont{
-          font-size: 25px;
-          color: #fd8f01;
-        }
-        .level{
-          font-size: 20px;
-          color: #FFDD06;
-          display: flex;
+          .iconfont{
+            font-size: 25px;
+            color: #fd8f01;
+          }
+          .level{
+            font-size: 20px;
+            color: #FD991D;
+            display: flex;
+            align-items: center;
             .level_logo{
               width: 24px;
               height: 24px;
