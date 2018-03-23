@@ -81,6 +81,7 @@ export default {
 .info_wrap{
   background: #f5f5f5;
   min-height: 100%;
+  margin-bottom: 110px;
   ul{
     margin-top: 110px;
     

@@ -89,6 +89,7 @@
         //   eventBus.$emit('contentScroll', this.$refs.appContent.scrollTop); // 滚动条距离顶部高度
         // };
         eventBus.$emit('contentScroll', this.$refs.appContent.scrollTop);
+        eventBus.$emit('getScrollInfo', this.$refs.appContent.scrollTop + this.$refs.appContent.clientHeight);
       },
       showWindowSize: function () { // 更改变形
         if (sessionStorage.jiuyuMediaHeight && sessionStorage.jiuyuMediaHeight !== 0) {

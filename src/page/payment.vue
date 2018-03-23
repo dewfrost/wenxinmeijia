@@ -27,7 +27,7 @@ export default {
   data () {
     return {
       activeNum: 0,
-      price: '278.00',
+      price: '',
       payType: [  // 支付方式
         {
           title: '支付宝',
@@ -45,11 +45,14 @@ export default {
           state: false
         }
       ],
-      balance: '2000.00'
+      balance: ''
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    // 根据id获取订单信息
+    this.getOrderInfo();
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('支付', 'payment_top');
   }, // 挂载之后
@@ -61,6 +64,25 @@ export default {
     }
   },
   methods: {
+    getOrderInfo () {
+      this.axios.get('/order_pay/payment_page', {
+        params: {
+          id: this.$route.query.id
+        }
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.price = data.data.user.balance;
+            this.balance = data.data.user.score;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 选择支付类型
     toggleType: function (index) {
       this.activeNum = index;

@@ -48,7 +48,7 @@
       <div class="footerNav" v-for="(item,index) in nav" @click="toggle(index)"  :class="{ 'navTitle-xz' : item.router === navRoute}" :key="item.id">
       	<span class="iconfont" :class="[item.router === navRoute ? item.class1 : item.class ]"></span>
       	<span class="nav-title">{{item.title}}</span>
-        <span class="no_read" v-if="index === 2">{{noReadMessage}}</span>
+        <span class="no_read" v-if="(index === 2) && noReadMessage">{{noReadMessage}}</span>
       </div>
     </div>
   </div>
@@ -59,7 +59,7 @@ export default {
   name: 'footerTab',
   data () {
     return {// 数据
-      noReadMessage: '0',
+      noReadMessage: '',
       goodsAmount: null,
       goodscarIsEdit: false,
       isCheck: false,
