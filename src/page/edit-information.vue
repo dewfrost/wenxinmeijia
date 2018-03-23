@@ -192,10 +192,18 @@ export default {
       }
     },
     submit: function () {
+      let result = this.user.nickname.replace(/[\u4e00-\u9fa5]/g, '**');
+      let checkName = /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/;
       if ((this.isSameInfo.headimgurl === this.user.headimgurl) && (this.isSameInfo.nickname === this.user.nickname)) {
         this.toast('资料没有改动');
       } else if (!this.user.nickname) {
         this.toast('请填写用户昵称');
+      } else if (result.length > 12 || result.length < 0) {
+        // 判断长度是否合法
+        this.toast('昵称不能超过12个字符');
+      } else if (!checkName.test(this.user.nickname)) {
+        // 判断昵称填写是否合法xxx
+        this.toast('昵称不能有特殊字符');
       } else {
         // 发送修改请求
         this.getImgUrl();

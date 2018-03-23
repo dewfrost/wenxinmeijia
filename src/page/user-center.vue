@@ -139,7 +139,6 @@ export default {
       this.axios.get('/user/articles', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.swiperInfo = data.data;
           } else {
@@ -154,7 +153,6 @@ export default {
       this.axios.get('/user/count_money', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.moneyList = data.data;
           } else {
@@ -245,7 +243,7 @@ export default {
           align-items: center;
           margin-bottom: -6px;
           .name{
-            font-size: 30px;
+            font-size: 26px;
           }
           .user_level{
             color: #FFDD06;
