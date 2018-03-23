@@ -151,10 +151,8 @@ export default {
     },
     // 请求我的订单
     getOrderInfo (index) {
-      this.axios.get('/order/orderList', {
-        params: {
-          status: parseInt(index) + 1
-        }
+      this.axios.post('/order/orderList', {
+        status: parseInt(index) + 1
       })
         .then(({data}) => {
           if (parseInt(data.status) === 1) {

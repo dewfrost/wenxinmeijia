@@ -84,7 +84,7 @@ export default {
   margin-bottom: 110px;
   ul{
     margin-top: 110px;
-
+    
   .info_li{
     display: flex;
     justify-content: space-between;
