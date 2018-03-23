@@ -160,7 +160,6 @@ export default {
         this.toast('验证码不能为空');
       } else {
         this.submitNext();
-        this.step = 2;
       }
     },
     // 获取下一个-接口
@@ -172,7 +171,7 @@ export default {
       })
       .then(({data}) => {
         if (data.status === 1) {
-          this.toast('验证成功');
+          this.step = 2;
         } else {
           this.toast(data.message);
         }
@@ -184,14 +183,12 @@ export default {
     sure: function () {
       if (!this.user.newPhone) {
         this.toast('手机号不能为空');
+      } else if (!/^(1[3-9])\d{9}$/.test(this.user.newPhone)) {
+        this.toast('手机号格式错误');
       } else if (!this.user.newCode) {
         this.toast('验证码不能为空');
       } else {
         this.submitSure();
-        let that = this; // 如果回调函数中用到this，则这行代码必须有
-        this.modal('提示', '手机号已修改成功，请重新登录。', '确定', function (index) {
-          that.$router.push('login');
-        }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
       }
     },
     // 确认接口
@@ -204,7 +201,10 @@ export default {
       })
       .then(({data}) => {
         if (data.status === 1) {
-          this.toast('手机号修改成功');
+          let that = this; // 如果回调函数中用到this，则这行代码必须有
+          this.modal('提示', '手机号已修改成功，请重新登录。', '确定', function (index) {
+            that.$router.push('login');
+          }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
         } else {
           this.toast(data.message);
         }

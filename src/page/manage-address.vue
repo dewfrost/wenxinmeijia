@@ -1,17 +1,20 @@
 <template>
   <div class="manageAddress">
+    <div v-if="!address.length && isRequest" class="none_data">
+      <p>此页面暂无内容</p>
+    </div>
     <div class="manage_list" v-for="(item, index) in address" :key="index">
-      <p class="name">
+      <p class="name"> 
         <span>{{item.name}}</span>
         <span>{{item.phone}}</span>
       </p>
       <p class="address">
-       {{item.address}}
+        {{item.city}}&nbsp;{{item.description}}
       </p>
       <div class="select">
-        <span class="default iconfont" @click="selectAddress(index, item.id)" :class="{'icon-30xuanzhongyuanxingfill':item.select === 1,'icon-30xuanzhongyuanxing':!item.select !==1}">{{item.select === 1?"默认地址":"设为默认"}}</span>
+        <span class="default iconfont" @click="selectAddress(index, item.id)" :class="{'icon-30xuanzhongyuanxingfill':item.default === 1,'icon-30xuanzhongyuanxing':!item.default !==1}">{{item.default === 1?"默认地址":"设为默认"}}</span>
         <p class="manage">
-          <router-link to="editAddress" tag="span" class="iconfont icon-iconfontedit">编辑</router-link>
+          <router-link :to="{path: 'editAddress', query:{id: item.id}}" tag="span" class="iconfont icon-iconfontedit">编辑</router-link>
           <span @click="del(item.id, index)" class="iconfont icon-shanchu1">删除</span>
         </p>
       </div>
@@ -25,30 +28,16 @@ export default {
   data () {
     return {
       // 数据
-      address: [
-        {
-          name: '宓知月',
-          phone: '17000000000',
-          address: '河南省郑州市金水区南河路较细路交叉口大幅度小区7层706',
-          select: 1
-        },
-        {
-          name: '宓知月',
-          phone: '17000000000',
-          address: '河南省郑州市金水区南河路较细路交叉口大幅度小区7层706',
-          select: 2
-        },
-        {
-          name: '宓知月',
-          phone: '17000000000',
-          address: '河南省郑州市金水区南河路较细路交叉口大幅度小区7层706',
-          select: 2
-        }
-      ]
+      isRequest: false,
+      address: []
+      // isReq: false
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    // 获取用户地址
+    this.getAddress();
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('管理收货地址', 'manageAddress_top');
     this.getFooter();
@@ -64,12 +53,30 @@ export default {
     selectAddress: function (index, id) {
       // 原来为默认地址的改为非默认
       this.address.forEach(function (obj, index) {
-        if (obj.select === 1) {
-          obj.select = 0;
+        if (obj.default === 1) {
+          obj.default = 0;
         }
       });
       // 点击的变为默认地址
-      this.address[index].select = 1;
+      this.address[index].default = 1;
+      this.doDefaultAddress(this.address[index].id);
+    },
+    // 设为默认地址--接口
+    doDefaultAddress (id) {
+      this.axios.get('/address/setDefaultAddress', {
+        params: {
+          id: id
+        }
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     // 跳转新地址页面
     getFooter () {
@@ -85,10 +92,46 @@ export default {
         ]
       });
     },
+    // 获取地址列表接口
+    getAddress: function () {
+      this.axios.get('/address/addressList', {
+      })
+        .then(({data}) => {
+          this.isRequest = true;
+          if (data.status === 1) {
+            this.address = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 删除地址--接口
+    doDelAddress (id, index) {
+      let that = this;
+      that.axios.get('/address/userAddressDel', {
+        params: {
+          id: id
+        }
+      })
+      .then(({data}) => {
+        if (data.default === 1) {
+          return false;
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
     // 是否删除
     del: function (id, index) {
       let that = this; // 如果回调函数中用到this，则这行代码必须有
       this.modal('提示', '确定删除该收货地址？', '确定', function (index) {
+        that.doDelAddress(id, index);
         that.address.splice(index, 1);
       }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
     }
@@ -101,6 +144,23 @@ export default {
   min-height: 100%;
   margin-top: 90px;
   position: relative;
+  padding-bottom: 80px;
+  position: relative;
+  .none_data{
+    background: url(../assets/images/none_01.png) no-repeat center center;
+    position: absolute;
+    top: 230px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 300px;
+    width: 80%;
+    text-align: center;
+    > p{
+      color: #999;
+      font-size: 24px;
+      margin-top: 260px;
+    }
+  }
   &:before{
     content: '';
     width: 100%;
@@ -125,10 +185,11 @@ export default {
       line-height: 57px;
     }
     .address{
-      padding: 0px 30px 0;
-      font-size: 24px;
+      padding: 0px 30px 12px;
+      font-size: 23px;
       color: #999999;
-      line-height: 1.4;
+      line-height: 34px;
+      margin-top: -2px;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;

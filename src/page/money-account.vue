@@ -5,6 +5,10 @@
       <span>&yen; <span class="all_sum">{{account.money}}</span></span>
       <span class="in" @click="accountMoney()">充值</span>
     </div>
+     <!-- 没有数据页面 -->
+    <div v-if="!user.length && isRequest" class="none_order">
+      <p>此页面暂无内容</p>
+    </div>
     <div class="center">
       <span class="center_top iconfont icon-chongzhi"> <span class="jilu">充值记录</span> </span>
       <ul>
@@ -24,6 +28,7 @@ export default {
   name: 'moneyAccount',
   data () {
     return {
+      isRequest: false,
       account: {
         money: ''
       },
@@ -72,6 +77,7 @@ export default {
       this.axios.get('/user/Mymoney', {
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (parseInt(data.status) === 1) {
             console.log(data.data);
             // 列表
@@ -121,6 +127,21 @@ export default {
     margin-top: 20px;
   }
  }
+ .none_order{
+  background: url(../assets/images/none_01.png) no-repeat center center;
+  position: absolute;
+  top: 400px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 300px;
+  width: 80%;
+  text-align: center;
+  > p{
+    color: #999;
+    font-size: 24px;
+    margin-top: 260px;
+  }
+}
 .center{
   margin-top: 30px;
   width: 592px;

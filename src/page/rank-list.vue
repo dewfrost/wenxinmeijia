@@ -22,10 +22,10 @@
             <span v-if="index >= 3">
              {{index+1}}.
             </span>
-            <img :src="item.imgurl" alt="头像">
-            <div class="rank_div">{{item.name}}</div>
+            <img :src="item.headimgurl" alt="头像">
+            <div class="rank_div">{{item.nickname ? hideString(item.nickname) : ''}}</div>
           </div>
-          <span class="rank_span">￥{{item.money}}</span>
+          <span class="rank_span">&yen;{{item.price}}</span>
         </li>
       </ul>
     </div>
@@ -100,11 +100,27 @@ export default {
   },
   beforeMount: function () {
     // 挂载之前
+    // 请求本月排行销售排行接口
+    this.getRank();
   },
   mounted: function () {
+    this.scrollOn();
     this.getHeader('排行榜', 'rank_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
+    scrollOn: function () {
+      eventBus.$on('contentScroll', (height) => {
+        // 只在rankList页面监听
+        if (/rankList/g.test(window.location.href)) {
+          if (document.getElementById('content').scrollTop > 100) {
+            console.log(document.getElementById('content').scrollTop);
+            this.getHeader('排行榜', 'no_transparent');
+          } else {
+            this.getHeader('排行榜', 'rank_top');
+          }
+        }
+      });
+    },
     showToast: function () {
       // 引用toast组件
       this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
@@ -123,7 +139,50 @@ export default {
       ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
     },
     headerTab: function (num) {
+      // this.tabActive = num;
+      if (num === this.tabActive) {
+        return false;
+      }
       this.tabActive = num;
+      if (num === 1) {
+        this.getRank();
+      } else {
+        this.getList();
+      }
+    },
+    // 请求本月排行销售排行接口
+    getRank () {
+      this.axios.get('/user/Sales', {
+      })
+        .then(({data}) => {
+          if (parseInt(data.status) === 1) {
+            console.log(data.data);
+            // 列表
+            this.user = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 请求本月排行本月收入接口
+    getList () {
+      this.axios.get('/user/monthincome', {
+      })
+        .then(({data}) => {
+          if (parseInt(data.status) === 1) {
+            console.log(data.data);
+            // 列表
+            this.user = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 };
@@ -203,7 +262,7 @@ export default {
               width: 45px;
             }
           }
-          width: 40%;
+          // width: 40%;
           display: flex;
         }
       }

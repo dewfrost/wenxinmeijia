@@ -32,13 +32,15 @@ export default {
   data () {
     return {
       // 数据
+      no_address: require('../assets/images/none_01.png'),
       user: {
         name: '',
         phone: '',
         details_address: '',
         area: ['请选择']
       },
-      select: false
+      select: false,
+      type: null
     };
   },
   created: function () {},
@@ -79,7 +81,53 @@ export default {
     },
     // 点击确认跳转编辑收货地址
     link: function () {
-      this.$router.push('manageAddress');
+      // 检查是表单填写是否正确
+      if (!this.user.name) {
+        this.toast('姓名不能为空');
+      } else if (!this.user.phone) {
+        this.toast('手机号不能为空');
+      } else if (!/^(1[3-9])\d{9}$/.test(this.user.phone)) {
+        this.toast('手机号格式不正确');
+      } else if (this.user.area[0] === '请选择') {
+        this.toast('请选择省市区');
+      } else if (parseInt(this.user.area.length) < 3) {
+        this.toast('必须选择省市区中每一项');
+      } else if (!this.user.details_address) {
+        this.toast('详细地址不能为空');
+      } else if (this.user.details_address.length > 70) {
+        this.toast('详细地址字数太多');
+      } else {
+        this.user.city = this.user.city || this.user.area[1];
+        // 提交改动
+        this.submit();
+      }
+    },
+    submit () {
+      // 判断类型
+      if (this.select) {
+        this.type = 1;
+      } else {
+        this.type = 2;
+      }
+      this.axios.post('/address/addAddress', {
+        phone: this.user.phone,
+        name: this.user.name,
+        city: this.user.area.join(' '),
+        address: this.user.details_address,
+        is_default: this.type
+        // 声明一个类型
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          // this.$router.push('manageAddress');
+          this.$router.go(-1);
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     },
     // 切换是否为默认地址
     defaultSelect: function () {

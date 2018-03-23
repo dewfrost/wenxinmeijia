@@ -64,7 +64,7 @@ export default {
   name: 'order',
   data () {
     return {
-      isRequest: true,
+      isRequest: false,
       tabName: ['待付款', '待发货', '待收货', '已完成'],
       status: parseInt(this.$route.query.status) || 0,
       orderData: []
@@ -155,6 +155,7 @@ export default {
         status: parseInt(index) + 1
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (parseInt(data.status) === 1) {
             this.orderData = data.data;
           } else {

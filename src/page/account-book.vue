@@ -4,6 +4,10 @@
      <span class="tab_in" :class="{'active': tabActive === 1}" @click="headerTab(1)">收入</span>
      <span class="tab_out" :class="{'active': tabActive === 2}" @click="headerTab(2)">支出</span>
     </div>
+    <!-- 没有数据页面 -->
+    <div v-if="!user.length && isRequest" class="none_order">
+      <p>此页面暂无内容</p>
+    </div>
     <div class="center">
       <ul>
         <li class="account_li" v-for="(item, index) in user" :key="index">
@@ -26,6 +30,7 @@ export default {
   name: 'accountBook',
   data () {
     return {
+      isRequest: false,
       tabActive: 1,
       iconArr: ['icon-jiankangshangcheng', 'icon-web__jiangli', 'icon-xinzi', 'icon-huojian', 'icon-tixian', 'icon-huokuanyifu'],
       user: []
@@ -95,6 +100,7 @@ export default {
       this.axios.get('/user/income', {
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (parseInt(data.status) === 1) {
             console.log(data.data);
             // 列表
@@ -112,6 +118,7 @@ export default {
       this.axios.get('/user/expenditure', {
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (parseInt(data.status) === 1) {
             console.log(data.data);
             // 列表
@@ -154,6 +161,21 @@ export default {
     .all_sum{
       font-size: 50px;
       line-height: 50px;
+    }
+  }
+  .none_order{
+    background: url(../assets/images/none_01.png) no-repeat center center;
+    position: absolute;
+    top: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 300px;
+    width: 80%;
+    text-align: center;
+    > p{
+      color: #999;
+      font-size: 24px;
+      margin-top: 260px;
     }
   }
   .center{

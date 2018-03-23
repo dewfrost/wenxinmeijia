@@ -6,12 +6,12 @@
     </div>
     <div class="bind"  v-if="this.$route.query.type === 'login'">
       <label for="code">验证码</label>
-      <input  class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code1'>
+      <input  class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
       <button class="modify_btn" :class="{'send-sms' : isSend1, 'no-send-sms': !isSend1}" @click ='sendSMS1' :disabled ='disabled1 || sendSMSTime1 >0'>{{btntxt1}}</button>
     </div>
     <div class="bind" v-if="this.$route.query.type === 'pay'">
       <label for="code">验证码</label>
-      <input  class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code2'>
+      <input  class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
       <button class="modify_btn" :class="{'send-sms' : isSend2, 'no-send-sms': !isSend2}" @click ='sendSMS2' :disabled ='disabled2 || sendSMSTime2 >0'>{{btntxt2}}</button>
     </div>
     <div class="bind">
@@ -35,9 +35,8 @@ export default {
     return {
       // 数据
       user: {
-        phone: '13700000000',
-        code1: '',
-        code2: '',
+        phone: '',
+        code: '',
         password: '',
         pas: ''
       },
@@ -143,7 +142,7 @@ export default {
         this.toast('手机号不能为空');
       } else {
         // 获取验证码
-        this.getCode(this.user.newPhone, 0, () => {
+        this.getCode(this.user.phone, 4, () => {
           this.sendSMSTime2 = 60;
           this.isSend2 = true;
           this.disabled2 = true;
@@ -155,7 +154,7 @@ export default {
     // 点击确认
     link: function () {
       if (this.$route.query.type === 'login') {
-        if (!this.user.code1) {
+        if (!this.user.code) {
           this.toast('验证码不能为空');
         } else if (!this.user.password) {
           this.toast('新密码不能为空');
@@ -166,15 +165,12 @@ export default {
         } else if (this.user.pas !== this.user.password) {
           this.toast('两次输入的密码不一致');
         } else {
-          this.submit();
           let that = this; // 如果回调函数中用到this，则这行代码必须有
-          this.modal('提示', '登录密码已修改成功，请重新登录。', '确定', function (index) {
-            that.$router.push('login');
-          }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+          that.submitLogin();
         }
       } else {
         console.log(this.user.password);
-        if (!this.user.code2) {
+        if (!this.user.code) {
           this.toast('验证码不能为空');
         } else if (!this.user.password) {
           this.toast('新密码不能为空');
@@ -186,22 +182,42 @@ export default {
           this.toast('两次输入的密码不一致');
         } else {
           let that = this; // 如果回调函数中用到this，则这行代码必须有
-          this.modal('提示', '支付密码已修改成功', '确定', function (index) {
-            that.$router.go(-1);
-          }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+          that.submitPay();
         }
       }
     },
     // 修改登录密码-接口
-    submit () {
+    submitLogin () {
       this.axios.post('/user/editLogin', {
         password: this.user.password,
         repassword: this.user.pas,
-        code: this.user.code1
+        code: this.user.code
       })
       .then(({data}) => {
         if (data.status === 1) {
-          this.toast('修改成功');
+          this.modal('提示', '登录密码已修改成功，请重新登录。', '确定', function (index) {
+            this.$router.push('login');
+          }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+    // 修改支付密码-接口
+    submitPay () {
+      this.axios.post('/user/paymentPassword', {
+        password: this.user.password,
+        repassword: this.user.pas,
+        code: this.user.code
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.modal('提示', '支付密码已修改成功，请重新登录。', '确定', function (index) {
+            this.$router.go(-1);
+          }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
         } else {
           this.toast(data.message);
         }
