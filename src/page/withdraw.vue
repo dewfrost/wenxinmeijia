@@ -6,6 +6,10 @@
       <!-- <router-link tag="span" to="withdrawApply" class="out">去提现</router-link> -->
       <span @click="seeWithdraw()"  class="out">去提现</span>
     </div>
+     <!-- 没有数据页面 -->
+    <div v-if="!user.length && isRequest" class="none_order">
+      <p>此页面暂无内容</p>
+    </div>
     <div class="center">
       <span class="center_top iconfont icon-tixian"> <span class="jilu">提现记录</span> </span>
       <ul>
@@ -30,6 +34,7 @@ export default {
   name: 'withdraw',
   data () {
     return {
+      isRequest: false,
       account: {
         money: ''
       },
@@ -73,6 +78,7 @@ export default {
       this.axios.get('/withdrawals/log', {
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (parseInt(data.status) === 1) {
             console.log(data.data);
             // 列表
@@ -125,6 +131,21 @@ export default {
     margin-top: 20px;
   }
  }
+.none_order{
+  background: url(../assets/images/none_01.png) no-repeat center center;
+  position: absolute;
+  top: 400px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 300px;
+  width: 80%;
+  text-align: center;
+  > p{
+    color: #999;
+    font-size: 24px;
+    margin-top: 260px;
+  }
+}
 .center{
   margin-top: 30px;
   width: 592px;

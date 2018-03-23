@@ -4,6 +4,10 @@
       <span>&yen;<span class="all_sum">{{account.money}}</span></span>
       <span>总额</span>
     </div>
+    <!-- 没有数据页面 -->
+    <div v-if="!user.length && isRequest" class="none_order">
+      <p>此页面暂无内容</p>
+    </div>
     <div class="center">
       <span class="iconfont icon-web__jiangli"> <span class="jilu">奖励记录</span> </span>
       <ul>
@@ -11,7 +15,7 @@
           <div>
             <img :src="item.headimgurl" alt="头像">
             <div class="user">
-              <div class="recommend_div">{{item.from_uid}}</div>
+              <div class="recommend_div">{{item.from_uid ? hideString(item.from_uid) : ''}}</div>
               <div class="recommend_time">{{item.create_time}}</div>
               </div>
           </div>
@@ -27,6 +31,7 @@ export default {
   name: 'recommendAwards',
   data () {
     return {
+      isRequest: false,
       account: {
         money: ''
       },
@@ -84,6 +89,7 @@ export default {
       this.axios.get('/user/Recommend', {
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (data.status === 1) {
             this.account.money = data.data.count;
             this.user = data.data.recommend;
@@ -120,6 +126,21 @@ export default {
     .all_sum{
       font-size: 50px;
       line-height: 50px;
+    }
+  }
+  .none_order{
+    background: url(../assets/images/none_01.png) no-repeat center center;
+    position: absolute;
+    top: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 300px;
+    width: 80%;
+    text-align: center;
+    > p{
+      color: #999;
+      font-size: 24px;
+      margin-top: 260px;
     }
   }
   .center{

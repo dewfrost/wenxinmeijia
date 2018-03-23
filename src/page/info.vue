@@ -1,5 +1,9 @@
 <template>
   <div class="info_wrap">
+    <!-- 没有数据页面 -->
+    <div v-if="!info.length && isRequest" class="none_order">
+       <p>此页面暂无内容</p>
+    </div>
     <ul>
         <li class="info_li" v-for="(item, index) in info" :key="index" @click="seeInfoDetails(item.id)">
           <i class="icon iconfont" :class="iconArr[item.type - 1]"></i>
@@ -23,6 +27,7 @@ export default {
   name: 'info',
   data () {
     return {
+      isRequest: false,
       iconArr: ['icon-laba-copy', 'icon-jiangli'],
       info: []
     };
@@ -51,6 +56,7 @@ export default {
       this.axios.get('/user_news/get_all', {
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (parseInt(data.status) === 1) {
             console.log(data.data);
             // 列表
@@ -82,6 +88,21 @@ export default {
   background: #f5f5f5;
   min-height: 100%;
   margin-bottom: 110px;
+  .none_order{
+    background: url(../assets/images/none_01.png) no-repeat center center;
+    position: absolute;
+    top: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 300px;
+    width: 80%;
+    text-align: center;
+    > p{
+      color: #999;
+      font-size: 24px;
+      margin-top: 260px;
+    }
+  }
   ul{
     margin-top: 110px;
     
