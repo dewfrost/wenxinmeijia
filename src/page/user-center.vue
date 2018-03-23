@@ -8,12 +8,12 @@
           <div class="info_top">
             <span class="name">{{user.name}}</span>
             <span class="user_level">
-              <span class="level" :class="'level' + level"></span>
+              <span class="level" :class="'level' + user.level"></span>
               <span>{{user.class}}</span>
             </span>
           </div>
           <div class="info_bottom">
-            <span>推荐人：</span><span class="recommended">{{user.phone}}</span>
+            <span>推荐人：</span><span class="recommended">{{user.pphone || '无'}}</span>
           </div>
         </div>
         <router-link tag="i" to="editInformation" class="info_you iconfont icon-you"></router-link>
@@ -70,7 +70,6 @@ export default {
     return {
       // 数据
       levelArr: ['见习推广员', '推广员', '初级代理', '中级代理', '高级代理', '合伙人'],
-      level: 4,
       swiperinfo: {
         notNextTick: true,
         autoplay: 2000,
@@ -93,7 +92,8 @@ export default {
         headImg: require('../assets/images/header.png'),
         name: '宓月',
         class: '推广员',
-        phone: '13845699654'
+        t_class: 0,
+        pphone: ''
       },
       // 公告
       list: '今晚12点整进行更新维护，请大家互相转告',
@@ -116,14 +116,28 @@ export default {
   },
   mounted: function () {
     this.getFooter();
-    // this.getHeader('个人中心');
+    this.getInfo();
   },
   methods: {
+    getInfo () {
+      this.axios.get('/user/info', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            // 轮播图片
+            // this.swiperImg = data.data.lunbo;
+            // this.detailsHtml = data.data.description;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     getFooter () {
-      eventBus.$emit('footer', {
-        button: [],
-        navShow: true
-      });
+      eventBus.$emit('footer', {navShow: true});
     }
   },
   components: {

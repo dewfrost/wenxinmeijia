@@ -5,7 +5,7 @@
       <swiper :options="swiperOption" ref="mySwiper">
         <!-- slides -->
         <swiperSlide v-for="(item,index) in swiperImg" :key="index">
-          <img class="swiper-slid_img" :src="item.imgurl" alt="轮播" />
+          <img class="swiper-slid_img" :src="item.pic" alt="轮播" />
         </swiperSlide>
         <!-- Optional controls -->
       </swiper>
@@ -24,22 +24,24 @@
             <span class="buy" @click.stop="buyGoods(item.id)">立即购买</span>
           </p>
         </div>
-        <p class="more" @click="goods_more">查看更多></p>
+        <span class="more" @click="goods_more">查看更多></span>
       </div>
       <!-- 空白灰色 -->
       <div class="blank"></div>
       <!-- 配件专区 -->
-      <p class="title">&nbsp;配件专区&nbsp;</p>
-      <div class="details">
-        <div class="details_list" v-for="(item, index) in parts" :key="index" @click="seeParts(item.id)">
-          <img :src="item.img" alt="商品">
-          <p class="details_name">{{item.name}}</p>
-          <p class="details_info">
-            <span class="red">&yen;&nbsp;<span class="price">{{item.price}}</span></span>
-            <span class="buy" @click.stop="buyParts(item.id)">立即购买</span>
-          </p>
+      <div class="area" v-for="(item, index) in areaList" :key="index">
+        <p class="title">&nbsp;{{item.name}}&nbsp;</p>
+        <div class="details">
+          <div class="details_list" v-for="(list, index) in item.getGoods" :key="index" @click="seeParts(list.id)">
+            <img :src="list.img" alt="商品">
+            <p class="details_name">{{list.name}}</p>
+            <p class="details_info">
+              <span class="red">&yen;&nbsp;<span class="price">{{list.price}}</span></span>
+              <span class="buy" @click.stop="buyParts(list.id)">立即购买</span>
+            </p>
+          </div>
+          <span class="more" @click="parts_more">查看更多></span>
         </div>
-        <p class="more" @click="parts_more">查看更多></p>
       </div>
     </div>
   </div>
@@ -64,17 +66,19 @@ export default {
         pagination: '.swiper-pagination'
       },
       swiperImg: [
-        {
-          imgurl: require('../assets/images/banner1.jpg')
-        },
-        {
-          imgurl: require('../assets/images/banner2.jpg')
-        },
-        {
-          imgurl: require('../assets/images/banner3.jpg')
-        }
+        // {
+        //   pic: require('../assets/images/banner1.jpg')
+        // },
+        // {
+        //   pic: require('../assets/images/banner2.jpg')
+        // },
+        // {
+        //   pic: require('../assets/images/banner3.jpg')
+        // }
       ],
       // 商品专区
+      areaList: [
+      ],
       details: [
         {
           img: require('../assets/images/goods1.png'),
@@ -91,12 +95,6 @@ export default {
         {
           img: require('../assets/images/goods2.png'),
           name: '可穿戴美甲贴片奢华组合套装#710',
-          price: '288.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/goods3.png'),
-          name: '可穿戴美甲贴片奢华组合套装#1711-',
           price: '288.00',
           id: 2
         }
@@ -147,7 +145,13 @@ export default {
   created: function () { // 创建之后
     eventBus.$emit('header', false);
   },
-  beforeMount: function () { // 挂载之前
+  beforeMount: function () {
+    // 获取轮播图片
+    this.getCarouselImg();
+    // 获取商品专区
+    this.getGoodsList();
+    // 获取其他分类专区
+    this.getOtherList();
   },
   mounted: function () {
     this.getFooter();
@@ -157,6 +161,51 @@ export default {
     this.checkIsIos();
   },
   methods: {
+    getCarouselImg () {
+      this.axios.get('/index/lunbo', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.swiperImg = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getGoodsList () {
+      this.axios.get('/goods/goods', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.details = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getOtherList () {
+      this.axios.get('/goods/other_goods', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.areaList = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     checkIsIos () {
       // 是否IOS系统
       if (navigator.userAgent.toLowerCase().match(/iphone|ipad/i)) {
