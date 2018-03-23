@@ -27,7 +27,7 @@ export default {
   data () {
     return {
       tabActive: 1,
-      iconArr: ['icon-web__jiangli', 'icon-huokuanyifu', 'icon-huojian', 'icon-xinzi', 'icon-tixian', 'icon-jiankangshangcheng'],
+      iconArr: ['icon-jiankangshangcheng', 'icon-web__jiangli', 'icon-xinzi', 'icon-huojian', 'icon-tixian', 'icon-huokuanyifu'],
       user: []
     };
   },
