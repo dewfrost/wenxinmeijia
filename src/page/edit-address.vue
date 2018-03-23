@@ -11,12 +11,12 @@
     <div class="information" @click="selectAddress">
       <span>省市区</span>
       <div class="select">
-        <span>{{ showAddress(area) }}</span>
+        <span :class="{}">{{ showAddress(area) }}</span>
         <i class="iconfont icon-you"></i>
       </div>
     </div>
     <div class="details_address">
-      <textarea id="details-address"placeholder="请填写详细地址" v-model="user.details_address"></textarea>
+      <textarea id="details-address"placeholder="请填写详细地址" v-model="user.description"></textarea>
     </div>
     <button @click="link">确认</button>
   </div>
@@ -28,16 +28,15 @@ export default {
   data () {
     return {
       // 数据
-      user: {
-        name: '宓知月',
-        phone: '17000000000',
-        details_address: '河南省郑州市金水区黄河路文化路交叉口向南50米兴田大厦205'
-      },
-      area: ['河南省郑州市金水区']
+      user: {},
+      area: ['请选择'],
+      isSameAddress: {}
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    this.getAddress();
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('编辑收货地址', 'editAddress_top');
   }, // 挂载之后
@@ -48,7 +47,31 @@ export default {
   }, // 实例销毁前调用,解绑中间层的数据传输
   destroyed: function () {}, // 实例销毁后调用
   methods: {
+    // 跳转页面，首先获取数据---接口
+    getAddress: function () {
+      this.axios.get('/address/userAddress', {
+        params: {
+          id: this.$route.query.id
+        }
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            this.user = data.data;
+            // 把虎丘的地址信息保存到isSameAddress，要用深拷贝
+            this.isSameAddress = JSON.parse(JSON.stringify(data.data));
+            // 把获取的省市区存入this.area，存为数组
+            this.area = [];
+            this.area.push(data.data.city);
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     selectAddress: function () {
+      // 调用选择地址组件
       let that = this;
       eventBus.$emit('modal', {
         show: 'address',
@@ -75,7 +98,48 @@ export default {
     },
     // 点击确认跳转编辑收货地址
     link: function () {
-      this.$router.push('manageAddress');
+      let nameResult = this.user.name.replace(/[\u4e00-\u9fa5]/g, '**');
+      if (!this.user.name) {
+        this.toast('姓名不能为空');
+      } else if (nameResult.length > 16 || nameResult.length < 0) {
+        this.toast('昵称不能超过16个字符');
+      } else if (!this.user.phone) {
+        this.toast('手机号不能为空');
+      } else if (!/^(1[3-9])\d{9}$/.test(this.user.phone)) {
+        eventBus.$emit('toast', {message: '联系电话填写不正确'});
+      } else if (!this.user.description) {
+        this.toast('详细地址不能为空');
+      } else if (parseInt(this.area) < 3) {
+        this.toast('必须选择省市区中每一项');
+      } else if (this.user.description.length > 70) {
+        this.toast('详细地址字数太多');
+      } else if (this.user.name === this.isSameAddress.name && this.user.phone === this.isSameAddress.phone && this.user.description === this.isSameAddress.description && this.user.area === this.isSameAddress.area) {
+        this.toast('信息没有改动');
+      } else {
+        this.user.city = this.user.city || this.area[1];
+        // 提交改动
+        this.submit();
+      }
+    },
+    submit () {
+      this.axios.post('/address/userAddressEdit', {
+        id: this.user.id,
+        phone: this.user.phone,
+        name: this.user.name,
+        city: this.area.join(' '),
+        address: this.user.description,
+        default: this.type
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.$router.go(-1);
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
   }
 };

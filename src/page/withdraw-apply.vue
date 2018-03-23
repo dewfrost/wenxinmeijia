@@ -8,7 +8,7 @@
     <!-- 请输入金额 -->
     <p class="withdrawApply_money">
       <i class="iconfont icon-tixian"></i>
-      <input type="text" v-model="price" placeholder="请输入提现金额">
+      <input class="placeholder" type="text" v-model="price" placeholder="请输入提现金额">
     </p>
     <!-- 提现方式 -->
     <p class="select">提现方式</p>
@@ -28,8 +28,8 @@
     <!-- 提现规则 -->
     <div class="rules">
       <p class="rules_list">提现规则：</p>
-      <p class="rules_list">1. 限每天提现1次，每次限额{{lintPrice}}元</p>
-      <p class="rules_list">2. 提现到账周期：{{cycle}} </p>
+      <p class="rules_list">1. 限每天提现{{frequency}}次，每次限额{{quota}}元</p>
+      <p class="rules_list">2. 提现到账周期：T+{{cycle}} </p>
       <p class="rules_list">3. 提现手续费： {{charge}} %</p>
     </div>
   </div>
@@ -40,9 +40,9 @@ export default {
   name: 'withdrawApply',
   data () {
     return {
-      applyPrice: '1999.00',
-      alipay_id: '13700000000',
-      price: '1000',
+      applyPrice: '',
+      alipay_id: '',
+      price: '',
       wechatIsBind: false,
       activeNum: 0,
       payType: [  // 支付方式
@@ -57,13 +57,17 @@ export default {
           state: true
         }
       ],
-      lintPrice: '2000',
-      cycle: 'T+1',
-      charge: '1-3'
+      frequency: '',
+      quota: '',
+      cycle: '',
+      charge: '',
+      type: null
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    this.getInfo();
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('提现申请', 'withdrawApply_top');
     this.getFooter();
@@ -98,7 +102,7 @@ export default {
             inner: '提交',
             callback: () => {
               let that = this;
-              if (!that.applyPrice) {
+              if (!that.price) {
                 that.toast('提现金额不能为空');
               } else if (that.activeNum === 0 && !that.wechatIsBind) {
                 that.modal('提示', '提现需绑定微信账号，快去绑定吧！', '去绑定', function (index) {
@@ -110,7 +114,7 @@ export default {
                 });
               } else {
                 that.goPay(function () {
-                  that.$router.push('withdrawSuccess');
+                  that.submit();
                 });
               }
             }
@@ -118,9 +122,54 @@ export default {
         ]
       });
     },
+    // 提交-接口
+    submit () {
+      // 判断类型
+      if (this.activeNum === 0) {
+        this.type = 1;
+      } else {
+        this.type = 2;
+      }
+      this.axios.post('/withdrawals/apply', {
+        money: this.price,
+        // 声明一个类型
+        types: this.type
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.toast(data.message);
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
     // 选择支付类型
     toggleType: function (index) {
       this.activeNum = index;
+    },
+    // 获取数据
+    getInfo () {
+      this.axios.post('/withdrawals/apply_page', {
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            this.applyPrice = data.data.money;
+            this.alipay_id = data.data.zhifubao;
+            this.wechatIsBind = data.data.weixin;
+            this.frequency = data.data.config.frequency;
+            this.quota = data.data.config.quota;
+            this.cycle = data.data.config.cycle;
+            this.charge = data.data.config.charge;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 };
@@ -160,6 +209,22 @@ export default {
       font-size: 40px;
       border-left: 1px solid #e0e0e0;
       text-indent: 23px;
+    }
+    input::-webkit-input-placeholder{
+      color:#999;
+      font-size: 28px;
+    }
+    input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+      font-size: 28px;
+      color:#999;
+    }
+    input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+      font-size: 28px;
+      color:#999;
+    }
+    input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+      font-size: 28px;
+      color:#999;
     }
   }
   .select{

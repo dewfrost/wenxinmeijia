@@ -47,12 +47,10 @@ export default {
       this.axios.post('/index/kefu', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.qr_code = data.data.kefu_ma;
             this.phone = data.data.kefu_phone;
             this.time = data.data.kefu_time;
-            this.toast('修改成功');
           } else {
             this.toast(data.message);
           }
@@ -71,17 +69,18 @@ export default {
   background: #f5f5f5;
   min-height: 100%;
   .qr_code{
-    width: 245px;
-    height: 245px;
+    width: 244px;
+    height: 244px;
     border-radius: 5px;
     border: 1px solid $color;
     margin: 54px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     img{
-      display: block;
-      width: 245px;
-      height: 245px;
-      margin: 0 auto;
-      padding: 5px 2px;
+      width: 240px;
+      height: 240px;
+      border-radius: 5px;
     }
   }
   p{

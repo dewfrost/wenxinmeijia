@@ -97,7 +97,7 @@ export default {
       if (!this.user.phone) {
         this.toast('手机号不能为空');
       } else {
-        // 获取验证码
+        // 获取验证码--接口
         this.getCode(this.user.phone, 6, () => {
           this.sendSMSTime = 60;
           this.isSend = true;
@@ -128,7 +128,6 @@ export default {
       } else if (!this.user.code) {
         this.toast('验证码不能为空');
       } else {
-        // this.toast('解绑成功');
         this.submit();
       }
     },
