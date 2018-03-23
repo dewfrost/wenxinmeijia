@@ -44,12 +44,13 @@ export default {
           if (data.status === 1) {
             for (let i = 0; i < data.data.length; i++) {
               // 如果是默认地址，则插到第一位，否则添加到最后一位
-              if (data.data.default === 1) {
+              if (parseInt(data.data[i].default) === 1) {
                 this.address.unshift(data.data[i]);
               } else {
                 this.address.push(data.data[i]);
               }
             }
+            console.log(this.address);
           } else {
             this.toast(data.message);
           }

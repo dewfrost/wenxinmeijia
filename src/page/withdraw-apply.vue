@@ -101,22 +101,7 @@ export default {
           {
             inner: '提交',
             callback: () => {
-              let that = this;
-              if (!that.price) {
-                that.toast('提现金额不能为空');
-              } else if (that.activeNum === 0 && !that.wechatIsBind) {
-                that.modal('提示', '提现需绑定微信账号，快去绑定吧！', '去绑定', function (index) {
-                  that.$router.push({path: 'wexinBind'});
-                });
-              } else if (!that.alipay_id) {
-                that.modal('提示', '提现需绑定支付宝账号，快去绑定吧！', '去绑定', function (index) {
-                  that.$router.push({path: 'zfbBind'});
-                });
-              } else {
-                that.goPay(function () {
-                  that.submit();
-                });
-              }
+              this.submit();
             }
           }
         ]
@@ -124,27 +109,46 @@ export default {
     },
     // 提交-接口
     submit () {
-      // 判断类型
-      if (this.activeNum === 0) {
-        this.type = 1;
+      if (!this.price) {
+        this.toast('提现金额不能为空');
+      } else if (parseInt(this.price) > parseInt(this.applyPrice)) {
+        this.toast('可用提现金额不足');
+      } else if (this.activeNum === 0 && !this.wechatIsBind) {
+        this.modal('提示', '提现需绑定微信账号，快去绑定吧！', '去绑定', (index) => {
+          this.$router.push({path: 'wexinBind'});
+        });
+      } else if (!this.alipay_id) {
+        this.modal('提示', '提现需绑定支付宝账号，快去绑定吧！', '去绑定', (index) => {
+          this.$router.push({path: 'zfbBind'});
+        });
       } else {
-        this.type = 2;
+        this.goPay(() => {
+          // 判断类型
+          if (this.activeNum === 0) {
+            this.type = 1;
+          } else {
+            this.type = 2;
+          }
+          this.axios.post('/withdrawals/apply', {
+            money: this.price,
+            // 声明一个类型
+            types: this.type
+          })
+          .then(({data}) => {
+            if (data.status === 1) {
+              this.goPay(null, () => {
+                this.toast('提现成功');
+                this.$router.go(-1);
+              });
+            } else {
+              this.toast(data.message);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        });
       }
-      this.axios.post('/withdrawals/apply', {
-        money: this.price,
-        // 声明一个类型
-        types: this.type
-      })
-      .then(({data}) => {
-        if (data.status === 1) {
-          this.toast(data.message);
-        } else {
-          this.toast(data.message);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
     },
     // 选择支付类型
     toggleType: function (index) {

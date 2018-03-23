@@ -38,68 +38,14 @@ export default {
   data () {
     return {
       tabActive: 1,
-      user: [
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: '推荐奖励',
-          money: '3500.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: '推荐奖励',
-          money: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: '推荐奖励',
-          money: '3500.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: '推荐奖励',
-          money: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: '推荐奖励',
-          money: '3500.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: '推荐奖励',
-          money: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: '推荐奖励',
-          money: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: '推荐奖励',
-          money: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: '推荐奖励',
-          money: '300.00'
-        },
-        {
-          imgurl: require('../assets/images/r_l.png'),
-          name: '推荐奖励',
-          money: '300.00'
-        }
-      ]
+      user: []
     };
   },
   beforeCreate: function () {
-    // 创建之前
   },
   created: function () {
-    // 创建之后
   },
   beforeMount: function () {
-    // 挂载之前
     // 请求本月排行销售排行接口
     this.getRank();
   },
@@ -113,7 +59,6 @@ export default {
         // 只在rankList页面监听
         if (/rankList/g.test(window.location.href)) {
           if (document.getElementById('content').scrollTop > 100) {
-            console.log(document.getElementById('content').scrollTop);
             this.getHeader('排行榜', 'no_transparent');
           } else {
             this.getHeader('排行榜', 'rank_top');
@@ -121,25 +66,7 @@ export default {
         }
       });
     },
-    showToast: function () {
-      // 引用toast组件
-      this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
-    },
-    showModal: function () {
-      let that = this; // 如果回调函数中用到this，则这行代码必须有
-      // 引用弹窗组件
-      this.toast(
-        '这是弹窗标题',
-        '这是弹窗服饰股份的供热一个头特化工股份合格的合格合格分数高富帅正文',
-        '这是按钮',
-        function () {
-          console.log('调用弹窗成功');
-          console.log(that.modalMsg);
-        }
-      ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
-    },
     headerTab: function (num) {
-      // this.tabActive = num;
       if (num === this.tabActive) {
         return false;
       }
@@ -156,7 +83,6 @@ export default {
       })
         .then(({data}) => {
           if (parseInt(data.status) === 1) {
-            console.log(data.data);
             // 列表
             this.user = data.data;
           } else {
@@ -173,7 +99,6 @@ export default {
       })
         .then(({data}) => {
           if (parseInt(data.status) === 1) {
-            console.log(data.data);
             // 列表
             this.user = data.data;
           } else {

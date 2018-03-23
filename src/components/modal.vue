@@ -45,7 +45,7 @@
         <i class="iconfont icon-xinxi"></i>
           <input type="number" id="sms" v-model="user.code" placeholder="请输入短信验证码" />
         </label>
-        <button @click.stop="sendSMS" class="send_btn" :class="{'is_send': user.isSend}" :disabled="user.isSend">{{user.btntxt}}</button>
+        <button @click.stop="sendSMS" class="send_btn" :class="{'is_send': user.isSend, 'no_send': !user.isSend}" :disabled="user.isSend">{{user.btntxt}}</button>
       </div>
       <label for="password">
         <i class="iconfont icon-suo"></i>
@@ -55,7 +55,7 @@
         <i class="iconfont icon-suo"></i>
         <input type="password" id="pwd" v-model="user.repassword" placeholder="请确认您的密码" />
       </label>
-      <button class="btnClass" @click="submit()">提交</button>
+      <button class="btnClass" @click="submitEditPassword()">提交</button>
     </div>
     <!-- 活动代金券 -->
     <div class="voucher" v-if="show === 'voucher'">
@@ -94,7 +94,7 @@ export default {
       select: [],
       voucherImg: require('../assets/images/vouchers.png'),
       user: {
-        phone: '15611122332',
+        phone: '',
         code: '',
         password: '',
         repassword: '',
@@ -107,6 +107,7 @@ export default {
   beforeMount: function () {
     // 监听事件
     this.getEvent();
+    this.getPhone(this.user);
   },
   beforeDestroy: function () {
     // 取消监听
@@ -170,26 +171,13 @@ export default {
       if (!this.user.phone) {
         this.toast('手机号不能为空');
       } else {
-        this.user.sendSMSTime = 60;
-        this.user.isSend = true;
-        this.timer();
-        // this.axios.post('/login/sendCode', {
-        //   phone: this.user.phone,
-        //   type: 1
-        // })
-        //   .then(({data}) => {
-        //     if (data.status === 200) {
-        //       this.sendSMSTime = 60;
-        //       this.disabled = true;
-        //       this.isSend = true;
-        //       this.timer();
-        //     } else {
-        //       eventBus.$emit('toast', {message: data.msg});
-        //     }
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   });
+        // 调用发送验证码接口
+        this.getCode(this.user.phone, 4, () => {
+          this.user.sendSMSTime = 60;
+          this.user.disabled = true;
+          this.user.isSend = true;
+          this.timer();
+        });
       }
     },
     timer: function () {
@@ -203,16 +191,61 @@ export default {
         this.user.isSend = false;
       }
     },
+    // 提交设置支付密码
+    submitEditPassword () {
+      if (!this.user.code) {
+        this.toast('请填写验证码');
+      } else if (!this.user.password) {
+        this.toast('请输入密码');
+      } else if (!this.user.repassword) {
+        this.toast('请输入确认密码');
+      } else if (this.user.password !== this.user.repassword) {
+        this.toast('两次输入密码不一致');
+      } else if (!/^\d{6}$/.test(this.user.password)) {
+        this.toast('密码格式不正确，请输入6位纯数字密码');
+      } else {
+        // 执行设置密码
+        this.doSubmit();
+      }
+    },
+    doSubmit () {
+      this.axios.post('/user/paymentPassword', {
+        code: this.user.code,
+        password: this.user.password,
+        repassword: this.user.repassword
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            // 成功，关闭设置密码窗口
+            this.close();
+            this.toast(data.message);
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     showPassNum () {
       if (this.password.length === 6) {
-        this.requestPay();
+        // 如果有payType传值为submit，则是确认收货
+        if (this.payType === 'submit') {
+          this.requestPay('/order_pay/balance_payment');
+        } else if (this.payType === 'withdraw') {
+          // 提现
+          this.requestPay('/order_pay/balance_payment');
+        } else {
+          // 支付
+          this.requestPay('/order_pay/balance_payment');
+        }
         // 成功或是失败都密码重置，关闭密码框
         this.close();
         this.password = '';
       }
     },
-    requestPay () {
-      this.axios.post('/order_pay/balance_payment', {
+    requestPay (url) {
+      this.axios.post(url, {
         id: this.orderId,
         pwd: this.password
       })
@@ -443,6 +476,12 @@ export default {
             left: 0;
             background-color: $color;
             transform: translateY(-50%);
+          }
+          &.is_send{
+            color: #999;
+          }
+          &.no_send{
+            color: $color;
           }
         }
       }
