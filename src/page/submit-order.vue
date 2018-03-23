@@ -10,22 +10,27 @@
     </div>
     <div class="new_address" v-if="address">
       <div class="left">
-        <p class="info">
+        <span class="info">
           收货人：{{address.name}}
           <span class="phone">{{address.phone}}</span>
-        </p>
-        <p class="add">地址：{{address.address}}</p>
+        </span>
+        <span class="address_details">地址：{{address.city}} {{address.description}}</span>
       </div>
-      <i class="iconfont icon-you"></i>
+      <i class="iconfont icon-you" @click="selectAddress()"></i>
     </div>
     <!-- 订单 -->
-    <div class="details">
-      <img :src="img" alt="商品">
+    <div class="details" v-for="(item, index) in goodsInfo" :key="index">
+      <div class="img">
+        <img :src="item.img" alt="商品">
+      </div>
       <div class="right">
-        <p class="details_name">{{list_title}}</p>
+        <p class="details_name">{{item.name}}</p>
         <p class="moeny">
-          <span class="price"><span class="yen"> &yen; </span>{{list_price}}</span>
-          <span class="number">x{{list_number}}</span>
+          <span class="price">
+            <span class="yen"> &yen; </span>
+            <span>{{item.price}}</span>
+          </span>
+          <span class="number">x{{numList ? numList[index] : '1'}}</span>
         </p>
       </div>
     </div>
@@ -33,19 +38,29 @@
     <div class="information">
       <p class="list">
         <span>商品金额</span>
-        <span> &yen;{{details_price}}</span>
+        <span> &yen;{{allPrice}}</span>
       </p>
       <p class="list">
         <span>运费</span>
         <span> &yen;{{freight}}</span>
       </p>
       <p class="list" @click="select">
-        <span>代金券可抵用<span>&yen;{{voucher}}</span></span>
-        <i class="iconfont" :class="{'icon-30xuanzhongyuanxingfill': status,'icon-30xuanzhongyuanxing': !status}"></i>
+        <span>
+          代金券可抵用
+          <span>&nbsp;&yen;{{voucher}}</span>
+        </span>
+        <i class="iconfont" :class="{'icon-30xuanzhongyuanxingfill': selectStatus,'icon-30xuanzhongyuanxing': !selectStatus}"></i>
       </p>
       <p class="small">
-        <span>共<span>{{small_number}}</span>件商品&nbsp;&nbsp;小计：</span>
-        <span class="red"><span>&yen;&nbsp;</span><span class="small_price">{{small_price}}</span></span>
+        <span>
+          共
+          <span>&nbsp;{{endNum}}&nbsp;</span>
+          件商品&nbsp;&nbsp;小计：
+        </span>
+        <span class="red">
+          <span>&yen;&nbsp;</span>
+          <span class="small_price">{{endPrice}}</span>
+        </span>
       </p>
     </div>
   </div>
@@ -62,51 +77,136 @@ export default {
       //   phone: 17336369854,
       //   address: '河南省 郑州市 金水区 某某某小区1单元6楼东户'
       // },
-      show: true,
-      img: require('../assets/images/goods1.png'),
-      list_title: '可穿戴美甲贴片奢华组合套装#210',
-      list_price: '288.00',
-      list_number: 1,
-      details_price: '288.00',
-      freight: '0.00',
-      voucher: '10.00',
-      status: true,
-      small_number: 1,
-      small_price: '278.00'
+      goodsInfo: [], // 商品列表
+      allPrice: '0.00', // 商品总金额
+      freight: '0.00', // 运费
+      voucher: '0.00', // 抵用券
+      selectStatus: false,
+      endNum: 1,
+      endPrice: '0.00',
+      numList: null
     };
   },
-  created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    // 获取页面信息
+    this.getInfo();
+  },
   mounted: function () {
-    this.getFooter();
     this.getHeader('提交订单', 'submitOrder_top');
-  }, // 挂载之后
-  beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
-  updated: function () {}, // 数据更新后,渲染后调用(禁止)
-  beforeDestroy: function () {
-    eventBus.$emit('header', false);
-  }, // 实例销毁前调用,解绑中间层的数据传输
-  destroyed: function () {}, // 实例销毁后调用
-  computed: {
+  },
+  updated: function () {
+    // 获取底部
+    this.getFooter();
+    this.computedEndPrice();
   },
   methods: {
+    computedEndPrice () {
+      // 如果选择抵用券
+      if (this.selectStatus) {
+        // 如果抵用券比商品金额还多，则至少为0元
+        if (parseInt(this.allPrice - this.voucher) < 0) {
+          this.endPrice = '0';
+        } else {
+          this.endPrice = parseInt(this.allPrice - this.voucher);
+        }
+      } else {
+        this.endPrice = this.allPrice;
+      }
+    },
+    getInfo () {
+      let idArr = this.$route.query.id.split(',');
+      this.endNum = idArr.length;
+      // 如果长度为1，则是单间商品结算，否则是购物车结算
+      if (idArr.length === 1) {
+        this.axios.post('/order_pay/front_order', {
+          gid: this.$route.query.id,
+          num: this.$route.query.num || 1
+        })
+          .then(({data}) => {
+            console.log(data);
+            if (data.status === 1) {
+              // 地址
+              this.address = data.data.user.address;
+              // 抵用券
+              this.voucher = data.data.user.score;
+              // 商品金额
+              this.allPrice = data.data.all_money;
+              // 商品信息
+              this.goodsInfo = data.data.goods.goods;
+              // 运费
+              this.freight = data.data.youfei;
+              // 获取底部
+              this.getFooter();
+            } else {
+              this.toast(data.message);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else {
+        this.axios.post('/order_pay/front_order', {
+          cids: this.$route.query.id
+        })
+          .then(({data}) => {
+            console.log(data);
+            if (data.status === 1) {
+              // 地址
+              this.address = data.data.user.address;
+              // 抵用券
+              this.voucher = data.data.user.score;
+              // 商品金额
+              this.allPrice = data.data.all_money;
+              // 商品信息
+              this.goodsInfo = data.data.goods.goods;
+              // 运费
+              this.freight = data.data.youfei;
+              // 数量列表
+              this.numList = data.data.goods.num;
+              // 获取底部
+              this.getFooter();
+            } else {
+              this.toast(data.message);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+      // 计算总计金额
+      this.computedEndPrice();
+    },
     selectAddress () {
       this.$router.push('selectAddress');
     },
     // 调用提交订单底部
     getFooter () {
       let that = this;
-      this.getSubmitFooter(this.small_price, function () {
+      this.getSubmitFooter(this.endPrice, function () {
         // 调用提交事件
         that.submit();
       });
     },
     submit () {
-      this.$router.push('payment');
+      this.axios.post('/order_pay/add_order', {
+        aid: this.address.id,
+        score: 1
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      // this.$router.push('payment');
     },
     // 是否选择
     select: function () {
-      this.status = !this.status;
+      this.selectStatus = !this.selectStatus;
     }
   }
 };
@@ -142,6 +242,7 @@ export default {
     }
   }
   .new_address{
+    width: 100%;
     margin-top: 20px;
     border-bottom: 1px solid #e6e6e6;
     background: #fff;
@@ -151,16 +252,27 @@ export default {
     align-items: center;
     position: relative;
     .left{
+      flex: 1;
       display: flex;
       justify-content: space-between;
       flex-direction: column;
       height: 84px;
       font-size: 22px;
+      >.address_details{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        /*! autoprefixer: off */
+        -webkit-box-orient: vertical;
+        /* autoprefixer: on */
+      }
     }
     .icon-you{
-      position: absolute;
-      right: 12px;
-      top: 41%;
+      height: 84px;
+      display: flex;
+      align-items: center;
+      margin-right: 12px;
       font-size: 30px;
       color: #999999;
     }
@@ -174,7 +286,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .img{
+    img{
       width: 140px;
       height: 140px;
     }

@@ -100,13 +100,24 @@ export default {
         if (!this.allCheckGoodsNum) {
           this.toast('没有选中商品');
         } else {
-          this.$router.push('submitOrder');
+          this.doSubmit();
         }
       }, () => {
         this.delGoods();
       }, () => {
         this.goAllCheck(); // 点击全选按钮
       });
+    },
+    doSubmit () {
+      let clearArr = [];
+      for (let i = this.goodsList.length - 1; i >= 0; i--) {
+        // 先判断是否选中
+        if (this.goodsList[i].isClick) {
+          // 把购物车id添加到一个数组里面
+          clearArr.push(this.goodsList[i].id);
+        }
+      }
+      this.$router.push({path: 'submitOrder', query: {id: clearArr.join()}});
     },
     goAllCheck () {
       this.isAllCheck = !this.isAllCheck;

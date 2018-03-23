@@ -1,13 +1,16 @@
 <template>
-  <div class="selectAddress">
-    <div class="manage_list" v-for="(item, index) in address" :key="index" @click="backSubmit()">
+  <div class="select_address">
+    <div v-if="!address.length && isRequest" class="none_data">
+      <p>此页面暂无内容</p>
+    </div>
+    <div class="manage_list" v-for="(item, index) in address" :key="index" @click="backSubmit(index)">
       <p class="name">
         <span>{{item.name}}</span>
         <span>{{item.phone}}</span>
       </p>
       <p class="address">
-        <span>{{item.defaultAddress ? '[默认地址]' : ''}}</span>
-        {{item.address}}
+        <span class="default">{{item.default ? '[默认地址]' : ''}}</span>
+        <span>{{item.city}} {{item.description}}</span>
       </p>
     </div>
   </div>
@@ -19,29 +22,10 @@ export default {
   data () {
     return {
       // 数据
-      address: [
-        {
-          name: '杨阳洋',
-          phone: '13245678998',
-          address: '河南省郑州市郑东新区农业南路街道如意西路建业大厦F座2306',
-          defaultAddress: true
-        },
-        {
-          name: '杨阳洋',
-          phone: '13245678998',
-          address: '河南省郑州市郑东新区农业南路街道如意西路建业大厦F座2306',
-          defaultAddress: false
-        },
-        {
-          name: '杨阳洋',
-          phone: '13245678998',
-          address: '河南省郑州市郑东新区农业南路街道如意西路建业大厦F座2306河南省郑州市郑东新区农业南路街道如意西路建业大厦F座2306',
-          defaultAddress: false
-        }
-      ]
+      isRequest: false,
+      address: []
     };
   },
-  created: function () {},
   beforeMount: function () {
     this.getAddressList();
   }, // 挂载之前
@@ -50,23 +34,22 @@ export default {
       this.$router.push('manageAddress');
     });
     this.getFooter();
-  }, // 挂载之后
-  beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
-  updated: function () {}, // 数据更新后,渲染后调用(禁止)
-  beforeDestroy: function () {
-    eventBus.$emit('header', false);
-  }, // 实例销毁前调用,解绑中间层的数据传输
-  destroyed: function () {}, // 实例销毁后调用
+  },
   methods: {
     getAddressList () {
-      this.axios.post('/order_pay/choice_address', {
-        id: this.orderId,
-        pwd: this.password
+      this.axios.get('/address/addressList', {
       })
         .then(({data}) => {
           this.isRequest = true;
           if (data.status === 1) {
-            this.callback();
+            for (let i = 0; i < data.data.length; i++) {
+              // 如果是默认地址，则插到第一位，否则添加到最后一位
+              if (data.data.default === 1) {
+                this.address.unshift(data.data[i]);
+              } else {
+                this.address.push(data.data[i]);
+              }
+            }
           } else {
             this.toast(data.message);
           }
@@ -75,8 +58,21 @@ export default {
           console.log(error);
         });
     },
-    backSubmit () {
-      this.$router.go(-1);
+    backSubmit (index) {
+      console.log(this.address[index].id);
+      this.axios.post('/order_pay/choice_address', {
+        aid: this.address[index].id
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            this.$router.go(-1);
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     // 是否设为默认地址
     selectAddress: function (index, id) {
@@ -108,10 +104,26 @@ export default {
 </script>
 <style lang="scss">
 @import "../assets/css/base.scss";
-.selectAddress{
+.select_address{
   padding-top: 90px;
   min-height:100%;
   background: #f5f5f5;
+  position: relative;
+  .none_data{
+    background: url(../assets/images/none_01.png) no-repeat center center;
+    position: absolute;
+    top: 230px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 300px;
+    width: 80%;
+    text-align: center;
+    > p{
+      color: #999;
+      font-size: 24px;
+      margin-top: 260px;
+    }
+  }
   .manage_list{
     margin-top: 20px;
     height: 140px;
@@ -139,7 +151,7 @@ export default {
       /*! autoprefixer: off */
       -webkit-box-orient: vertical;
       /* autoprefixer: on */
-      span{
+      span.default{
         color: $color;
       }
     }
