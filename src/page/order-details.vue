@@ -23,7 +23,7 @@
        <img src="../assets/images/address.png" alt="">
      </div>
      <div class="content">
-       <div class="details" v-for="(item, index) in order.goods" :key="index" @click="goodsDetails(item.id)">
+       <div class="details" v-for="(item, index) in order.goods" :key="index" @click="goodsDetails(item.gid)">
           <img :src="item.gimg" alt="商品">
           <div class="right">
             <div class="one">{{item.gname}}</div>
@@ -94,7 +94,7 @@ export default {
     // 挂载之前
     // 请求我的订单详情页接口
     this.getOrderDetails();
-    console.log(this.$route.query.id);
+    // console.log(this.$route.query.id);
   },
   mounted: function () {
     this.copyBtn = new Clipboard('.btn');
@@ -106,11 +106,11 @@ export default {
     copyLink () {
       this.toast('已复制运单号码，若未复制成功，请手动复制');
     },
-    goodsDetails (id) {
+    goodsDetails (gid) {
       if (this.isEdit) {
         return false;
       } else {
-        this.$router.push({path: 'goodsDetails', query: {id: id}});
+        this.$router.push({path: 'goodsDetails', query: {id: gid}});
       }
     },
     getFooter () {

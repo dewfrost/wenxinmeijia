@@ -14,7 +14,7 @@
     <div class="goods_top">
      <div class="title">
        <div class="title_t">{{goods.name}}</div>
-       <div class="money">￥<span>{{goods.price}}</span></div>
+       <div class="money">&yen;<span>{{goods.price}}</span></div>
        <div class="freight" :class="{'wu': !goods.freight}">运费：{{goods.freight || "免运费"}}</div>
      </div>
     </div>
