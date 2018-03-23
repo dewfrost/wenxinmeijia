@@ -28,7 +28,7 @@
     <div class="footer_goods_details" v-if="type === 'goods'">
       <span class="goods_car" @click="goGoodsCar">
         <i class="iconfont icon-cart_light"></i>
-        <span class="sum">{{goodsAmount}}</span>
+        <span class="sum" v-if="goodsAmount">{{goodsAmount}}</span>
         <span class="name">购物车</span>
       </span>
       <div v-for="(item,index) in button" :key="index" :class="item.class" @click="item.callback" >

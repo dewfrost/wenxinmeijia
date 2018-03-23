@@ -4,7 +4,7 @@
       <p>此页面暂无内容</p>
     </div>
     <ul class="goods_list">
-      <li class="goods" v-for="(item, index) in goodsList" :key="index" @click="seeGoodsDetails(item.id)">
+      <li class="goods" v-for="(item, index) in goodsList" :key="index" @click="seeGoodsDetails(item.gid)">
         <i class="iconfont" @click.stop="toggleCheak(index)" :class="{'icon-30xuanzhongyuanxingfill': item.isClick, 'icon-30xuanzhongyuanxing': !item.isClick}"></i>
         <div class="img">
           <img :src="item.goods.img" alt="" class="goods_img">
@@ -187,7 +187,7 @@ export default {
     },
     doEditSum (index, sum) {
       this.axios.post('/cart/edit', {
-        cid: this.goodsList[index].gid,
+        cid: this.goodsList[index].id,
         num: sum
       })
         .then(({data}) => {
@@ -213,8 +213,9 @@ export default {
             delIdArr.push(this.goodsList[i].id);
           }
         }
+        // 请求后台删除
         this.axios.post('/cart/del', {
-          cid: delIdArr.join()
+          ids: delIdArr.join()
         })
           .then(({data}) => {
             if (data.status === 1) {

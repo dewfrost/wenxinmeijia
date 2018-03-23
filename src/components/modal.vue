@@ -12,7 +12,7 @@
     <!-- 地址弹框 -->
     <addressBox :data.sync="data" v-if="data.addressShow && show === 'address'"></addressBox>
     <!-- 支付密码弹框 -->
-    <div class="pay_password" v-if="show === 'password' && hasPassword">
+    <div class="pay_password" v-if="(show === 'password') && hasPassword && isRequest">
       <i class="iconfont icon-close" @click="close"></i>
       <span class="title">请输入支付密码</span>
       <div class="password_input">
@@ -32,7 +32,7 @@
       <span class="forget" @click="toEditPassword()">忘记密码？</span>
     </div>
     <!-- 设置支付密码弹框 -->
-    <div class="set_password" v-if="show === 'password' && !hasPassword">
+    <div class="set_password" v-if="(show === 'password') && (!hasPassword) && isRequest">
       <i class="iconfont icon-close" @click="close"></i>
       <i class="iconfont icon-warnfill"></i>
       <span class="title">您还没有支付密码，设置支付密码后才能进行支付，请设置</span>
@@ -73,9 +73,11 @@ export default {
   name: 'modal',
   data () {
     return {
-      password: '',
+      isRequest: false,
+      password: '', // 6位支付密码
+      orderId: null, // 订单id
       isFocus: false,
-      hasPassword: true,
+      hasPassword: null, // 是否设置过支付密码
       modal: false, // 是否显示模态框
       show: 'default', // 显示类型，支付密码、选择地址或者设置支付密码。默认选择框
       modalWidth: 87.5, // 模态框宽度，百分比，默认70%
@@ -130,10 +132,30 @@ export default {
           this.title = data.title;
           this.btnTitle = data.btnTitle;
           this.callback = data.callback;
+          this.orderId = data.orderId;
           // 地址
           this.data = data;
+          // 是否是password类型
+          if (this.show === 'password') {
+            this.getHasPassword();
+          }
         }
       });
+    },
+    getHasPassword () {
+      this.axios.get('/order_pay/is_twopassword', {
+      })
+        .then(({data}) => {
+          this.isRequest = true;
+          if (data.status === 1) {
+            this.hasPassword = true;
+          } else {
+            this.hasPassword = false;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     close: function () {
       this.modal = false;
@@ -143,15 +165,6 @@ export default {
       this.callback();
       this.modal = false;
     },
-    // 首页代金券组件
-    // eventBus.$emit('modal', {
-    //   title: '￥10.00',
-    //   show: 'voucher',
-    //   btnTitle: '立即领取',
-    //   callback: function () {
-    //     alert(1);
-    //   }
-    // });
     sendSMS: function () {
       // 判断手机号是否为空
       if (!this.user.phone) {
@@ -192,10 +205,28 @@ export default {
     },
     showPassNum () {
       if (this.password.length === 6) {
-        this.callback();
+        this.requestPay();
+        // 成功或是失败都密码重置，关闭密码框
         this.close();
         this.password = '';
       }
+    },
+    requestPay () {
+      this.axios.post('/order_pay/balance_payment', {
+        id: this.orderId,
+        pwd: this.password
+      })
+        .then(({data}) => {
+          this.isRequest = true;
+          if (data.status === 1) {
+            this.callback();
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     inputFoces () {
       this.isFocus = true;

@@ -30,12 +30,13 @@
             <i class="iconfont icon-sanjiao"></i>
           </span>
         </span>
-        <span class="spend_num">{{people.num}}</span>
+        <!-- 对应条件下的总人数 -->
+        <span class="spend_num">{{requestLevel ? '共' + agent[requestLevel].user_num + '人' : people.num}}</span>
       </div>
       <ul v-show="isShowCondition" class="agent">
-        <li class="agent_all" @click="chooseCondition()">
+        <li class="agent_all" @click="chooseCondition(0)">
           <span class="name">全部</span>
-          <span class="num">{{people.num}}</span>
+          <span class="num">{{people.num[1]}}</span>
         </li>
         <li class="agent_all" v-for="(item, index) in agent" @click="chooseCondition(index)" :key="index" v-if="item.user_num && (index > 1)">
           <span class="name">{{item.value}}</span>
@@ -121,8 +122,7 @@ export default {
       });
       // 底部滚动加载事件
       eventBus.$on('getScrollInfo', (height) => {
-        if (this.$refs.logBox.clientHeight - height < 50 && this.canRequest && !this.noMore) {
-          console.log(this.tabActive);
+        if (/partner/g.test(window.location.href) && this.$refs.logBox.clientHeight - height < 50 && this.canRequest && !this.noMore) {
           if (this.tabActive === 1) {
             this.getFreeList(this.page);
           } else {
@@ -139,7 +139,6 @@ export default {
         }
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.canRequest = true;
             this.page++;
@@ -193,6 +192,7 @@ export default {
       this.isShowCondition = false;
       // page变为1
       this.page = 1;
+      this.noMore = false;
       this.canRequest = true;
       this.tabActive = num;
       if (this.tabActive === 1) {

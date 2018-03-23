@@ -42,7 +42,9 @@ export default {
     };
   },
   created: function () {},
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    this.getAddressList();
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('选择收货地址', 'selectAddress_top', '管理', function () {
       this.$router.push('manageAddress');
@@ -56,6 +58,23 @@ export default {
   }, // 实例销毁前调用,解绑中间层的数据传输
   destroyed: function () {}, // 实例销毁后调用
   methods: {
+    getAddressList () {
+      this.axios.post('/order_pay/choice_address', {
+        id: this.orderId,
+        pwd: this.password
+      })
+        .then(({data}) => {
+          this.isRequest = true;
+          if (data.status === 1) {
+            this.callback();
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     backSubmit () {
       this.$router.go(-1);
     },

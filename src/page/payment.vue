@@ -73,8 +73,8 @@ export default {
         .then(({data}) => {
           console.log(data);
           if (data.status === 1) {
-            this.price = data.data.user.balance;
-            this.balance = data.data.user.score;
+            this.price = data.data.order.price;
+            this.balance = data.data.user.balance;
           } else {
             this.toast(data.message);
           }
@@ -88,10 +88,16 @@ export default {
       this.activeNum = index;
     },
     pay () {
-      let that = this;
-      that.goPay(function () {
-        that.$router.push('paymentSuccess');
-      });
+      if (this.balance < this.price) {
+        this.toast('余额不足');
+      } else if (this.activeNum !== 2) {
+        // 选择的支付类型不是余额
+        this.toast('王政还没写好接口');
+      } else {
+        this.goPay(this.$route.query.id, () => {
+          this.$router.push('paymentSuccess');
+        });
+      }
     }
   }
 };

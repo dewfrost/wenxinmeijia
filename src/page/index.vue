@@ -24,7 +24,7 @@
             <span class="buy" @click.stop="buyGoods(item.id)">立即购买</span>
           </p>
         </div>
-        <span class="more" @click="goods_more">查看更多></span>
+        <span class="more" @click="goodsMore">查看更多></span>
       </div>
       <!-- 空白灰色 -->
       <div class="blank"></div>
@@ -32,7 +32,7 @@
       <div class="area" v-for="(item, index) in areaList" :key="index">
         <p class="title">&nbsp;{{item.name}}&nbsp;</p>
         <div class="details">
-          <div class="details_list" v-for="(list, index) in item.getGoods" :key="index" @click="seeParts(list.id)">
+          <div class="details_list" v-for="(list, index) in item.getGoods" :key="index" @click="seeDetails(list.id)">
             <img :src="list.img" alt="商品">
             <p class="details_name">{{list.name}}</p>
             <p class="details_info">
@@ -40,7 +40,7 @@
               <span class="buy" @click.stop="buyParts(list.id)">立即购买</span>
             </p>
           </div>
-          <span class="more" @click="parts_more">查看更多></span>
+          <span class="more" @click="partsOther(item.id)">查看更多></span>
         </div>
       </div>
     </div>
@@ -65,79 +65,12 @@ export default {
         loop: true,
         pagination: '.swiper-pagination'
       },
-      swiperImg: [
-        // {
-        //   pic: require('../assets/images/banner1.jpg')
-        // },
-        // {
-        //   pic: require('../assets/images/banner2.jpg')
-        // },
-        // {
-        //   pic: require('../assets/images/banner3.jpg')
-        // }
-      ],
+      swiperImg: [],
       // 商品专区
-      areaList: [
-      ],
-      details: [
-        {
-          img: require('../assets/images/goods1.png'),
-          name: '可穿戴美甲贴片奢华组合套装#210',
-          price: '288.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/goods3.png'),
-          name: '可穿戴美甲贴片奢华组合 套装#210-',
-          price: '288.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/goods2.png'),
-          name: '可穿戴美甲贴片奢华组合套装#710',
-          price: '288.00',
-          id: 2
-        }
-      ],
+      areaList: [],
+      details: [],
       // 配件专区
-      parts: [
-        {
-          img: require('../assets/images/goods1.png'),
-          name: '可穿戴美甲贴片玫瑰香薰球#265',
-          price: '68.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/parts2.png'),
-          name: '可穿戴美甲贴片天然翡翠#1760',
-          price: '68.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/parts3.png'),
-          name: '可穿戴美甲贴片淑女蝴蝶结#2060',
-          price: '58.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/parts4.png'),
-          name: '可穿戴美甲贴片蓝色妖姬#1360',
-          price: '46.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/parts5.png'),
-          name: '可穿戴美甲贴片黑色甲壳虫#960',
-          price: '58.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/parts6.png'),
-          name: '可穿戴美甲贴片花间舞者#862',
-          price: '58.00',
-          id: 2
-        }
-      ]
+      parts: []
     };
   },
   beforeCreate: function () { // 创建之前
@@ -216,10 +149,6 @@ export default {
     seeDetails (id) {
       this.$router.push({path: 'goodsDetails', query: {id: id}});
     },
-    // 点击商品的跳转商品详情
-    seeParts (id) {
-      this.$router.push({path: 'goodsDetails', query: {id: id}});
-    },
     buyGoods (id) {
       this.$router.push({path: 'submitOrder', query: {id: id}});
     },
@@ -230,13 +159,13 @@ export default {
       });
     },
     // 点击商品的查看更多
-    goods_more: function () {
-      this.$router.push({path: 'goodsList', query: {type: 'goods'}});
+    goodsMore () {
+      this.$router.push({path: 'goodsList'});
       // window.location.href = './goodsList?type=goods';
     },
     // 点击配件的查看更多
-    parts_more: function () {
-      this.$router.push({path: 'goodsList', query: {type: 'parts'}});
+    partsOther (id) {
+      this.$router.push({path: 'goodsList', query: {id: id}});
     }
   },
   components: {

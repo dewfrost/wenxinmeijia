@@ -1,10 +1,9 @@
 <template>
   <div class="goodsList">
     <!-- 商品专区 -->
-    <div class="blank"></div>
-    <div class="goods" v-if="this.$route.query.type === 'goods'">
+    <div class="goods">
       <div class="details">
-        <div class="details_list" v-for="(item, index) in details" :key="index" @click="seeDetails(item.id)">
+        <div class="details_list" v-for="(item, index) in list" :key="index" @click="seeDetails(item.id)">
           <img :src="item.img" alt="商品">
           <p class="details_name">{{item.name}}</p>
           <p class="details_info">
@@ -17,18 +16,18 @@
     <!-- 空白灰色 -->
     
     <!-- 配件专区 -->
-    <div class="parts" v-if="this.$route.query.type === 'parts'">
+    <!-- <div class="parts" v-if="this.$route.query.id">
       <div class="details">
-        <div class="details_list" v-for="(item, index) in parts" :key="index" @click="seeParts(item.id)">
+        <div class="details_list" v-for="(item, index) in parts" :key="index" @click="seeDetails(item.id)">
           <img :src="item.img" alt="商品">
           <p class="details_name">{{item.name}}</p>
           <p class="details_info">
             <span class="red">&yen;&nbsp;<span class="price">{{item.price}}</span></span>
-            <span class="buy" @click.stop="buyParts(item.id)">立即购买</span>
+            <span class="buy" @click.stop="buyGoods(item.id)">立即购买</span>
           </p>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -38,71 +37,8 @@ export default {
   data () {
     return {
       // 商品专区
-      details: [
-        {
-          img: require('../assets/images/goods1.png'),
-          name: '可穿戴美甲贴片奢华组合套装#210',
-          price: '288.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/goods3.png'),
-          name: '可穿戴美甲贴片奢华组合 套装#210-',
-          price: '288.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/goods2.png'),
-          name: '可穿戴美甲贴片奢华组合套装#710',
-          price: '288.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/goods3.png'),
-          name: '可穿戴美甲贴片奢华组合套装#1711-',
-          price: '288.00',
-          id: 2
-        }
-      ],
-      // 配件专区
-      parts: [
-        {
-          img: require('../assets/images/goods1.png'),
-          name: '可穿戴美甲贴片玫瑰香薰球#265',
-          price: '68.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/parts2.png'),
-          name: '可穿戴美甲贴片天然翡翠#1760',
-          price: '68.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/parts3.png'),
-          name: '可穿戴美甲贴片淑女蝴蝶结#2060',
-          price: '58.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/parts4.png'),
-          name: '可穿戴美甲贴片蓝色妖姬#1360',
-          price: '46.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/parts5.png'),
-          name: '可穿戴美甲贴片黑色甲壳虫#960',
-          price: '58.00',
-          id: 2
-        },
-        {
-          img: require('../assets/images/parts6.png'),
-          name: '可穿戴美甲贴片花间舞者#862',
-          price: '58.00',
-          id: 2
-        }
-      ]
+      headerName: '商品专区',
+      list: []
     };
   },
   beforeCreate: function () { // 创建之前
@@ -110,43 +46,61 @@ export default {
   created: function () { // 创建之后
     eventBus.$emit('header', false);
   },
-  beforeMount: function () { // 挂载之前
+  beforeMount: function () {
+    this.getList();
   },
   mounted: function () {
-    if (this.$route.query.type === 'goods') {
-      this.getHeader('商品专区', 'revisePassword_top');
-    } else {
-      this.getHeader('配件专区', 'revisePassword_top');
-    }
+    this.getHeaderName();
+    console.log(this.$route.name);
+  },
+  updated: function () {
+    this.getHeaderName();
   },
   methods: {
+    getHeaderName () {
+      this.getHeader(this.headerName, 'revisePassword_top');
+    },
+    getList () {
+      if (!this.$route.query.id) {
+        // 商品专区
+        this.axios.get('/goods/goods', {
+        })
+          .then(({data}) => {
+            if (data.status === 1) {
+              this.list = data.data;
+            } else {
+              this.toast(data.message);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else {
+        // 其他专区
+        this.axios.get('/goods/class_goods', {
+          params: {
+            cid: this.$route.query.id
+          }
+        })
+          .then(({data}) => {
+            if (data.status === 1) {
+              this.list = data.data.goods;
+              this.headerName = data.data.class_name;
+            } else {
+              this.toast(data.message);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    },
     // 点击商品的跳转商品详情
     seeDetails (id) {
       this.$router.push({path: 'goodsDetails', query: {id: id}});
     },
-    // 点击商品的跳转商品详情
-    seeParts (id) {
-      this.$router.push({path: 'goodsDetails', query: {id: id}});
-    },
     buyGoods (id) {
       this.$router.push({path: 'submitOrder', query: {id: id}});
-    },
-    buyParts (id) {
-      this.$router.push({path: 'submitOrder', query: {id: id}});
-    },
-    getFooter () {
-      eventBus.$emit('footer', {
-        button: [],
-        navShow: true
-      });
-    },
-    // 点击商品的查看更多
-    goods_more: function () {
-      this.details = this.details.concat(this.details);
-    },
-    // 点击配件的查看更多
-    parts_more: function () {
-      this.parts = this.parts.concat(this.parts);
     }
   }
 };
@@ -156,45 +110,23 @@ export default {
 @import "../assets/css/base.scss";
 .goodsList{
   padding-top: 90px;
-  .title{
-    line-height: 80px;
-    text-align: center;
-    position: relative;
-    &:before{
-      content: '';
-      display: block;
-      width: 16px;
-      height: 2px;
-      position: absolute;
-      top: 50%;
-      left: 38%;
-      background: #333;
-      margin-right: 10px;
-    }
-    &:after{
-      content: '';
-      display: block;
-      width: 16px;
-      height: 2px;
-      position: absolute;
-      top: 50%;
-      right: 37%;
-      background: #333;
-      margin-right: 10px;
-    }
-  }
-  .blank{
-    display: block;
-    background: #f5f5f5;
-    height: 20px;
-    width: 100%;
-  }
+  min-height: 100%;
   .details{
     flex-flow: wrap;
     display: flex;
     position: relative;
-    margin-top: -8px;
     padding: 0 12px;
+    padding-top: 20px;
+    &::before{
+      position: absolute;
+      content: '';
+      display: block;
+      height: 20px;
+      width: 100%;
+      background-color: #f5f5f5;
+      left: 0;
+      top: 0px;
+    }
     .details_list{
       width: 50%;
       padding: 30px 0;

@@ -179,7 +179,8 @@ export default {
           if (data.status === 1) {
             this.toast('添加购物车成功!', 'icon-chenggong1');
             // this.goodsCarSum++;
-            this.getFooter();
+            // this.getFooter();
+            this.getDetails(this.$route.query.id);
           } else {
             this.toast(data.message);
           }

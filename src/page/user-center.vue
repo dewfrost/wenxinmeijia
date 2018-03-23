@@ -46,11 +46,11 @@
     <!-- 累计收益 -->
     <div class="add">
       <div class="add_list">
-        <span class="money">1288.00</span>
+        <span class="money">{{moneyList[0]}}</span>
         <span class="add_name">累计收益</span>
       </div>
       <router-link tag="div" class="add_list" v-for="(addName, index) in addList" :to="{path: add[index], query:{status: index}}" :key="index">
-        <span class="money">{{money[index] || '0.00'}}</span>
+        <span class="money">{{moneyList[index + 1] || 0}}</span>
         <span class="add_name">{{addName}}</span>
       </router-link>
     </div>
@@ -96,7 +96,7 @@ export default {
       orderList: [],
       iconList: ['xinyongqiahuankuan', 'kuaidi', 'suishendai', 'chenggong'],
       addList: ['可提现余额', '货款余额', '推荐奖励', '管理薪资', '晋级奖励'],
-      money: [],
+      moneyList: [],
       add: ['withdraw', 'moneyAccount', 'recommendAwards', 'managementSalary', 'promotionAwards'],
       setList: ['我的账本', '我的伙伴', '二维码', '收货地址', '客服中心', '更换手机号', '账户绑定', '账号设置'],
       iconfontList: ['qianbao', 'kehu', 'erweima', 'dingwei', 'zuoji', 'dianhuaben', 'youhuiquan', 'hekriconshebeisuokai'],
@@ -114,6 +114,8 @@ export default {
     this.getInfo();
     // 获取公告轮播列表
     this.getCarouselList();
+    // 获取累计收益列表
+    this.getMoneylList();
   },
   mounted: function () {
     this.getFooter();
@@ -140,6 +142,21 @@ export default {
           console.log(data);
           if (data.status === 1) {
             this.swiperInfo = data.data;
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getMoneylList () {
+      this.axios.get('/user/count_money', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.moneyList = data.data;
           } else {
             this.toast(data.message);
           }
