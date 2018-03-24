@@ -278,7 +278,7 @@ Vue.prototype.axios.interceptors.response.use(function (response) {
   // 对返回的数据进行一些处理
   Vue.prototype.loading(false);
   // 路由白名单
-  const Other = ['index', 'login', 'register', 'findPassword', 'registrationAgreement', 'goodsDetails'];
+  const Other = ['index', 'login', 'register', 'findPassword', 'registrationAgreement', 'goodsDetails', 'goodsList'];
   // 跳转前
   router.beforeEach((to, from, next) => {
     // 如果在白名单内

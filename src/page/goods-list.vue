@@ -62,11 +62,12 @@ export default {
     getList () {
       if (!this.$route.query.id) {
         // 商品专区
-        this.axios.get('/goods/goods', {
+        this.axios.get('/goods/class_goods', {
         })
           .then(({data}) => {
             if (data.status === 1) {
-              this.list = data.data;
+              this.list = data.data.goods;
+              this.headerName = data.data.class_name;
             } else {
               this.toast(data.message);
             }

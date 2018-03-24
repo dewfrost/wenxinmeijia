@@ -490,11 +490,11 @@ export default {
           background-color: transparent;
           position: absolute;
           right: 0;
-          transform: translate(-50%, 10px);
           bottom: 0;
           font-size: 22px;
           color: $color;
-          position: relative;
+          height: 72px;
+          line-height: 72px;
           &::before{
             position: absolute;
             content: '';
