@@ -153,6 +153,7 @@ export default {
     },
     // 点击确认
     link: function () {
+      // 修改登录密码
       if (this.$route.query.type === 'login') {
         if (!this.user.code) {
           this.toast('验证码不能为空');
@@ -169,6 +170,7 @@ export default {
           that.submitLogin();
         }
       } else {
+        // 修改支付密码
         if (!this.user.code) {
           this.toast('验证码不能为空');
         } else if (!this.user.password) {
