@@ -74,6 +74,7 @@ export default {
     },
     // 获取验证码
     sendSMS: function () {
+      this.disabled = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');

@@ -127,6 +127,7 @@ export default {
         .then(({data}) => {
           if (data.status === 1) {
             this.noReadMessage = data.data;
+          } else if (data.status === '10000') {
           } else {
             this.toast(data.message);
           }

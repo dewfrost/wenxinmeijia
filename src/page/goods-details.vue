@@ -25,17 +25,18 @@
         <div class="freight" :class="{'wu': !goods.freight}">运费：{{goods.freight || "免运费"}}</div>
       </div>
     </div>
+    <!-- 参数列表 -->
     <div class="content">
       <div class="type"> 商品参数</div>
-      <div class="goods_param_mess">
-          <span class="goods_param_list" v-for="(item,index) in param" :key="index">
+      <div class="goods_param_mess" v-html="parameterHtml">
+          <!-- <span class="goods_param_list" v-for="(item,index) in param" :key="index">
             <span class="goods_param_list_tit">
               {{item.title}}
             </span>
             <span class="goods_param_list_na">
               {{item.name}}
             </span>
-          </span>
+          </span> -->
       </div>
     </div>
     <!-- 商品详请 -->
@@ -101,7 +102,8 @@ export default {
         title: '凝胶',
         name: '进口环保水溶性树脂胶'
       }],
-      detailsHtml: ''
+      detailsHtml: '', // 商品详情
+      parameterHtml: '' // 参数详情
     };
   },
   beforeMount: function () {
@@ -143,7 +145,10 @@ export default {
           if (data.status === 1) {
             // 轮播图片
             this.swiperImg = data.data.lunbo;
+            // 商品详情
             this.detailsHtml = data.data.description;
+            // 参数详情
+            this.parameterHtml = data.data.content;
             this.goods = data.data;
             // 底部购物车数量
             this.goodsCarSum = data.data.cart_num;
@@ -427,6 +432,7 @@ export default {
       }
     }
     .goods_details_tag{
+      padding: 0 20px;
       img{
         width: 640px;
       }

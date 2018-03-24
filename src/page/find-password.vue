@@ -8,7 +8,7 @@
       </label>
       <label for="sms" class="iconfont icon-xinxi">
         <input type="number" id="sms" v-model="user.code" placeholder="请输入短信验证码" />
-        <button class="button" :class="{'is_send': disabled}" @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
+        <button class="button" :class="{'is_send': isSend}" @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
       </label>
       <label for="password" class="iconfont icon-suo">
         <input type="password" id="password" v-model="user.password" placeholder="请设置您的密码（字母+数字）" />
@@ -35,6 +35,7 @@ export default {
       },
       disabled: false,
       sendSMSTime: 0,
+      isSend: false,
       btntxt: '获取验证码'
     };
   },
@@ -67,6 +68,7 @@ export default {
     },
     // 获取验证码
     sendSMS: function () {
+      this.isSend = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');

@@ -92,7 +92,6 @@ export default {
             } else if (/wenxin.ewtouch.com\//g.test(this.headImg)) {
               // 如果头像是同源地址的头像
               this.imgArr.push(this.headImg);
-              console.log(this.imgArr);
               this.getQrcode();
             } else {
               // 否则，存到本地服务器
@@ -129,7 +128,6 @@ export default {
       this.axios.post(url, {filecode: img, userId: id})
         .then((data) => {
           let imgData = data.data;
-          console.log(data);
           if (/headimg/g.test(imgData.data)) {
             // 此处要赋值
             imgData.data = imgData.data.replace(/headimg/g, 'static/headimg');
@@ -155,7 +153,6 @@ export default {
     },
     // 初始创建绘画页面
     NewCanvas: function () {
-      // console.log(this.imgArr);
       this.canvas = document.createElement('canvas');
       let num = 3;
       this.canvas.width = num * window.screen.width;

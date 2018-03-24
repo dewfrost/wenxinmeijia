@@ -171,6 +171,7 @@ export default {
       this.modal = false;
     },
     sendSMS: function () {
+      this.user.disabled = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');

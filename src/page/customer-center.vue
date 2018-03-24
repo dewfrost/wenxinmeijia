@@ -28,23 +28,16 @@ export default {
       qr_code: ''
     };
   },
-  created: function () {},
   beforeMount: function () {
     this.getCustomer();
   }, // 挂载之前
   mounted: function () {
     this.getHeader('客服中心', 'customerCenter_top');
-  }, // 挂载之后
-  beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
-  updated: function () {}, // 数据更新后,渲染后调用(禁止)
-  beforeDestroy: function () {
-    eventBus.$emit('header', false);
-  }, // 实例销毁前调用,解绑中间层的数据传输
-  destroyed: function () {}, // 实例销毁后调用
+  },
   methods: {
     // 接口
     getCustomer () {
-      this.axios.post('/index/kefu', {
+      this.axios.get('/index/kefu', {
       })
         .then(({data}) => {
           if (data.status === 1) {

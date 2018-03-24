@@ -262,36 +262,11 @@ Vue.prototype.getCode = function (phone, type, callback) {
       console.log(error);
     });
 };
-// const Other = ['index', 'login', 'register', 'findPassword', 'setting', 'registrantionProtocol', 'platformIntroduction', 'beginnerGuide', 'newProclamation', 'customCenter', 'afterMarket', 'aftermarketDetails', 'goodsDetails', 'newGoodsArea', 'newProclamationDetail', 'saleArea', 'promotionsArea', 'panicBuyingArea'];
-// router.beforeEach((to, from, next) => {
-//   // 跳转前判断是否登录
-//   if (Other.join('*').match(to.fullPath.replace('/', '')) || Other.join('*').match(to.name) !== null) {
-//     next();
-//   } else {
-//     Vue.prototype.axios.post('/login/userLoginStatus')
-//       .then(({data}) => {
-//         // 如果返回值为2000，则跳转到登录页
-//         if (data.status === 2000) {
-//           router.push('login');
-//         // } else if (data.status === 4000) {
-//         //   // 微信登录
-//         //   window.location.href = data.data;
-//         } else {
-//           next();
-//         }
-//       })
-//       .catch(function (error) {
-//         console.log(error);
-//       });
-//   }
-// });
 
 // 添加一个请求拦截器
 Vue.prototype.axios.interceptors.request.use(function (config) {
   // 在请求发送之前做一些事
-  window.eventBus.$emit('loading', {
-    loadShow: true
-  });
+  Vue.prototype.loading();
   return config;
 }, function (error) {
   // 当出现请求错误是做一些事
@@ -301,24 +276,29 @@ Vue.prototype.axios.interceptors.request.use(function (config) {
 // 添加一个返回拦截器
 Vue.prototype.axios.interceptors.response.use(function (response) {
   // 对返回的数据进行一些处理
-  window.eventBus.$emit('loading', false);
-  if (response.data.status === '10000') {
-    eventBus.$emit('toast', {
-      show: true,
-      icon: 'icon-close',
-      toastMsg: response.data.message
-    });
-  }
+  Vue.prototype.loading(false);
+  // 路由白名单
+  const Other = ['index', 'login', 'register', 'findPassword', 'registrationAgreement', 'goodsDetails'];
+  // 跳转前
+  router.beforeEach((to, from, next) => {
+    // 如果在白名单内
+    if ((!Other.join('*').match(to.fullPath.replace('/', 'index'))) && (Other.join('*').match(to.name) === null)) {
+      // 如果返回值为10000，表示未登录，等跳转到登录页
+      if (response.data.status === '10000') {
+        router.push('login');
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  });
   return response;
 }, function (error) {
   // 对返回的错误进行一些处理
-  window.eventBus.$emit('loading', false);
+  Vue.prototype.loading(false);
   if (error.message.includes('timeout')) {
-    eventBus.$emit('toast', {
-      show: true,
-      icon: 'icon-close',
-      toastMsg: '网络错误'
-    });
+    Vue.prototype.toast('网络错误', 'icon-close');
   };
   return Promise.reject(error);
 });
