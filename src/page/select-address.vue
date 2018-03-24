@@ -50,7 +50,6 @@ export default {
                 this.address.push(data.data[i]);
               }
             }
-            console.log(this.address);
           } else {
             this.toast(data.message);
           }

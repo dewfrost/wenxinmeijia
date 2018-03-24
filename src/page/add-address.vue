@@ -103,11 +103,11 @@ export default {
       }
     },
     submit () {
-      // 判断类型
+      // 判断类型,默认地址传1，不是默认不传值
       if (this.select) {
         this.type = 1;
       } else {
-        this.type = 2;
+        this.type = '';
       }
       this.axios.post('/address/addAddress', {
         phone: this.user.phone,

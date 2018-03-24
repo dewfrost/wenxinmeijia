@@ -99,7 +99,14 @@ export default {
         .then(({data}) => {
           this.isRequest = true;
           if (data.status === 1) {
-            this.address = data.data;
+            for (let i = 0; i < data.data.length; i++) {
+              // 如果是默认地址，则插到第一位，否则添加到最后一位
+              if (parseInt(data.data[i].default) === 1) {
+                this.address.unshift(data.data[i]);
+              } else {
+                this.address.push(data.data[i]);
+              }
+            }
           } else {
             this.toast(data.message);
           }
@@ -129,10 +136,14 @@ export default {
     },
     // 是否删除
     del: function (id, index) {
-      let that = this; // 如果回调函数中用到this，则这行代码必须有
-      this.modal('提示', '确定删除该收货地址？', '确定', function (index) {
-        that.doDelAddress(id, index);
-        that.address.splice(index, 1);
+      // 判断删除的是否是默认地址
+      if (this.address[index].default === 1) {
+        this.toast('默认地址不能删除');
+        return false;
+      }
+      this.modal('提示', '确定删除该收货地址？', '确定', (index) => {
+        this.doDelAddress(id, index);
+        this.address.splice(index, 1);
       }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
     }
   }
