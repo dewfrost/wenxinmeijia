@@ -91,7 +91,7 @@ export default {
   .none_order{
     background: url(../assets/images/none_01.png) no-repeat center center;
     position: absolute;
-    top: 400px;
+    top: 200px;
     left: 50%;
     transform: translateX(-50%);
     height: 300px;

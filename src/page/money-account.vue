@@ -153,7 +153,7 @@ export default {
     display: inline-block;
     font-size: 20px;
     color: #999;
-    border-bottom: 1px solid #e6e6e6;
+    // border-bottom: 1px solid #e6e6e6;
     &.icon-chongzhi{
       font-size: 25px;
      }
@@ -163,6 +163,9 @@ export default {
        margin-left: 8px;
      }
   }
+  .center_li:first-child{
+     border-top: 1px solid #e6e6e6;
+    }
   .center_li{
     height: 80px;
     line-height: 80px;
