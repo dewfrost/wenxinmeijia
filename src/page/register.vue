@@ -86,6 +86,8 @@ export default {
           this.disabled = true;
           this.btntxt = '已发送(' + this.sendSMSTime + ')s';
           this.timer();
+        }, () => {
+          this.disabled = false;
         });
       }
     },

@@ -5,7 +5,7 @@
       <i class="iconfont icon-close" @click="close"></i>
       <span class="title">{{title}}</span>
       <div class="modal_content">
-        <div class="text" v-html="content"></div>
+        <span class="text" v-html="content"></span>
       </div>
       <button class="btnClass" @click="buttonBox(callback)">{{ btnTitle }}</button>
     </div>

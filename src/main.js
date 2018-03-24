@@ -244,7 +244,7 @@ Vue.prototype.getPhone = function (giveObj) {
 };
 
 // AJAX获取手机验证码
-Vue.prototype.getCode = function (phone, type, callback) {
+Vue.prototype.getCode = function (phone, type, callback, catchback) {
   this.axios.get('/login/sms', {
     params: {
       phone: phone,
@@ -255,6 +255,7 @@ Vue.prototype.getCode = function (phone, type, callback) {
       if (data.status === 1) {
         callback();
       } else {
+        catchback();
         this.toast(data.message);
       }
     })
@@ -273,6 +274,7 @@ Vue.prototype.axios.interceptors.request.use(function (config) {
   return Promise.reject(error);
 });
 
+// 判断是否登录
 const Other = ['index', 'login', 'register', 'findPassword', 'registrationAgreement', 'goodsDetails', 'goodsList'];
 // 跳转前
 router.beforeEach((to, from, next) => {

@@ -121,7 +121,7 @@ export default {
         this.toast('真实姓名不能为空');
       } else if (!this.user.password) {
         this.toast('密码不能为空');
-      } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}$/.test(this.user.password)) {
+      } else if (this.user.password && !/^\d{6}$/.test(this.user.password)) {
         this.toast('密码格式不正确');
       } else if (!this.user.code) {
         this.toast('验证码不能为空');
