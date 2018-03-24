@@ -247,12 +247,13 @@ export default {
       width: 640px;
       display: flex;
       justify-content: flex-end;
+      position: relative;
       .all_price{
-        // flex: 1;
-        width: 420px;
+        flex: 1;
         text-align: left;
         padding-left: 24px;
         line-height: 80px;
+        height: 84px;
         font-size: 24px;
         background-color: #fff;
         border-top: 1px solid #e6e6e6;
@@ -268,7 +269,12 @@ export default {
         width: 220px;
         text-align: center;
         line-height: 80px;
+        height: 84px;
+        border-top: 1px solid $color;
         font-size: 24px;
+        position: absolute;
+        right: 0;
+        top: 0;
         &:nth-last-child(1){
           background-color: $color;
           color: #fff;

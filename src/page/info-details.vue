@@ -97,6 +97,7 @@ export default {
         font-size: 22px;
         color: #666;
         line-height: 40px;
+        width: 100%;
         p{
           width: 100%;
           float: right;

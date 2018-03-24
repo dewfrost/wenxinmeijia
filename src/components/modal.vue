@@ -5,7 +5,7 @@
       <i class="iconfont icon-close" @click="close"></i>
       <span class="title">{{title}}</span>
       <div class="modal_content">
-        <div class="text" v-html="content"></div>
+        <span class="text" v-html="content"></span>
       </div>
       <button class="btnClass" @click="buttonBox(callback)">{{ btnTitle }}</button>
     </div>
@@ -171,7 +171,7 @@ export default {
       this.modal = false;
     },
     sendSMS: function () {
-      this.user.disabled = true;
+      this.user.isSend = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');
@@ -182,6 +182,8 @@ export default {
           this.user.disabled = true;
           this.user.isSend = true;
           this.timer();
+        }, () => {
+          this.user.isSend = false;
         });
       }
     },

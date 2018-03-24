@@ -96,6 +96,7 @@ export default {
     },
     // 获取验证码
     sendSMS1: function () {
+      this.disabled1 = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');
@@ -107,6 +108,8 @@ export default {
           this.disabled1 = true;
           this.btntxt1 = '已发送(' + this.sendSMSTime1 + ')s';
           this.timer();
+        }, () => {
+          this.disabled1 = false;
         });
       }
     },
@@ -140,6 +143,7 @@ export default {
       }
     },
     sendSMS2: function () {
+      this.disabled2 = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');
@@ -151,6 +155,8 @@ export default {
           this.disabled2 = true;
           this.btntxt2 = '已发送(' + this.sendSMSTime2 + ')s';
           this.timer();
+        }, () => {
+          this.disabled2 = false;
         });
       }
     },

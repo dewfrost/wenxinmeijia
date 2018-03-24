@@ -8,7 +8,7 @@
       </label>
       <label for="sms" class="iconfont icon-xinxi">
         <input type="number" id="sms" v-model="user.code" placeholder="请输入短信验证码" />
-        <button class="button" :class="{'is_send': isSend}" @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
+        <button class="button" :class="{'is_send': isSend, 'no_send': !isSend}" @click="sendSMS" :disabled="disabled || sendSMSTime > 0">{{btntxt}}</button>
       </label>
       <label for="password" class="iconfont icon-suo">
         <input type="password" id="password" v-model="user.password" placeholder="请设置您的密码（字母+数字）" />
@@ -62,13 +62,15 @@ export default {
       let checkPhone = /^(1[3-9])\d{9}$/;
       if (checkPhone.test(this.user.phone)) {
         this.disabled = false;
+        this.isSend = false;
       } else {
         this.disabled = true;
+        this.isSend = true;
       }
     },
     // 获取验证码
     sendSMS: function () {
-      this.isSend = true;
+      this.disabled = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');
@@ -83,6 +85,7 @@ export default {
           this.btntxt = '已发送(' + this.sendSMSTime + ')s';
         } else {
           this.sendSMSTime = 0;
+          this.isSend = false;
           this.btntxt = '重新获取';
           this.disabled = false;
           clearInterval(time);
@@ -101,9 +104,12 @@ export default {
         if (data.status === 1) {
           this.sendSMSTime = 60;
           this.disabled = true;
+          this.isSend = true;
           this.btntxt = '已发送(' + this.sendSMSTime + ')s';
           this.timer();
         } else {
+          this.disabled = false;
+          this.isSend = false;
           this.toast(data.message);
         }
       })
@@ -228,6 +234,9 @@ export default {
         }
         &.is_send{
           color: #999;
+        }
+        &.no_send{
+          color: $color;
         }
       }
     }
