@@ -170,7 +170,6 @@ export default {
         }
       })
         .then(({data}) => {
-          console.log(data);
           this.isRequest = true;
           if (data.status === 1) {
             this.canRequest = true;

@@ -169,7 +169,6 @@ export default {
           that.submitLogin();
         }
       } else {
-        console.log(this.user.password);
         if (!this.user.code) {
           this.toast('验证码不能为空');
         } else if (!this.user.password) {

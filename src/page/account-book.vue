@@ -46,8 +46,6 @@ export default {
     // 挂载之前
     // 请求我的账本收入接口
     this.getIncome();
-    // 请求我的账本支出接口
-    // this.getExpenditure(this.tabActive);
   },
   mounted: function () {
     this.scrollOn();
@@ -59,30 +57,12 @@ export default {
         // 只在goodsDetails页面监听
         if (/accountBook/g.test(window.location.href)) {
           if (document.getElementById('content').scrollTop > 100) {
-            console.log(document.getElementById('content').scrollTop);
             this.getHeader('我的账本', 'no_transparent');
           } else {
             this.getHeader('我的账本', 'account_top');
           }
         }
       });
-    },
-    showToast: function () {
-      // 引用toast组件
-      this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
-    },
-    showModal: function () {
-      let that = this; // 如果回调函数中用到this，则这行代码必须有
-      // 引用弹窗组件
-      this.toast(
-        '这是弹窗标题',
-        '这是弹窗服饰股份的供热一个头特化工股份合格的合格合格分数高富帅正文',
-        '这是按钮',
-        function () {
-          console.log('调用弹窗成功');
-          console.log(that.modalMsg);
-        }
-      ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
     },
     headerTab: function (num) {
       if (num === this.tabActive) {
@@ -104,7 +84,6 @@ export default {
         .then(({data}) => {
           this.isRequest = true;
           if (parseInt(data.status) === 1) {
-            console.log(data.data);
             // 列表
             this.user = data.data;
           } else {
@@ -122,7 +101,6 @@ export default {
         .then(({data}) => {
           this.isRequest = true;
           if (parseInt(data.status) === 1) {
-            console.log(data.data);
             // 列表
             this.user = data.data;
           } else {

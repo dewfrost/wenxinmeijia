@@ -98,7 +98,6 @@ export default {
       this.axios.get('/index/lunbo', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.swiperImg = data.data;
           } else {
@@ -113,7 +112,6 @@ export default {
       this.axios.get('/goods/goods', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.details = data.data;
           } else {
@@ -128,7 +126,6 @@ export default {
       this.axios.get('/goods/other_goods', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.areaList = data.data;
           } else {
