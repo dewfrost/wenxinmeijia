@@ -233,7 +233,7 @@ Vue.prototype.getPhone = function (giveObj) {
       if (data.status === 1) {
         giveObj.phone = data.data;
       } else {
-        this.toast(data.message);
+        // this.toast(data.message);
       }
     })
     .catch(function (error) {

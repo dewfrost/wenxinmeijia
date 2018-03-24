@@ -51,7 +51,7 @@ export default {
   },
   mounted: function () {
     this.scrollOn();
-    this.getHeader('我的账单', 'account_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
+    this.getHeader('我的账本', 'account_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
     scrollOn: function () {
@@ -60,9 +60,9 @@ export default {
         if (/accountBook/g.test(window.location.href)) {
           if (document.getElementById('content').scrollTop > 100) {
             console.log(document.getElementById('content').scrollTop);
-            this.getHeader('我的账单', 'no_transparent');
+            this.getHeader('我的账本', 'no_transparent');
           } else {
-            this.getHeader('我的账单', 'account_top');
+            this.getHeader('我的账本', 'account_top');
           }
         }
       });
@@ -71,6 +71,8 @@ export default {
       if (num === this.tabActive) {
         return false;
       }
+      // 切换tab重新设置成false
+      this.isRequest = false;
       this.tabActive = num;
       if (num === 1) {
         this.getIncome();
@@ -149,7 +151,7 @@ export default {
   .none_order{
     background: url(../assets/images/none_01.png) no-repeat center center;
     position: absolute;
-    top: 400px;
+    top: 300px;
     left: 50%;
     transform: translateX(-50%);
     height: 300px;

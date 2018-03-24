@@ -2,7 +2,7 @@
   <div class="withdraw">
     <div class="top">
       <span>可提现余额</span>
-      <span>&yen; <span class="all_sum">{{account.money}}</span></span>
+      <span>&yen; <span class="all_sum">{{account.money || 0}}</span></span>
       <!-- <router-link tag="span" to="withdrawApply" class="out">去提现</router-link> -->
       <span @click="seeWithdraw()"  class="out">去提现</span>
     </div>
@@ -157,7 +157,7 @@ export default {
     display: inline-block;
     font-size: 20px;
     color: #999;
-    border-bottom: 1px solid #e6e6e6;
+    // border-bottom: 1px solid #e6e6e6;
     &.icon-tixian{
       font-size: 25px;
      }
@@ -166,6 +166,9 @@ export default {
        font-size: 20px;
        margin-left: 8px;
      }
+  }
+  .center_li:first-child{
+    border-top: 1px solid #e6e6e6;
   }
   .center_li{
     height: 80px;

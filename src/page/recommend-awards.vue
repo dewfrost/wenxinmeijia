@@ -1,7 +1,7 @@
 <template>
   <div class="recommendAwards" ref="logBox">
     <div class="top">
-      <span>&yen;<span class="all_sum">{{account.money}}</span></span>
+      <span>&yen;<span class="all_sum">{{account.money || 0}}</span></span>
       <span>总额</span>
     </div>
     <!-- 没有数据页面 -->

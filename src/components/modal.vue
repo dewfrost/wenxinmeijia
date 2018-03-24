@@ -107,7 +107,6 @@ export default {
   beforeMount: function () {
     // 监听事件
     this.getEvent();
-    this.getPhone(this.user);
   },
   beforeDestroy: function () {
     // 取消监听
@@ -139,6 +138,9 @@ export default {
           // 是否是password类型
           if (this.show === 'password') {
             this.getHasPassword();
+          }
+          if (this.show === 'password') {
+            this.getPhone(this.user);
           }
         }
       });
