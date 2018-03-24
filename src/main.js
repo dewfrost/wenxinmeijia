@@ -273,27 +273,33 @@ Vue.prototype.axios.interceptors.request.use(function (config) {
   return Promise.reject(error);
 });
 
+const Other = ['index', 'login', 'register', 'findPassword', 'registrationAgreement', 'goodsDetails', 'goodsList'];
+// 跳转前
+router.beforeEach((to, from, next) => {
+  // 如果在白名单内
+  if (Other.join('*').match(to.fullPath.replace('/', '')) || Other.join('*').match(to.name) !== null) {
+    next();
+  } else {
+    Vue.prototype.axios.post('/index/is_login')
+      .then(({data}) => {
+        // 如果返回值为1，则跳转到登录页
+        if (data.status !== 1) {
+          router.push('login');
+        } else {
+          next();
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+});
+
 // 添加一个返回拦截器
 Vue.prototype.axios.interceptors.response.use(function (response) {
   // 对返回的数据进行一些处理
   Vue.prototype.loading(false);
   // 路由白名单
-  const Other = ['index', 'login', 'register', 'findPassword', 'registrationAgreement', 'goodsDetails', 'goodsList'];
-  // 跳转前
-  router.beforeEach((to, from, next) => {
-    // 如果在白名单内
-    if (Other.join('*').match(to.fullPath.replace('/', '')) || Other.join('*').match(to.name) !== null) {
-      next();
-    } else {
-      Vue.prototype.toast(to.name);
-      // 如果返回值为10000，表示未登录，等跳转到登录页
-      if (response.data.status === '10000') {
-        router.push('login');
-      } else {
-        next();
-      }
-    }
-  });
   return response;
 }, function (error) {
   // 对返回的错误进行一些处理
