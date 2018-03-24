@@ -173,11 +173,12 @@ export default {
     border-bottom: 1px solid #e5e5e5;
     display: flex;
     justify-content: space-between;
-    label{
-
+    #code{
+      width: 165px;
+      margin-right: -154px;
     }
     input{
-      width: 314px;
+      width: 355px;
       font-size: 24px;
       text-align: right;
       background: transparent;

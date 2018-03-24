@@ -1,5 +1,9 @@
 <template>
   <div class="publicList">
+    <!-- 没有数据页面 -->
+    <div v-if="!list.length && isRequest" class="none_order">
+      <p>此页面暂无内容</p>
+    </div>
     <div class="list" v-for="item in list">
       <div class="time">{{item.create_time}}</div>
       <div class="list_center" @click="seeDetails(item.id)">
@@ -8,8 +12,8 @@
         </span>
         <div class="center">{{item.description}}</div>
       </div>
+     <div class="bottom">已经到底了...</div>
     </div>
-    <div class="bottom">已经到底了...</div>
   </div>
 </template>
 
@@ -18,6 +22,7 @@ export default {
   name: 'publicList',
   data () {
     return {
+      isRequest: false,
       list: []
     };
   },
@@ -41,6 +46,7 @@ export default {
       this.axios.get('/user/articles', {
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (data.status === 1) {
             this.list = data.data;
           } else {
@@ -64,6 +70,21 @@ export default {
   background: #f5f5f5;
   padding-top: 90px;
   min-height: 100%;
+.none_order{
+  background: url(../assets/images/none_01.png) no-repeat center center;
+  position: absolute;
+  top: 230px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 300px;
+  width: 80%;
+  text-align: center;
+  > p{
+    color: #999;
+    font-size: 24px;
+    margin-top: 260px;
+  }
+}
   .list{
     padding-bottom: 10px;
     .time{
@@ -119,11 +140,11 @@ export default {
         /* autoprefixer: on */
       }
     }
-  }
-  .bottom{
-    color: #999;
-    font-size: 20px;
-    text-align: center;
+    .bottom{
+      color: #999;
+      font-size: 20px;
+      text-align: center;
+    }
   }
 }
 

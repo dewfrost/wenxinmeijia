@@ -134,6 +134,7 @@ export default {
       font-size: 24px;
       color: #333333;
       line-height: 57px;
+      padding-bottom: 10px;
     }
     .address{
       height: 60px;

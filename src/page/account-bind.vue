@@ -1,13 +1,13 @@
 <template>
   <div class="accountBind">
-    <div class="bind wechat" @click="bind('wechat')">
+    <div class="bind wechat" @click="bind('wechat')"> <!-- 传入绑定的类型 -->
       <span class="bind_list iconfont icon-weixin">微信绑定</span>
       <p class="is_bind">
         <span class="weixin">{{wechat ? '已绑定' : '去绑定'}}</span>
         <i class="iconfont icon-you"></i>
       </p>
     </div>
-    <div class="bind zhifubao" @click="bind('zhifubao')">
+    <div class="bind zhifubao" @click="bind('zhifubao')"> <!-- 传入绑定的类型 -->
       <span class="bind_list iconfont icon-zhifubao">支付宝绑定</span>
       <p class="is_bind">
         <span class="phone" >{{showZhifubao}}</span>
@@ -67,10 +67,7 @@ export default {
       } else {
         // 微信
         if (this.wechat) {
-          eventBus.$emit('toast', {
-            show: true,
-            toastMsg: '微信已绑定'
-          });
+          this.toast('微信已绑定');
         } else {
           this.$router.push('weixinBind');
         }

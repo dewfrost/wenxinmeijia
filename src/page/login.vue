@@ -128,7 +128,7 @@ export default {
       &.iconfont {
         font-size: 35px;
         color: $color;
-        padding: 20px;
+        padding-left: 20px;
         display: flex;
         align-items: center;
         &::before{
@@ -136,6 +136,7 @@ export default {
         }
       }
       input {
+        width: 390px;
         display: flex;
         justify-content: center;
         height: 60px;
