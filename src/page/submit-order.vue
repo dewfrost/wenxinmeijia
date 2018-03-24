@@ -325,7 +325,6 @@ export default {
             .yen{
               font-size: 20px;
               margin-right: -3px;
-              color: #333;
             }
           }
           .old_price{

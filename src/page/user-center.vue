@@ -80,11 +80,7 @@ export default {
         direction: 'vertical'
       },
       swiperImg: [], // 轮播
-      swiperInfo: [
-        {
-          description: '带你去美甲！带你去美甲！带你去美甲！带你去美甲！'
-        }
-      ],
+      swiperInfo: [],
       user: {
         headimgurl: null,
         nickname: '',

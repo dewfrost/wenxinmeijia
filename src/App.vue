@@ -81,7 +81,7 @@
         }
       },
       reHeight: function () {
-        sessionStorage.removeItem('jiuyuMediaHeight');
+        sessionStorage.removeItem('mediaHeight');
       },
       toggleHead: function (e) {
         // if (this.scrollRouteArr.indexOf(this.roter) !== -1) {
@@ -94,11 +94,11 @@
         }
       },
       showWindowSize: function () { // 更改变形
-        if (sessionStorage.jiuyuMediaHeight && sessionStorage.jiuyuMediaHeight !== 0) {
-          this.heightBox = parseFloat(sessionStorage.jiuyuMediaHeight);
+        if (sessionStorage.mediaHeight && sessionStorage.mediaHeight !== 0) {
+          this.heightBox = parseFloat(sessionStorage.mediaHeight);
         } else {
           this.heightBox = parseFloat(this.$refs.appHeight.clientHeight);
-          sessionStorage.jiuyuMediaHeight = this.heightBox;
+          sessionStorage.mediaHeight = this.heightBox;
         }
         let slace = this.widthBox / 640;
         // body

@@ -52,7 +52,7 @@ export default {
     };
   },
   created: function () {
-    this.loading(true);
+    this.loading();
     // 存储到服务器，否则因为画布污染会报错
     this.pushServer();
     // 微信浏览器请求
