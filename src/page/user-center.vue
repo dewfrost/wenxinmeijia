@@ -46,7 +46,7 @@
     <!-- 累计收益 -->
     <div class="add">
       <div class="add_list">
-        <span class="money">{{moneyList[0]}}</span>
+        <span class="money">{{moneyList[0] || 0}}</span>
         <span class="add_name">累计收益</span>
       </div>
       <router-link tag="div" class="add_list" v-for="(addName, index) in addList" :to="{path: add[index], query:{status: index}}" :key="index">

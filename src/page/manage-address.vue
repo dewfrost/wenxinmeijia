@@ -158,7 +158,7 @@ export default {
   .none_data{
     background: url(../assets/images/none_01.png) no-repeat center center;
     position: absolute;
-    top: 230px;
+    top: 140px;
     left: 50%;
     transform: translateX(-50%);
     height: 300px;
