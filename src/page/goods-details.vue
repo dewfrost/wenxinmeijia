@@ -12,12 +12,18 @@
       <div class="swiper-pagination"></div>
     </div>
     <div class="goods_top">
-     <div class="title">
-       <div class="title_t">{{goods.name}}</div>
-       <span class="old_money">&yen;<span>{{goods.price}}</span></span>
-       <span class="sale_money">&yen;<span>{{goods.price}}</span></span>
-       <div class="freight" :class="{'wu': !goods.freight}">运费：{{goods.freight || "免运费"}}</div>
-     </div>
+      <div class="title">
+        <div class="title_t">{{goods.name}}</div>
+        <span class="new_money">
+          <span class="small_money">&yen;</span>
+          <span>{{goods.price}}</span>
+        </span>
+        <span class="old_money" v-if="goods.zhekou">
+          <span class="small_money">&yen;</span>
+          <span>{{goods.zhekou}}</span>
+        </span>
+        <div class="freight" :class="{'wu': !goods.freight}">运费：{{goods.freight || "免运费"}}</div>
+      </div>
     </div>
     <div class="content">
       <div class="type"> 商品参数</div>
@@ -326,9 +332,18 @@ export default {
      }
      .new_money{
        color: $color;
+       .small_money{
+         font-size: 20px;
+       }
      }
      .old_money{
-       color: $color;
+       color: #999;
+       margin-left: 10px;
+       font-size: 22px;
+       text-decoration: line-through;
+       .small_money{
+         font-size: 20px;
+       }
      }
      .money{
        margin-top: 18px;

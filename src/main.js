@@ -111,10 +111,12 @@ Vue.prototype.modal = function (title, content, btnTitle, callback) {
 };
 
 // 输入密码支付
-Vue.prototype.goPay = function (id, callback) {
+Vue.prototype.goPay = function (id, callback, payType, withdraw) {
   eventBus.$emit('modal', {
     show: 'password',
     orderId: id,
+    payType: payType,
+    withdraw: withdraw,
     callback: function () {
       callback();
     }

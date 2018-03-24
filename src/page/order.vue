@@ -45,7 +45,7 @@
             <span>共{{ item.all_num }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.youfei || 0}}元)</span></span>
           </div>
           <div class="footer_btn" v-if="!item.hasMsg">
-              <button class="btn order_pay" @click.stop="receipt(index, item.id, item.amount)">确认收货</button>
+              <button class="btn order_pay" @click.stop="receipt(index, item.id)">确认收货</button>
           </div> 
         </div>
         <!-- 已完成 -->
@@ -126,11 +126,13 @@ export default {
       this.$router.push({ path: 'orderDetails', query: {status: status, id: id} });
     },
     // 确认收货
-    receipt (index) {
-      this.goPay(null, () => {
-        this.toast('确认收货成功');
-        this.orderData.splice(index, 1);
-      });
+    receipt (index, id) {
+      let that = this;
+      // 第一个参数，订单号， 第二个参数成功事件，第三个参数，事件类型
+      this.goPay(id, function () {
+        that.toast('确认收货成功');
+        that.orderData.splice(index, 1);
+      }, 'endOrder');
     },
     // 请求我的订单
     getOrderInfo (index) {

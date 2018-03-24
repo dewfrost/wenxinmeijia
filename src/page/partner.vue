@@ -8,11 +8,11 @@
       <span class="tab_in" :class="{'active': tabActive === 1}" @click="headerTab(1)">扫码会员</span>
       <span class="tab_out" :class="{'active': tabActive === 2}" @click="headerTab(2)">消费会员</span>
     </div>
-    <!-- 没有数据页面 -->
-    <div v-if="!user.length && isRequest" class="none_order">
-      <p>此页面暂无内容</p>
-    </div>
     <div class="center" v-if="tabActive === 1">
+      <!-- 没有数据页面 -->
+      <div v-if="!user.length && isRequest" class="none_order">
+        <p>此页面暂无内容</p>
+      </div>
       <ul>
         <li class="partner_li" v-for="(item, index) in user" :key="index">
           <div class="partner_one">
@@ -47,6 +47,10 @@
           <span class="num">{{item.user_num}}</span>
         </li>
       </ul>
+      <!-- 没有数据页面 -->
+      <div v-if="!member.length && isRequest" class="none_order">
+        <p>此页面暂无内容</p>
+      </div>
       <ul>
         <li class="spend_li" v-for="(item, index) in member" :key="index">
           <div class="tou">
@@ -221,6 +225,8 @@ export default {
     // 选择条件事件
     chooseCondition (index) {
       this.isShowCondition = false;
+      // 切换tab重新设置成false
+      this.isRequest = false;
       // 数组清空
       this.member = [];
       this.canRequest = true;

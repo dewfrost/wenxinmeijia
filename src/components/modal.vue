@@ -101,7 +101,9 @@ export default {
         isSend: false,
         btntxt: '发送验证码',
         sendSMSTime: 0
-      }
+      },
+      payType: '', // 所需支付密码的事件类型
+      withdraw: '' // 提现金额
     };
   },
   beforeMount: function () {
@@ -133,13 +135,13 @@ export default {
           this.btnTitle = data.btnTitle;
           this.callback = data.callback;
           this.orderId = data.orderId;
+          this.payType = data.payType;
+          this.withdraw = data.withdraw;
           // 地址
           this.data = data;
           // 是否是password类型
           if (this.show === 'password') {
             this.getHasPassword();
-          }
-          if (this.show === 'password') {
             this.getPhone(this.user);
           }
         }
@@ -231,29 +233,53 @@ export default {
     },
     showPassNum () {
       if (this.password.length === 6) {
-        // 如果有payType传值为submit，则是确认收货
-        if (this.payType === 'submit') {
-          this.requestPay('/order_pay/balance_payment');
-        } else if (this.payType === 'withdraw') {
+        // 如果有payType传值为endOrder，则是确认收货
+        if (this.payType === 'endOrder') {
+          this.requestPay1('/order/order_end');
+        } else if ((this.payType === 'withdraw1') || (this.payType === 'withdraw2')) {
           // 提现
-          this.requestPay('/order_pay/balance_payment');
+          this.requestPay2('/withdrawals/apply');
         } else {
           // 支付
-          this.requestPay('/order_pay/balance_payment');
+          this.requestPay1('/order_pay/balance_payment');
         }
         // 成功或是失败都密码重置，关闭密码框
         this.close();
         this.password = '';
       }
     },
-    requestPay (url) {
+    requestPay1 (url) {
       this.axios.post(url, {
         id: this.orderId,
         pwd: this.password
       })
         .then(({data}) => {
           this.isRequest = true;
-          if (data.status === 1) {
+          if (parseInt(data.status) === 1) {
+            this.callback();
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    requestPay2 (url) {
+      let type;
+      if (this.payType === 'withdraw1') {
+        type = 1;
+      } else if (this.payType === 'withdraw2') {
+        type = 2;
+      }
+      this.axios.post(url, {
+        types: type,
+        money: this.withdraw,
+        pwd: this.password
+      })
+        .then(({data}) => {
+          this.isRequest = true;
+          if (parseInt(data.status) === 1) {
             this.callback();
           } else {
             this.toast(data.message);

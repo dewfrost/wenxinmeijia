@@ -8,7 +8,7 @@
     <!-- 请输入金额 -->
     <p class="withdrawApply_money">
       <i class="iconfont icon-tixian"></i>
-      <input class="placeholder" type="text" v-model="price" placeholder="请输入提现金额">
+      <input class="placeholder" type="number" v-model="price" placeholder="请输入提现金额">
     </p>
     <!-- 提现方式 -->
     <p class="select">提现方式</p>
@@ -111,6 +111,8 @@ export default {
     submit () {
       if (!this.price) {
         this.toast('提现金额不能为空');
+      } else if (parseInt(this.price) > parseInt(this.quota)) {
+        this.toast('提现金额超出每日限额');
       } else if (parseInt(this.price) > parseInt(this.applyPrice)) {
         this.toast('可用提现金额不足');
       } else if (this.activeNum === 0 && !this.wechatIsBind) {
@@ -122,32 +124,21 @@ export default {
           this.$router.push({path: 'zfbBind'});
         });
       } else {
-        this.goPay(() => {
-          // 判断类型
-          if (this.activeNum === 0) {
-            this.type = 1;
-          } else {
-            this.type = 2;
-          }
-          this.axios.post('/withdrawals/apply', {
-            money: this.price,
-            // 声明一个类型
-            types: this.type
-          })
-          .then(({data}) => {
-            if (data.status === 1) {
-              this.goPay(null, () => {
-                this.toast('提现成功');
-                this.$router.go(-1);
-              });
-            } else {
-              this.toast(data.message);
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-        });
+        let that = this;
+        // 判断类型
+        if (this.activeNum === 0) {
+          // 第一个参数，订单号， 第二个参数成功事件，第三个参数，如果是withdraw1，则是微信提现，如果是withdraw2，则是支付宝提现,第四个参数：金钱数
+          this.goPay('', function () {
+            that.toast('提现成功');
+            that.$router.go(-1);
+          }, 'withdraw1', this.price);
+        } else {
+          // 第一个参数，订单号， 第二个参数成功事件，第三个参数，如果是withdraw1，则是微信提现，如果是withdraw2，则是支付宝提现,第四个参数：金钱数
+          this.goPay('', function () {
+            that.toast('提现成功');
+            that.$router.go(-1);
+          }, 'withdraw2', this.price);
+        }
       }
     },
     // 选择支付类型

@@ -2,7 +2,7 @@
   <div class="payment">
     <p class="payment_money">
       <span>应付金额</span>
-      <span class="color">￥{{price}}</span>
+      <span class="color">￥{{price || 0}}</span>
     </p>
     <span class="select">选择支付方式</span>
     <div class="list">
@@ -12,7 +12,7 @@
           <span>{{item.title}}</span>
         </div>
         <div class="right">
-          <span class="f_x_9" v-if="index === 2">￥{{balance}}</span>
+          <span class="f_x_9" v-if="index === 2">￥{{balance || 0}}</span>
           <i class="iconfont" :class="{'icon-30xuanzhongyuanxingfill' : activeNum === index, 'icon-30xuanzhongyuanxing' : activeNum !== index}"></i>
         </div>
       </div>
@@ -71,12 +71,14 @@ export default {
         }
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.price = data.data.order.price;
             this.balance = data.data.user.balance;
           } else {
-            this.toast(data.message);
+            // 获取订单失败
+            this.modal('数据错误', '没有找到此订单', '我的订单', () => {
+              this.$router.replace({path: 'order', query: {status: 0}});
+            });
           }
         })
         .catch(function (error) {
