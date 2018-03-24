@@ -121,12 +121,11 @@ export default {
         this.toast('真实姓名不能为空');
       } else if (!this.user.password) {
         this.toast('密码不能为空');
-      } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{8,20}$/.test(this.user.password)) {
+      } else if (this.user.password && !/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}$/.test(this.user.password)) {
         this.toast('密码格式不正确');
       } else if (!this.user.code) {
         this.toast('验证码不能为空');
       } else {
-        this.$router.push('accountBind');
         this.submit();
       }
     },
@@ -141,6 +140,7 @@ export default {
       })
       .then(({data}) => {
         if (data.status === 1) {
+          this.$router.push('accountBind');
           this.toast('绑定成功');
         } else {
           this.toast(data.message);

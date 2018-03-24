@@ -72,18 +72,13 @@ export default {
   data () {
     return {
       address: null,
-      // {
-      //   name: '杨阳洋',
-      //   phone: 17336369854,
-      //   address: '河南省 郑州市 金水区 某某某小区1单元6楼东户'
-      // },
       goodsInfo: [], // 商品列表
-      allPrice: '0.00', // 商品总金额
-      freight: '0.00', // 运费
-      voucher: '0.00', // 抵用券
+      allPrice: '0', // 商品总金额
+      freight: '0', // 运费
+      voucher: '0', // 抵用券
       selectStatus: false,
       endNum: 1,
-      endPrice: '0.00',
+      endPrice: '0',
       numList: null
     };
   },
