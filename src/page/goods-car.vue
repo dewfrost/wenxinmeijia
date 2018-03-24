@@ -213,7 +213,6 @@ export default {
         num: sum
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
           } else {
             this.toast(data.message);
@@ -278,8 +277,6 @@ export default {
       for (let i = 0; i < this.goodsList.length; i++) {
         // 先判断是否选中
         if (this.goodsList[i].isClick) {
-          console.log(parseInt(this.goodsList[i].price));
-          console.log(this.goodsList[i].num);
           this.allCheckPrice += this.goodsList[i].num * parseInt(this.goodsList[i].goods.price);
         }
       }

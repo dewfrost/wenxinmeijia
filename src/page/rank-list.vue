@@ -13,7 +13,6 @@
       <ul>
         <li class="rank_li" v-for="(item, index) in user" :key="index">
           <div class="rank_one">
-            <!-- <span>{{index+1}}.</span> -->
             <span v-if="index == 0">
               <img src="../assets/images/index_1.png" alt="">
             </span>

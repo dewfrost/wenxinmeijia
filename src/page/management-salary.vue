@@ -1,7 +1,7 @@
 <template>
   <div class="managementSalary" ref="logBox">
     <div class="top">
-      <span>&yen;<span class="all_sum">{{account.money || 0}}</span></span>
+      <span>&yen; <span class="all_sum">{{account.money || 0}}</span></span>
       <span>总额</span>
     </div>
     <!-- 没有数据页面 -->
@@ -20,7 +20,7 @@
               <div class="management_time">{{item.create_time}}</div>
             </div>
           </div>
-          <span class="management_span">￥{{item.score}}</span>
+          <span class="management_span">&yen;{{item.score}}</span>
         </li>
       </ul>
     </div>
@@ -59,30 +59,12 @@ export default {
         // 只在goodsDetails页面监听
         if (/managementSalary/g.test(window.location.href)) {
           if (document.getElementById('content').scrollTop > 100) {
-            console.log(document.getElementById('content').scrollTop);
             this.getHeader('管理薪资', 'no_transparent');
           } else {
             this.getHeader('管理薪资', 'management_top');
           }
         }
       });
-    },
-    showToast: function () {
-      // 引用toast组件
-      this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
-    },
-    showModal: function () {
-      let that = this; // 如果回调函数中用到this，则这行代码必须有
-      // 引用弹窗组件
-      this.toast(
-        '这是弹窗标题',
-        '这是弹窗服饰股份的供热一个头特化工股份合格的合格合格分数高富帅正文',
-        '这是按钮',
-        function () {
-          console.log('调用弹窗成功');
-          console.log(that.modalMsg);
-        }
-      ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
     },
     // 请求管理薪资
     getSalary () {

@@ -140,7 +140,6 @@ export default {
         }
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             // 轮播图片
             this.swiperImg = data.data.lunbo;
@@ -182,7 +181,6 @@ export default {
         gid: this.$route.query.id
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.toast('添加购物车成功!', 'icon-chenggong1');
             // this.goodsCarSum++;

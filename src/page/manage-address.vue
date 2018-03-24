@@ -30,7 +30,6 @@ export default {
       // 数据
       isRequest: false,
       address: []
-      // isReq: false
     };
   },
   created: function () {},
@@ -117,7 +116,6 @@ export default {
     },
     // 删除地址--接口
     doDelAddress (index) {
-      console.log(index);
       this.axios.get('/address/userAddressDel', {
         params: {
           id: this.address[index].id

@@ -50,23 +50,6 @@ export default {
     this.getHeader('', 'with_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
   methods: {
-    showToast: function () {
-      // 引用toast组件
-      this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
-    },
-    showModal: function () {
-      let that = this; // 如果回调函数中用到this，则这行代码必须有
-      // 引用弹窗组件
-      this.toast(
-        '这是弹窗标题',
-        '这是弹窗服饰股份的供热一个头特化工股份合格的合格合格分数高富帅正文',
-        '这是按钮',
-        function () {
-          console.log('调用弹窗成功');
-          console.log(that.modalMsg);
-        }
-      ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
-    },
     accountMoney: function () {
       this.modal('提示', '请联系客服，线下充值贷款', '联系客服', function () {
         this.$router.replace({path: 'customerCenter'});
@@ -79,7 +62,6 @@ export default {
         .then(({data}) => {
           this.isRequest = true;
           if (parseInt(data.status) === 1) {
-            console.log(data.data);
             // 列表
             this.account.money = data.data.count;
             this.user = data.data.mymoney;

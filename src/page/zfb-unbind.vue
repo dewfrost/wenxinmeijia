@@ -2,7 +2,7 @@
   <div class="zfbUnbind">
     <div class="bind">
       <label for="idCode">支付宝账号</label>
-      <input id="idcode" type="text" placeholder="请填写您的支付宝账号" disabled  v-model= 'showAlipay' @input = 'isRightPhone'>
+      <input id="idcode" type="text" placeholder="请填写您的支付宝账号" v-model= 'showAlipay' @input = 'isRightPhone' disabled >
     </div>
     <div class="bind">
       <label for="phone">手机号</label>
@@ -27,12 +27,7 @@ export default {
   data () {
     return {
       // 数据
-      user: {
-        idCode: '',
-        phone: '',
-        password: '',
-        code: ''
-      },
+      user: {},
       phoneDisablrd: false,
       isSend: false,
       sendSMSTime: 0,

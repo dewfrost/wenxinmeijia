@@ -59,7 +59,6 @@ export default {
         });
     },
     backSubmit (index) {
-      console.log(this.address[index].id);
       this.axios.post('/order_pay/choice_address', {
         aid: this.address[index].id
       })

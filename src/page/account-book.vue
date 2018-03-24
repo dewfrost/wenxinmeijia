@@ -46,8 +46,6 @@ export default {
     // 挂载之前
     // 请求我的账本收入接口
     this.getIncome();
-    // 请求我的账本支出接口
-    // this.getExpenditure(this.tabActive);
   },
   mounted: function () {
     this.scrollOn();
@@ -59,7 +57,6 @@ export default {
         // 只在goodsDetails页面监听
         if (/accountBook/g.test(window.location.href)) {
           if (document.getElementById('content').scrollTop > 100) {
-            console.log(document.getElementById('content').scrollTop);
             this.getHeader('我的账本', 'no_transparent');
           } else {
             this.getHeader('我的账本', 'account_top');
@@ -87,7 +84,6 @@ export default {
         .then(({data}) => {
           this.isRequest = true;
           if (parseInt(data.status) === 1) {
-            console.log(data.data);
             // 列表
             this.user = data.data;
           } else {
@@ -105,7 +101,6 @@ export default {
         .then(({data}) => {
           this.isRequest = true;
           if (parseInt(data.status) === 1) {
-            console.log(data.data);
             // 列表
             this.user = data.data;
           } else {
