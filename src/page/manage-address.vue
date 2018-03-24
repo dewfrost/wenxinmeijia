@@ -15,7 +15,7 @@
         <span class="default iconfont" @click="selectAddress(index, item.id)" :class="{'icon-30xuanzhongyuanxingfill':item.default === 1,'icon-30xuanzhongyuanxing':!item.default !==1}">{{item.default === 1?"默认地址":"设为默认"}}</span>
         <p class="manage">
           <router-link :to="{path: 'editAddress', query:{id: item.id}}" tag="span" class="iconfont icon-iconfontedit">编辑</router-link>
-          <span @click="del(item.id, index)" class="iconfont icon-shanchu1">删除</span>
+          <span @click="del(index)" class="iconfont icon-shanchu1">删除</span>
         </p>
       </div>
     </div>
@@ -116,16 +116,17 @@ export default {
         });
     },
     // 删除地址--接口
-    doDelAddress (id, index) {
-      let that = this;
-      that.axios.get('/address/userAddressDel', {
+    doDelAddress (index) {
+      console.log(index);
+      this.axios.get('/address/userAddressDel', {
         params: {
-          id: id
+          id: this.address[index].id
         }
       })
       .then(({data}) => {
-        if (data.default === 1) {
-          return false;
+        if (data.status === 1) {
+          this.address.splice(index, 1);
+          this.toast('删除成功');
         } else {
           this.toast(data.message);
         }
@@ -135,15 +136,14 @@ export default {
       });
     },
     // 是否删除
-    del: function (id, index) {
+    del: function (index) {
       // 判断删除的是否是默认地址
       if (this.address[index].default === 1) {
         this.toast('默认地址不能删除');
         return false;
       }
-      this.modal('提示', '确定删除该收货地址？', '确定', (index) => {
-        this.doDelAddress(id, index);
-        this.address.splice(index, 1);
+      this.modal('提示', '确定删除该收货地址？', '确定', () => {
+        this.doDelAddress(index);
       }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
     }
   }
