@@ -215,7 +215,7 @@ export default {
       })
       .then(({data}) => {
         if (data.status === 1) {
-          this.modal('提示', '支付密码已修改成功，请重新登录。', '确定', function (index) {
+          this.modal('提示', '支付密码已修改成功。', '确定', function (index) {
             this.$router.go(-1);
           }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
         } else {
