@@ -10,7 +10,7 @@
     </div>
     <div class="bind">
       <label for="phone">手机号</label>
-      <input id="phone" type="text" placeholder="请输入您的手机号"  v-model='showPhone' @input = 'isRightPhone' :disabled="phoneDisablrd">
+      <input id="phone" type="text" placeholder="请输入您的手机号"  v-model='showPhone' @input = 'isRightPhone' :disabled="user.phone">
     </div>
     <div class="bind">
       <label for="password">登录密码</label>
@@ -83,6 +83,7 @@ export default {
     },
     // 获取验证码
     sendSMS: function () {
+      this.disabled = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');
@@ -94,6 +95,8 @@ export default {
           this.disabled = true;
           this.btntxt = '已发送(' + this.sendSMSTime + ')s';
           this.timer();
+        }, () => {
+          this.disabled = false;
         });
       }
     },

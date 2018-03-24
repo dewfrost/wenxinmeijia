@@ -6,7 +6,7 @@
     </div>
     <div class="bind">
       <label for="phone">手机号</label>
-      <input id="phone" type="text" placeholder="请输入您的手机号" v-model= 'showPhone' @input = 'isRightPhone' :disabled="phoneDisablrd">
+      <input id="phone" type="text" placeholder="请输入您的手机号" v-model= 'showPhone' @input = 'isRightPhone' :disabled="user.phone">
     </div>
     <div class="bind">
       <label for="password">登录密码</label>
@@ -27,7 +27,12 @@ export default {
   data () {
     return {
       // 数据
-      user: {},
+      user: {
+        idCode: '',
+        phone: null,
+        code: '',
+        password: null
+      },
       phoneDisablrd: false,
       isSend: false,
       sendSMSTime: 0,
@@ -38,20 +43,16 @@ export default {
   created: function () {},
   beforeMount: function () {
     this.getPhone(this.user);
+    // 获取支付宝账号
     this.getIdcode();
   }, // 挂载之前
   mounted: function () {
     this.getHeader('支付宝解绑', 'zfbUnbind_top');
-  }, // 挂载之后
-  beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
-  updated: function () {}, // 数据更新后,渲染后调用(禁止)
-  beforeDestroy: function () {
-    eventBus.$emit('header', false);
-  }, // 实例销毁前调用,解绑中间层的数据传输
-  destroyed: function () {}, // 实例销毁后调用
+  },
   computed: {
     // 手机号隐藏中间数字
     showAlipay () {
+      console.log(this.user.idCode);
       if (!this.user.idCode) {
         return false;
       } else if ((/@/g).test(this.user.idCode)) {
@@ -88,6 +89,7 @@ export default {
     },
     // 获取验证码
     sendSMS: function () {
+      this.disabled = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');
@@ -99,6 +101,8 @@ export default {
           this.disabled = true;
           this.btntxt = '已发送(' + this.sendSMSTime + ')s';
           this.timer();
+        }, () => {
+          this.disabled = false;
         });
       }
     },
@@ -134,6 +138,7 @@ export default {
       })
         .then(({data}) => {
           if (data.status === 1) {
+            this.toast('解绑成功');
             this.$router.go(-1);
           } else {
             this.toast(data.message);
@@ -150,6 +155,7 @@ export default {
       .then(({data}) => {
         if (data.status === 1) {
           this.user.idCode = data.data[0].zhifubao;
+          console.log(4);
         } else {
           this.toast(data.message);
         }

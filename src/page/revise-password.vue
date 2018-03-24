@@ -93,6 +93,7 @@ export default {
     },
     // 获取验证码
     sendSMS1: function () {
+      this.disabled1 = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');
@@ -104,6 +105,8 @@ export default {
           this.disabled1 = true;
           this.btntxt1 = '已发送(' + this.sendSMSTime1 + ')s';
           this.timer();
+        }, () => {
+          this.disabled1 = false;
         });
       }
     },
@@ -137,6 +140,7 @@ export default {
       }
     },
     sendSMS2: function () {
+      this.disabled2 = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');
@@ -148,6 +152,8 @@ export default {
           this.disabled2 = true;
           this.btntxt2 = '已发送(' + this.sendSMSTime2 + ')s';
           this.timer();
+        }, () => {
+          this.disabled2 = false;
         });
       }
     },
@@ -196,9 +202,25 @@ export default {
       })
       .then(({data}) => {
         if (data.status === 1) {
-          this.modal('提示', '登录密码已修改成功，请重新登录。', '确定', function (index) {
-            this.$router.push('login');
+          this.modal('提示', '登录密码已修改成功，请重新登录。', '确定', () => {
+            // 请求退出登录接口
+            this.logout();
           }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
+        } else {
+          this.toast(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+    logout () {
+      this.axios.post('/user/exitlogin', {
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.$router.push('login');
+          this.toast(data.message);
         } else {
           this.toast(data.message);
         }
@@ -216,7 +238,7 @@ export default {
       })
       .then(({data}) => {
         if (data.status === 1) {
-          this.modal('提示', '支付密码已修改成功。', '确定', function (index) {
+          this.modal('提示', '支付密码已修改成功。', '确定', () => {
             this.$router.go(-1);
           }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
         } else {
