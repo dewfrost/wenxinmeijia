@@ -277,7 +277,7 @@ export default {
       for (let i = 0; i < this.goodsList.length; i++) {
         // 先判断是否选中
         if (this.goodsList[i].isClick) {
-          this.allCheckPrice += this.goodsList[i].num * parseInt(this.goodsList[i].goods.price);
+          this.allCheckPrice += this.goodsList[i].num * parseFloat(this.goodsList[i].goods.price);
         }
       }
     }

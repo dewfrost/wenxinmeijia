@@ -95,6 +95,7 @@ export default {
         font-size: 22px;
         color: #666;
         line-height: 40px;
+        width: 100%;
         p{
           margin-top: 15px;
           float: right;

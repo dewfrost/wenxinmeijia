@@ -61,6 +61,7 @@ export default {
 .publicDetails{
   .details{
     padding-top: 90px;
+    min-height: 100%;
     .kong{
       width: 100%;
       height: 10px;
