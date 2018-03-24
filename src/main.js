@@ -282,15 +282,16 @@ Vue.prototype.axios.interceptors.response.use(function (response) {
   // 跳转前
   router.beforeEach((to, from, next) => {
     // 如果在白名单内
-    if ((!Other.join('*').match(to.fullPath.replace('/', 'index'))) && (Other.join('*').match(to.name) === null)) {
+    if (Other.join('*').match(to.fullPath.replace('/', '')) || Other.join('*').match(to.name) !== null) {
+      next();
+    } else {
+      Vue.prototype.toast(to.name);
       // 如果返回值为10000，表示未登录，等跳转到登录页
       if (response.data.status === '10000') {
         router.push('login');
       } else {
         next();
       }
-    } else {
-      next();
     }
   });
   return response;
