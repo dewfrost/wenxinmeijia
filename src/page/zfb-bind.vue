@@ -175,7 +175,7 @@ export default {
     justify-content: space-between;
     #code{
       width: 165px;
-      margin-right: -154px;
+      margin-right: -130px;
     }
     input{
       width: 355px;
@@ -184,7 +184,7 @@ export default {
       background: transparent;
     }
     button{
-      width: 145px;
+      width: 154px;
       height: 50px;
       margin-left: -10px;
       margin-top: 17.5px;
