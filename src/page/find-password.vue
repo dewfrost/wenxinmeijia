@@ -119,12 +119,12 @@ export default {
         this.toast('验证码不能为空');
       } else if (!this.user.password) {
         this.toast('密码不能为空');
+      } else if (!/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}$/.test(this.user.password)) {
+        this.toast('密码格式不正确');
       } else if (!this.user.pad) {
         this.toast('确认密码不能为空');
       } else if (this.user.password !== this.user.pad) {
         this.toast('两次输入的密码不同');
-      } else if (!/^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}$/.test(this.user.password)) {
-        this.toast('密码格式不正确');
       } else {
         // 找回密码成功
         this.doSubmit();
