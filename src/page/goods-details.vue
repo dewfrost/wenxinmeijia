@@ -14,7 +14,8 @@
     <div class="goods_top">
      <div class="title">
        <div class="title_t">{{goods.name}}</div>
-       <div class="money">&yen;<span>{{goods.price}}</span></div>
+       <div class="old_money">&yen;<span>{{goods.price}}</span></div>
+       <div class="sale_money">&yen;<span>{{goods.price}}</span></div>
        <div class="freight" :class="{'wu': !goods.freight}">运费：{{goods.freight || "免运费"}}</div>
      </div>
     </div>
@@ -322,6 +323,12 @@ export default {
      .title_t{
        font-size: 24px;
        color: #000;
+     }
+     .new_money{
+       color: $color;
+     }
+     .old_money{
+       color: $color;
      }
      .money{
        margin-top: 18px;

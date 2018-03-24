@@ -125,7 +125,6 @@ export default {
       this.axios.get('/user_news/no_look_num', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.noReadMessage = data.data;
           } else {

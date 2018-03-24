@@ -37,7 +37,7 @@
             <p class="details_name">{{list.name}}</p>
             <p class="details_info">
               <span class="red">&yen;&nbsp;<span class="price">{{list.price}}</span></span>
-              <span class="buy" @click.stop="buyParts(list.id)">立即购买</span>
+              <span class="buy" @click.stop="buyGoods(list.id)">立即购买</span>
             </p>
           </div>
           <span class="more" @click="partsOther(item.id)">查看更多></span>
@@ -98,7 +98,6 @@ export default {
       this.axios.get('/index/lunbo', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.swiperImg = data.data;
           } else {
@@ -113,7 +112,6 @@ export default {
       this.axios.get('/goods/goods', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.details = data.data;
           } else {
@@ -128,7 +126,6 @@ export default {
       this.axios.get('/goods/other_goods', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.areaList = data.data;
           } else {

@@ -11,7 +11,10 @@
     <div class="new_address" v-if="address">
       <div class="left">
         <span class="info">
-          收货人：{{address.name}}
+          <span class="first_line_left">
+            <span>收货人：</span>
+            <span>{{address.name}}</span>
+          </span>
           <span class="phone">{{address.phone}}</span>
         </span>
         <span class="address_details">地址：{{address.city}} {{address.description}}</span>
@@ -27,8 +30,14 @@
         <p class="details_name">{{item.name}}</p>
         <p class="moeny">
           <span class="price">
-            <span class="yen"> &yen; </span>
-            <span>{{item.price}}</span>
+            <span class="now_price">
+              <span class="yen"> &yen; </span>
+              {{item.price}}
+            </span>
+            <span class="old_price" v-if="item.zhekou">
+              <span class="yen"> &yen; </span>
+              {{item.zhekou}}
+            </span>
           </span>
           <span class="number">x{{numList ? numList[index] : '1'}}</span>
         </p>
@@ -104,26 +113,23 @@ export default {
       // 如果选择抵用券
       if (this.selectStatus) {
         // 如果抵用券比商品金额还多，则至少为0元
-        if (parseInt(this.allPrice - this.voucher) < 0) {
+        if (parseFloat(this.allPrice - this.voucher) < 0) {
           this.endPrice = '0';
         } else {
-          this.endPrice = parseInt(this.allPrice - this.voucher);
+          this.endPrice = parseFloat(this.allPrice - this.voucher);
         }
       } else {
         this.endPrice = this.allPrice;
       }
     },
     getInfo () {
-      let idArr = this.$route.query.id.split(',');
-      this.endNum = idArr.length;
-      // 如果长度为1，则是单间商品结算，否则是购物车结算
-      if (idArr.length === 1) {
+      // 如果query值有id，则是商品一件下单，有gid则是购物车下单
+      if (this.$route.query.id) {
         this.axios.post('/order_pay/front_order', {
           gid: this.$route.query.id,
           num: this.$route.query.num || 1
         })
           .then(({data}) => {
-            console.log(data);
             if (data.status === 1) {
               // 地址
               this.address = data.data.user.address;
@@ -145,11 +151,13 @@ export default {
             console.log(error);
           });
       } else {
+        // 商品总得种类数等于传的gid数组长度
+        this.endNum = this.$route.query.gid.split(',').length;
+        // 购物车结算
         this.axios.post('/order_pay/front_order', {
-          cids: this.$route.query.id
+          cids: this.$route.query.gid
         })
           .then(({data}) => {
-            console.log(data);
             if (data.status === 1) {
               // 地址
               this.address = data.data.user.address;
@@ -188,13 +196,21 @@ export default {
       });
     },
     submit () {
+      // 如果选中抵用券，传值1，否则不传
+      let score;
+      if (this.selectStatus) {
+        score = 1;
+      } else {
+        score = '';
+      }
       this.axios.post('/order_pay/add_order', {
         aid: this.address.id,
-        score: 1
+        score: score
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
+            // 跳转到支付页面
+            this.$router.replace({path: 'payment', query: {id: data.data}});
           } else {
             this.toast(data.message);
           }
@@ -252,25 +268,29 @@ export default {
     align-items: center;
     position: relative;
     .left{
-      flex: 1;
+      width: 90%;
       display: flex;
       justify-content: space-between;
       flex-direction: column;
       height: 84px;
       font-size: 22px;
       >.address_details{
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        /*! autoprefixer: off */
-        -webkit-box-orient: vertical;
-        /* autoprefixer: on */
+        width: 100%;
+        overflow: hidden;  /*超出隐藏*/
+        white-space: nowrap;  /*不换行*/
+        text-overflow: ellipsis;  /*用“...”表示超出的文本*/
+      }
+      .info{
+        display: flex;
+        justify-content: space-between;
+        margin-right: 60px;
       }
     }
     .icon-you{
+      width: 10%;
       height: 84px;
       display: flex;
+      justify-content: center;
       align-items: center;
       margin-right: 12px;
       font-size: 30px;
@@ -300,10 +320,23 @@ export default {
         display: flex;
         justify-content: space-between;
         .price{
-          color: $color;
-          .yen{
-            font-size: 20px;
-            margin-right: -3px;
+          .now_price{
+            color: $color;
+            .yen{
+              font-size: 20px;
+              margin-right: -3px;
+              color: #333;
+            }
+          }
+          .old_price{
+            font-size: 22px;
+            color: #999;
+            margin-left: 8px;
+            text-decoration: line-through;
+            .yen{
+              font-size: 20px;
+              margin-right: -3px;
+            }
           }
         }
       }

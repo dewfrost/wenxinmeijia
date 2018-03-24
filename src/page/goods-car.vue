@@ -12,7 +12,16 @@
         <div class="goods_details">
           <span class="name">{{item.goods.name}}</span>
           <span class="bottom">
-            <span class="price"><span>￥</span>{{item.goods.price || 0}}</span>
+            <span class="price">
+              <span class="sale_price">
+                <span class="small_money">&yen; </span>
+                {{item.goods.price || 0}}
+              </span>
+              <span class="old_price">
+                <span class="small_money" v-if="item.goods.zhekou">&yen; </span>
+                {{item.goods.zhekou}}
+              </span>
+            </span>
             <span class="sum" v-show="!isEdit">x{{item.num}}</span>
             <span class="edit_sum" v-show="isEdit">
               <span class="reduce" @click.stop="changeNum(1, index)">-</span>
@@ -108,6 +117,7 @@ export default {
         this.goAllCheck(); // 点击全选按钮
       });
     },
+    // 执行结算
     doSubmit () {
       let clearArr = [];
       for (let i = this.goodsList.length - 1; i >= 0; i--) {
@@ -117,8 +127,9 @@ export default {
           clearArr.push(this.goodsList[i].id);
         }
       }
-      this.$router.push({path: 'submitOrder', query: {id: clearArr.join()}});
+      this.$router.push({path: 'submitOrder', query: {gid: clearArr.join()}});
     },
+    // 全选按钮事件
     goAllCheck () {
       this.isAllCheck = !this.isAllCheck;
       // 如果全选按钮选中，循环所有商品的按钮为选中，反之亦然
@@ -349,10 +360,20 @@ export default {
             justify-content: space-between;
             margin-bottom: 14px;
             .price{
-              font-size: 28px;
-              color: $color;
-              >span{
+              .sale_price{
+                color: $color;
+                .small_money{
+                  font-size: 20px;
+                }
+              }
+              .old_price{
+                margin-left: 10px;
+                color: #999;
                 font-size: 22px;
+                text-decoration: line-through;
+                .small_money{
+                  font-size: 18px;
+                }
               }
             }
             .edit_sum{
