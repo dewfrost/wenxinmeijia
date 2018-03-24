@@ -118,7 +118,6 @@ export default {
           num: this.$route.query.num || 1
         })
           .then(({data}) => {
-            console.log(data);
             if (data.status === 1) {
               // 地址
               this.address = data.data.user.address;
@@ -144,7 +143,6 @@ export default {
           cids: this.$route.query.id
         })
           .then(({data}) => {
-            console.log(data);
             if (data.status === 1) {
               // 地址
               this.address = data.data.user.address;
@@ -188,7 +186,6 @@ export default {
         score: 1
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
           } else {
             this.toast(data.message);

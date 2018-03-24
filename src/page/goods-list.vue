@@ -51,7 +51,6 @@ export default {
   },
   mounted: function () {
     this.getHeaderName();
-    console.log(this.$route.name);
   },
   updated: function () {
     this.getHeaderName();

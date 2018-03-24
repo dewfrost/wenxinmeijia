@@ -77,9 +77,6 @@ export default {
       type: 0,
       order: {},
       pageStatus: parseInt(this.$route.query.status) || 0
-      // 订单id
-      // orderId: parseInt(this.$route.query.id) || 0,
-      // orderSn: this.$route.query.order_sn || 0
     };
   },
   beforeCreate: function () {
@@ -94,11 +91,9 @@ export default {
     // 挂载之前
     // 请求我的订单详情页接口
     this.getOrderDetails();
-    // console.log(this.$route.query.id);
   },
   mounted: function () {
     this.copyBtn = new Clipboard('.btn');
-    console.log(this.copyBtn);
     this.getFooter();
     this.getHeader('订单详情', 'orderd_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
@@ -178,23 +173,6 @@ export default {
     },
     payOrder: function (id) {
       this.$router.push({path: 'payment', query: {id: id}});
-    },
-    showToast: function () {
-      // 引用toast组件
-      this.toast('提示文字' + this.hidePhone(15614544444), 'icon-chenggong1');
-    },
-    showModal: function () {
-      let that = this; // 如果回调函数中用到this，则这行代码必须有
-      // 引用弹窗组件
-      this.toast(
-        '这是弹窗标题',
-        '这是弹窗服饰股份的供热一个头特化工股份合格的合格合格分数高富帅正文',
-        '这是按钮',
-        function () {
-          console.log('调用弹窗成功');
-          console.log(that.modalMsg);
-        }
-      ); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
     },
     // 请求我的订单
     getOrderDetails () {

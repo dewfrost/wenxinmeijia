@@ -38,7 +38,6 @@ export default {
         }
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.info = data.data;
           } else {

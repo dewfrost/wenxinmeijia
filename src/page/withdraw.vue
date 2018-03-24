@@ -62,7 +62,6 @@ export default {
         .then(({data}) => {
           this.isRequest = true;
           if (parseInt(data.status) === 1) {
-            console.log(data.data);
             // 列表
             this.account = data.data;
             this.user = data.data.log;

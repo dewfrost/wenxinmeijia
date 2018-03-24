@@ -1,6 +1,5 @@
 // 26 个人中心 user-center.vue
 // 27 编辑资料 edit-information.vue
-// 28 完善资料提示 perfect-pop.vue
 // 29 公告列表  public-list.vue
 // 30 公告详情  public-details.vue
 // 31 订单空白页/32 我的订单-待付款/34 取消订单/35 我的订单-待发货/37 我的订单-待收货/39 我的订单-已完成  order.vue
@@ -14,7 +13,6 @@
 // 50 管理薪资 management-salary.vue
 // 51 收入明细/52 支出明细  account-book.vue
 // 53 我的伙伴/54 消费会员/55 消费会员-筛选  partner.vue
-// 56 查看二维码 look-code.vue
 // 57 我的二维码 qr-code.vue
 // 58 管理收货地址/61 删除收货地址 manage-address.vue
 // 59 编辑收货地址 edit-address.vue
@@ -31,7 +29,6 @@
 
 import userCenter from '../page/user-center.vue';
 import editInformation from '../page/edit-information.vue';
-import perfectPop from '../page/perfect-pop.vue';
 import publicList from '../page/public-list.vue';
 import publicDetails from '../page/public-details.vue';
 import order from '../page/order.vue';
@@ -45,7 +42,6 @@ import promotionAwards from '../page/promotion-awards.vue';
 import managementSalary from '../page/management-salary.vue';
 import accountBook from '../page/account-book.vue';
 import partner from '../page/partner.vue';
-import lookCode from '../page/look-code.vue';
 import qrCode from '../page/qr-code.vue';
 import manageAddress from '../page/manage-address.vue';
 import editAddress from '../page/edit-address.vue';
@@ -70,11 +66,6 @@ export default[
     path: '/editInformation',
     component: editInformation,
     name: 'editInformation'
-  },
-  {
-    path: '/perfectPop',
-    component: perfectPop,
-    name: 'perfectPop'
   },
   {
     path: '/publicList',
@@ -140,11 +131,6 @@ export default[
     path: '/partner',
     component: partner,
     name: 'partner'
-  },
-  {
-    path: '/lookCode',
-    component: lookCode,
-    name: 'lookCode'
   },
   {
     path: '/qrCode',
