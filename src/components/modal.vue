@@ -459,6 +459,7 @@ export default {
           color: #333;
           background-color: #fff;
           line-height: 36px;
+          width: 100%;
         }
       }
       .sms_wrap{
@@ -482,14 +483,15 @@ export default {
             flex: 1;
             font-size: 24px;
             color: #333;
+            width: 100%;
           }
         }
         >button.send_btn{
           min-width: 140px;
-          padding: 0 10px;;
-          background-color: transparent;
+          padding-left: 10px;
+          background-color: #fff;
           position: absolute;
-          right: 0;
+          right: -10px;
           bottom: 0;
           font-size: 22px;
           color: $color;
