@@ -2,7 +2,7 @@
   <div class="moneyAccount">
     <div class="top">
       <span>货款余额</span>
-      <span>&yen; <span class="all_sum">{{account.money}}</span></span>
+      <span>&yen; <span class="all_sum">{{account.money || 0}}</span></span>
       <span class="in" @click="accountMoney()">充值</span>
     </div>
      <!-- 没有数据页面 -->

@@ -8,6 +8,10 @@
       <span class="tab_in" :class="{'active': tabActive === 1}" @click="headerTab(1)">扫码会员</span>
       <span class="tab_out" :class="{'active': tabActive === 2}" @click="headerTab(2)">消费会员</span>
     </div>
+    <!-- 没有数据页面 -->
+    <div v-if="!user.length && isRequest" class="none_order">
+      <p>此页面暂无内容</p>
+    </div>
     <div class="center" v-if="tabActive === 1">
       <ul>
         <li class="partner_li" v-for="(item, index) in user" :key="index">
@@ -70,6 +74,7 @@ export default {
   name: 'partner',
   data () {
     return {
+      isRequest: false,
       showCondition: '全部', // 展示的筛选条件
       levelArr: ['见习推广员', '推广员', '初级代理', '中级代理', '高级代理', '合伙人'],
       isShowCondition: false,
@@ -139,6 +144,7 @@ export default {
         }
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (data.status === 1) {
             this.canRequest = true;
             this.page++;
@@ -165,6 +171,7 @@ export default {
       })
         .then(({data}) => {
           console.log(data);
+          this.isRequest = true;
           if (data.status === 1) {
             this.canRequest = true;
             this.page++;
@@ -188,6 +195,8 @@ export default {
       if (this.tabActive === num) {
         return false;
       }
+      // 切换tab重新设置成false
+      this.isRequest = false;
       // 筛选条件框收起
       this.isShowCondition = false;
       // page变为1
@@ -270,6 +279,21 @@ export default {
       font-size: 50px;
       line-height: 50px;
     }
+  }
+   .none_order{
+      background: url(../assets/images/none_01.png) no-repeat center center;
+      position: absolute;
+      top: 400px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 300px;
+      width: 80%;
+      text-align: center;
+      > p{
+        color: #999;
+        font-size: 24px;
+        margin-top: 260px;
+      }
   }
   .center{
    margin-top: 20px;

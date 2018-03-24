@@ -2,7 +2,7 @@
   <div class="withdraw">
     <div class="top">
       <span>可提现余额</span>
-      <span>&yen; <span class="all_sum">{{account.money}}</span></span>
+      <span>&yen; <span class="all_sum">{{account.money || 0}}</span></span>
       <!-- <router-link tag="span" to="withdrawApply" class="out">去提现</router-link> -->
       <span @click="seeWithdraw()"  class="out">去提现</span>
     </div>

@@ -4,6 +4,10 @@
      <span class="tab_in" :class="{'active': tabActive === 1}" @click="headerTab(1)">销售排行</span>
      <span class="tab_out" :class="{'active': tabActive === 2}" @click="headerTab(2)">本月收入</span>
     </div>
+     <!-- 没有数据页面 -->
+    <div v-if="!user.length && isRequest" class="none_order">
+      <p>此页面暂无内容</p>
+    </div>
     <div class="center">
       <span class="iconfont icon-ranking"> <span class="paihang">本月排行</span> </span>
       <ul>
@@ -37,6 +41,7 @@ export default {
   name: 'rankList',
   data () {
     return {
+      isRequest: false,
       tabActive: 1,
       user: []
     };
@@ -70,6 +75,8 @@ export default {
       if (num === this.tabActive) {
         return false;
       }
+      // 切换tab重新设置成false
+      this.isRequest = false;
       this.tabActive = num;
       if (num === 1) {
         this.getRank();
@@ -82,6 +89,7 @@ export default {
       this.axios.get('/user/Sales', {
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (parseInt(data.status) === 1) {
             // 列表
             this.user = data.data;
@@ -98,6 +106,7 @@ export default {
       this.axios.get('/user/monthincome', {
       })
         .then(({data}) => {
+          this.isRequest = true;
           if (parseInt(data.status) === 1) {
             // 列表
             this.user = data.data;
@@ -141,6 +150,21 @@ export default {
       line-height: 50px;
     }
   }
+   .none_order{
+      background: url(../assets/images/none_01.png) no-repeat center center;
+      position: absolute;
+      top: 400px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 300px;
+      width: 80%;
+      text-align: center;
+      > p{
+        color: #999;
+        font-size: 24px;
+        margin-top: 260px;
+      }
+ }
  .center{
    .iconfont{
     display: inline-block;
