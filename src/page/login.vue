@@ -208,7 +208,7 @@ export default {
             color: $color;
             padding-right: 8px;
             font-size: 28px;
-            margin-top: 4px;;
+            margin-top: 4px;
           }
           &.icon-30xuanzhongyuanxing::before {
             color: $color;
