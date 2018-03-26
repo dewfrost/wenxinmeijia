@@ -128,7 +128,7 @@ export default {
         eventBus.$emit('footer', {
           button: [
             {
-              inner: '确认订单',
+              inner: '确认收货',
               callback: () => {
                 // 第一个参数，订单号， 第二个参数成功事件，第三个参数，事件类型
                 that.goPay(this.$route.query.id, function () {

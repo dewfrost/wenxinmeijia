@@ -74,11 +74,6 @@ export default {
       voucherNum: '10.00' // 代金券金额
     };
   },
-  beforeCreate: function () { // 创建之前
-  },
-  created: function () { // 创建之后
-    eventBus.$emit('header', false);
-  },
   beforeMount: function () {
     // 获取轮播图片
     this.getCarouselImg();
@@ -90,7 +85,7 @@ export default {
   mounted: function () {
     this.getFooter();
     // 展示代金券弹窗,参数为金额
-    this.getVoucherModal(this.voucherNum);
+    // this.getVoucherModal(this.voucherNum);
     // 检查是否是IOS
     this.checkIsIos();
   },

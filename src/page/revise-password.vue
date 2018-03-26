@@ -105,7 +105,7 @@ export default {
     },
     timer () {
       // 第一步
-      if (this.this.$route.query.type === 'login') {
+      if (this.$route.query.type === 'login') {
         let time = setInterval(() => { // 声明一个定时器
           if (this.sendSMSTime1 > 0) {
             this.sendSMSTime1--;
