@@ -18,7 +18,7 @@
           <div class="right">
             <div class="one">{{list.gname}}</div>
             <div class="price">
-              <span class="money"> &yen;<span class="money_big">{{list.gprice}}</span>  </span>
+              <span class="money"> &yen;&nbsp;<span class="money_big">{{list.gprice}}</span>  </span>
               <span class="goodsnum">x{{list.gnum}}</span>
             </div>
           </div>
@@ -26,7 +26,7 @@
         <!--  待支付每个订单底部 -->
         <div class="order_footer" v-if="status === 0">
           <div class="order_footer_top">
-              <span>共{{ item.all_num }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.youfei || 0}}元)</span></span>
+              <span>共{{ item.all_num }}件商品&nbsp;合计:&nbsp;<span class="order_footer_price"><span class="blank">&yen;&nbsp;</span>{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.youfei || 0}}元)</span></span>
           </div>
           <div class="footer_btn" v-if="!item.hasMsg">
             <button class="btn order_out" @click.stop="goodsOut(index, item.id)">取消订单</button>
@@ -36,13 +36,13 @@
         <!-- 待发货 -->
         <div class="order_footer" v-if="status === 1">
           <div class="order_footer_top">
-              <span>共{{ item.all_num }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.youfei || 0}}元)</span></span>
+              <span>共{{ item.all_num }}件商品&nbsp;合计:&nbsp;<span class="order_footer_price"><span class="blank">&yen;&nbsp;</span>{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.youfei || 0}}元)</span></span>
           </div>
         </div>
         <!-- 待收货 -->
         <div class="order_footer" v-if="status === 2">
           <div class="order_footer_top">
-            <span>共{{ item.all_num }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.youfei || 0}}元)</span></span>
+            <span>共{{ item.all_num }}件商品&nbsp;合计:&nbsp;<span class="order_footer_price"><span class="blank">&yen;&nbsp;</span>{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.youfei || 0}}元)</span></span>
           </div>
           <div class="footer_btn" v-if="!item.hasMsg">
               <button class="btn order_pay" @click.stop="receipt(index, item.id)">确认收货</button>
@@ -51,7 +51,7 @@
         <!-- 已完成 -->
         <div class="order_footer" v-if="status === 3">
           <div class="order_footer_top">
-              <span>共{{ item.all_num }}件商品&nbsp;合计:<span class="order_footer_price">&yen;{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.youfei || 0}}元)</span></span>
+              <span>共{{ item.all_num }}件商品&nbsp;合计:&nbsp;<span class="order_footer_price"><span class="blank">&yen;&nbsp;</span>{{ item.allPrice }}</span>&nbsp;<span>(含运费:￥{{item.youfei || 0}}元)</span></span>
           </div>
         </div>
       </div>
@@ -263,6 +263,7 @@ export default {
             color: $color;
             .money_big{
               font-size: 26px;
+              margin-left: -2px;
             }
           }
           .goodsnum{
@@ -281,6 +282,9 @@ export default {
        .order_footer_price{
          font-size: 26px;
          color: $color;
+         .blank{
+            margin-right: -4px;
+         }
        }
      }
      .footer_btn{
