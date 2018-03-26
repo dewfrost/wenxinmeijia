@@ -195,6 +195,10 @@ export default {
       });
     },
     submit () {
+      if (!this.address) {
+        this.toast('请选择收货地址');
+        return false;
+      }
       // 如果选中抵用券，传值1，否则不传
       let score;
       if (this.selectStatus) {
@@ -217,7 +221,6 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-      // this.$router.push('payment');
     },
     // 是否选择
     select: function () {
@@ -229,9 +232,9 @@ export default {
 <style lang="scss">
 @import "../assets/css/base.scss";
 .submitOrder{
-    padding-top: 90px;
-    min-height: 100%;
-    background: #f5f5f5;
+  padding-top: 90px;
+  min-height: 100%;
+  background: #f5f5f5;
   .address{
     margin-top: 20px;
     padding: 0 20px;
@@ -283,6 +286,11 @@ export default {
         display: flex;
         justify-content: space-between;
         margin-right: 60px;
+        .first_line_left{
+          overflow: hidden;  /*超出隐藏*/
+          white-space: nowrap;  /*不换行*/
+          text-overflow: ellipsis;  /*用“...”表示超出的文本*/
+        }
       }
     }
     .icon-you{

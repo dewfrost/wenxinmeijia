@@ -154,7 +154,6 @@ export default {
       .then(({data}) => {
         if (data.status === 1) {
           this.user.idCode = data.data[0].zhifubao;
-          console.log(4);
         } else {
           this.toast(data.message);
         }

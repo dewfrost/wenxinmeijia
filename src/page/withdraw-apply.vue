@@ -104,9 +104,14 @@ export default {
     submit () {
       if (!this.price) {
         this.toast('提现金额不能为空');
-      } else if (parseInt(this.price) > parseInt(this.quota)) {
+      } else if (parseFloat(this.price) <= 0) {
+        this.toast('提现金额不合法');
+        // 如果小数点后超过两位
+      } else if (/\./g.test(this.price) && this.price.toString().split('.')[1].length > 2) {
+        this.toast('提现金额需小数后至多两位');
+      } else if (parseFloat(this.price) > parseFloat(this.quota)) {
         this.toast('提现金额超出每日限额');
-      } else if (parseInt(this.price) > parseInt(this.applyPrice)) {
+      } else if (parseFloat(this.price) > parseFloat(this.applyPrice)) {
         this.toast('可用提现金额不足');
       } else if (this.activeNum === 0 && !this.wechatIsBind) {
         this.modal('提示', '提现需绑定微信账号，快去绑定吧！', '去绑定', (index) => {

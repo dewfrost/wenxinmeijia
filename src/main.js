@@ -275,7 +275,7 @@ Vue.prototype.axios.interceptors.request.use(function (config) {
 });
 
 // 判断是否登录
-const Other = ['index', 'login', 'register', 'findPassword', 'registrationAgreement', 'goodsDetails', 'goodsList'];
+const Other = ['index', 'login', 'register', 'findPassword', 'registrationAgreement', 'goodsDetails', 'goodsList', 'settingAccount'];
 // 跳转前
 router.beforeEach((to, from, next) => {
   // 如果在白名单内
@@ -286,7 +286,18 @@ router.beforeEach((to, from, next) => {
       .then(({data}) => {
         // 如果返回值为1，则跳转到登录页
         if (data.status !== 1) {
-          router.push('login');
+          console.log(to.name === 'userCenter');
+          if (to.name === 'userCenter') {
+            Vue.prototype.modal('提示', '注册成功后才能注册个人中心，快去注册吧！', '立即注册', () => {
+              router.push('register');
+            });
+          } else if (to.name === 'submitOrder') {
+            Vue.prototype.modal('提示', '注册成功后才能购买商品哦！', '立即注册', () => {
+              router.push('register');
+            });
+          } else {
+            router.push('login');
+          }
         } else {
           next();
         }

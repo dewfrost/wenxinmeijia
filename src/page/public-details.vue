@@ -3,10 +3,10 @@
     <div class="details">
       <div class="kong"></div>
       <div class="top">
-        <span class="title">{{public.title}}</span>
-        <span class="time">{{public.create_time}}</span>
+        <span class="title">{{title}}</span>
+        <span class="time">{{create_time}}</span>
       </div>
-      <div class="center" v-html="public.content">
+      <div class="center" v-html="content">
       </div>
     </div>
   </div>
@@ -17,11 +17,9 @@ export default {
   name: 'publicDetails',
   data () {
     return {
-      public: {
-        content: '',
-        create_time: '',
-        title: ''
-      }
+      content: '',
+      create_time: '',
+      title: ''
     };
   },
   beforeMount: function () {
@@ -42,7 +40,9 @@ export default {
       })
         .then(({data}) => {
           if (data.status === 1) {
-            this.public = data.data;
+            this.title = data.data.title;
+            this.create_time = data.data.create_time;
+            this.content = data.data.content;
           } else {
             this.toast(data.message);
           }

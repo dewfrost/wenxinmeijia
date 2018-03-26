@@ -134,8 +134,8 @@ export default {
       })
       .then(({data}) => {
         if (data.status === 1) {
-          this.$router.push('accountBind');
           this.toast('绑定成功');
+          this.$router.go(-1);
         } else {
           this.toast(data.message);
         }

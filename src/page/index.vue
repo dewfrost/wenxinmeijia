@@ -70,7 +70,8 @@ export default {
       areaList: [],
       details: [],
       // 配件专区
-      parts: []
+      parts: [],
+      voucherNum: '10.00' // 代金券金额
     };
   },
   beforeCreate: function () { // 创建之前
@@ -89,7 +90,7 @@ export default {
   mounted: function () {
     this.getFooter();
     // 展示代金券弹窗,参数为金额
-    this.getVoucherModal('1450.00');
+    this.getVoucherModal(this.voucherNum);
     // 检查是否是IOS
     this.checkIsIos();
   },

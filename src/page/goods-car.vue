@@ -220,37 +220,39 @@ export default {
       if (!this.allCheckGoodsNum) {
         this.toast('没选中商品');
       } else {
-        let delIdArr = [];
-        for (let i = this.goodsList.length - 1; i >= 0; i--) {
-          // 先判断是否选中
-          if (this.goodsList[i].isClick) {
-            delIdArr.push(this.goodsList[i].id);
-          }
-        }
-        // 请求后台删除
-        this.axios.post('/cart/del', {
-          ids: delIdArr.join()
-        })
-          .then(({data}) => {
-            if (data.status === 1) {
-              // 循环从页面删除
-              for (let i = this.goodsList.length - 1; i >= 0; i--) {
-                // 先判断是否选中
-                if (this.goodsList[i].isClick) {
-                  this.goodsList.splice(i, 1);
-                }
-              }
-              this.toast('删除成功');
-              // 变为非编辑状态
-              this.getHeader('购物车', 'goods_car_header', '编辑', () => {
-                this.toggleEdit(1);
-              });
-              this.isEdit = false;
-              this.isAllCheck = false;
-            } else {
-              this.toast(data.message);
+        this.modal('提示', '确定要删除该商品', '删除', () => {
+          let delIdArr = [];
+          for (let i = this.goodsList.length - 1; i >= 0; i--) {
+            // 先判断是否选中
+            if (this.goodsList[i].isClick) {
+              delIdArr.push(this.goodsList[i].id);
             }
-          });
+          }
+          // 请求后台删除
+          this.axios.post('/cart/del', {
+            ids: delIdArr.join()
+          })
+            .then(({data}) => {
+              if (data.status === 1) {
+                // 循环从页面删除
+                for (let i = this.goodsList.length - 1; i >= 0; i--) {
+                  // 先判断是否选中
+                  if (this.goodsList[i].isClick) {
+                    this.goodsList.splice(i, 1);
+                  }
+                }
+                this.toast('删除成功');
+                // 变为非编辑状态
+                this.getHeader('购物车', 'goods_car_header', '编辑', () => {
+                  this.toggleEdit(1);
+                });
+                this.isEdit = false;
+                this.isAllCheck = false;
+              } else {
+                this.toast(data.message);
+              }
+            });
+        });
       }
       // 如果商品删完了
       if (!this.goodsList.length) {

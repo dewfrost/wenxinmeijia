@@ -6,7 +6,7 @@
     </p>
     <span class="select">选择支付方式</span>
     <div class="list">
-      <div class="linePay_payType" v-for="(item,index) in payType" @click="toggleType(index)" :key="index">
+      <div class="linePay_payType" v-for="(item,index) in payType" @click="toggleType(index)" :key="index" v-if="index !== browserNum">
         <div class="left">
           <i class="iconfont" :class="item.icon"></i>
           <span>{{item.title}}</span>
@@ -51,6 +51,8 @@ export default {
   beforeMount: function () {
     // 根据id获取订单信息
     this.getOrderInfo();
+    // 对应浏览器隐藏部分支付选项
+    this.hideOptions();
   }, // 挂载之前
   mounted: function () {
     this.getHeader('支付', 'payment_top');
@@ -58,9 +60,21 @@ export default {
   computed: {
     showPhone: function () {
       return this.hidePhone(this.user.phone);
+    },
+    browserNum () {
+      // 如果是微信浏览器，隐藏支付宝
+      if (this.isWechat()) {
+        this.activeNum = 1;
+        return 0;
+      } else {
+        // 其他浏览器隐藏微信支付
+        return 1;
+      }
     }
   },
   methods: {
+    hideOptions () {
+    },
     getOrderInfo () {
       this.axios.get('/order_pay/payment_page', {
         params: {
