@@ -4,13 +4,15 @@
     <div v-if="!list.length && isRequest" class="none_order">
       <p>此页面暂无内容</p>
     </div>
-    <div class="list" v-for="(item, index) in list" :key="index">
-      <div class="time">{{item.create_time}}</div>
-      <div class="list_center" @click="seeDetails(item.id)">
-        <span class="list_top" >
-          <span class="title" :class="{'title1': item.read, 'title2': !item.read}">{{item.title}}<i class="iconfont icon-you"></i></span>
-        </span>
-        <div class="center">{{item.description}}</div>
+    <div class="main">
+      <div class="list" v-for="(item,index) in list" :key="index">
+        <div class="time">{{item.create_time}}</div>
+        <div class="list_center" @click="seeDetails(item.id)">
+          <span class="list_top" >
+            <span class="title" :class="{'title1': item.read, 'title2': !item.read}">{{item.title}}<i class="iconfont icon-you"></i></span>
+          </span>
+          <div class="center">{{item.description}}</div>
+        </div>
       </div>
      <div class="bottom" v-if="list.length && isRequest">已经到底了...</div>
     </div>
