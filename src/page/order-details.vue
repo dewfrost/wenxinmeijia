@@ -37,19 +37,19 @@
     <div class="list_info_wrap">
         <div class="order_list_info">
           <span class="name order_money">订单金额</span>
-          <span class="price">&yen;{{order.price || 0}}</span>
+          <span class="price">&yen;&nbsp;{{order.price || 0}}</span>
         </div>
         <div class="order_list_info">
           <span class="name">运费：</span>
-          <span class="price">&yen;{{order.postage || 0}}</span>
+          <span class="price">&yen;&nbsp;{{order.postage || 0}}</span>
         </div>
         <div class="order_list_info">
           <span class="name">代金券抵用：</span>
-          <span class="price deduction">-&yen;{{order.score || 0}}</span>
+          <span class="price deduction">-&nbsp;&yen;&nbsp;{{order.score || 0}}</span>
         </div>
         <div class="order_list_info">
-          <span class="name">需付款：</span>
-          <span class="price with_money">&yen;{{(parseFloat(order.price) - parseFloat(order.score)) || 0}}</span>
+          <span class="name">实付款：</span>
+          <span class="price with_money">&yen;&nbsp;{{(parseFloat(order.price) - parseFloat(order.score)) || 0}}</span>
         </div>
     </div>
     <div class="footer_order" v-if="(pageStatus === 2) || (pageStatus === 3)">
@@ -325,6 +325,7 @@ export default {
             color: $color;
             .money_big{
               font-size: 26px;
+              padding-left: 4px;
             }
           }
           .goodsnum{

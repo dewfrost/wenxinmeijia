@@ -94,6 +94,7 @@ export default {
         color: #666;
         line-height: 40px;
         width: 100%;
+        word-wrap: break-word;
         p{
           width: 100%;
           float: right;
