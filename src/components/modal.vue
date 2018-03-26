@@ -35,7 +35,7 @@
     <div class="set_password" v-if="(show === 'password') && (!hasPassword) && isRequest">
       <i class="iconfont icon-close" @click="close"></i>
       <i class="iconfont icon-warnfill"></i>
-      <span class="title">您还没有支付密码，设置支付密码后才能进行支付，请设置</span>
+      <span class="title">您还没有支付密码，设置支付密码后才能进行此操作，请设置</span>
       <label for="phone">
         <i class="iconfont icon-shouji"></i>
         <input type="text" id="phone" v-model="showPhone" :disabled="user.phone" placeholder="请输入您的手机号" />

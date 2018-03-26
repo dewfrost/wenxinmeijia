@@ -119,27 +119,51 @@ export default {
         this.toast('两次输入的密码不一致');
       } else {
         // 请求注册
-        this.doSunmit();
+        this.doSubmit();
       }
     },
-    doSunmit () {
-      this.axios.post('/login/register', {
-        phone: this.user.phone,
-        password: this.user.password,
-        repassword: this.user.pad,
-        code: this.user.code
-      })
-        .then(({data}) => {
-          if (data.status === 1) {
-            this.toast('注册成功，请登录');
-            this.$router.push('login');
-          } else {
-            this.toast(data.message);
-          }
+    doSubmit () {
+      // 如果路由有上级参数
+      if (this.$route.query.pid) {
+        this.axios.post('/login/register', {
+          phone: this.user.phone,
+          password: this.user.password,
+          repassword: this.user.pad,
+          code: this.user.code,
+          pid: this.$route.query.pid
         })
-        .catch(function (error) {
-          console.log(error);
-        });
+          .then(({data}) => {
+            if (data.status === 1) {
+              this.toast('注册成功，请登录');
+              this.$router.push('login');
+            } else {
+              this.toast(data.message);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else {
+      // 路由没有上级参数
+        this.axios.post('/login/register', {
+          phone: this.user.phone,
+          password: this.user.password,
+          repassword: this.user.pad,
+          code: this.user.code,
+          pid: ''
+        })
+          .then(({data}) => {
+            if (data.status === 1) {
+              this.toast('注册成功，请登录');
+              this.$router.push('login');
+            } else {
+              this.toast(data.message);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     },
     // 是否同意用户注册协议
     seclectP: function () {
