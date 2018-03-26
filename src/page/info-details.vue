@@ -5,7 +5,8 @@
         <span class="title">{{info.title}}</span>
         <span class="time">{{info.create_time}}</span>
       </div>
-      <div class="center" v-html="info.content"></div>
+      <div class="center" v-html="info.content">
+      </div>
     </div>
   </div>
 </template>
@@ -87,16 +88,19 @@ export default {
         }
       }
       .center{
+       width: 100%;
         padding:0 30px;
         font-size: 22px;
         color: #666;
         line-height: 40px;
         width: 100%;
         p{
-          margin-top: 15px;
+          width: 100%;
           float: right;
+          margin-top: 15px;
         }
         span{
+          width: 100%;
           float: right;
           margin-top: 15px;
         }

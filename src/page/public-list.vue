@@ -12,7 +12,7 @@
         </span>
         <div class="center">{{item.description}}</div>
       </div>
-     <div class="bottom">已经到底了...</div>
+     <div class="bottom" v-if="list.length && isRequest">已经到底了...</div>
     </div>
   </div>
 </template>
@@ -79,6 +79,9 @@ export default {
     margin-top: 260px;
   }
 }
+.main{
+
+
   .list{
     padding-bottom: 10px;
     .time{
@@ -134,12 +137,14 @@ export default {
         /* autoprefixer: on */
       }
     }
-    .bottom{
+    
+  }
+  .bottom{
       color: #999;
       font-size: 20px;
       text-align: center;
     }
-  }
+    }
 }
 
 </style>
