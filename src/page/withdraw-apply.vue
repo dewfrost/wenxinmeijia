@@ -133,8 +133,7 @@ export default {
         } else {
           // 第一个参数，订单号， 第二个参数成功事件，第三个参数，如果是withdraw1，则是微信提现，如果是withdraw2，则是支付宝提现,第四个参数：金钱数
           this.goPay('', function () {
-            that.toast('提现成功');
-            that.$router.go(-1);
+            that.$router.push('withdrawSuccess');
           }, 'withdraw2', this.price);
         }
       }
