@@ -4,7 +4,7 @@
     <div v-if="!list.length && isRequest" class="none_order">
       <p>此页面暂无内容</p>
     </div>
-    <div class="list" v-for="item in list">
+    <div class="list" v-for="(item, index) in list" :key="index">
       <div class="time">{{item.create_time}}</div>
       <div class="list_center" @click="seeDetails(item.id)">
         <span class="list_top" >
@@ -25,12 +25,6 @@ export default {
       isRequest: false,
       list: []
     };
-  },
-  beforeCreate: function () {
-    // 创建之前
-  },
-  created: function () {
-    // 创建之后
   },
   beforeMount: function () {
     // 挂载之前

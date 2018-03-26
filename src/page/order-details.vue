@@ -79,9 +79,6 @@ export default {
       pageStatus: parseInt(this.$route.query.status) || 0
     };
   },
-  beforeCreate: function () {
-    // 创建之前
-  },
   created: function () {
     // 创建之后
     this.type = this.$route.query.status || 0;

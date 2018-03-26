@@ -12,7 +12,7 @@
     <div class="center">
       <span class="center_top iconfont icon-tixian"> <span class="jilu">提现记录</span> </span>
       <ul>
-        <li class="center_li" v-for="item in user">
+        <li class="center_li" v-for="(item, index) in user" :key="index">
           <div :class="['center_div', item.status === '已到账' ? 'center_div' : 'now'] ">
             <span class="money">&yen; {{item.money}}</span>
             <div class="audit" v-if="item.status === '审核中'">

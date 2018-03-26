@@ -28,19 +28,12 @@ export default {
       zhifubao: ''
     };
   },
-  created: function () {},
   beforeMount: function () {
     this.getZhifubao();
   }, // 挂载之前
   mounted: function () {
     this.getHeader('账户绑定', 'accountBind_top');
-  }, // 挂载之后
-  beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
-  updated: function () {}, // 数据更新后,渲染后调用(禁止)
-  beforeDestroy: function () {
-    eventBus.$emit('header', false);
-  }, // 实例销毁前调用,解绑中间层的数据传输
-  destroyed: function () {}, // 实例销毁后调用
+  },
   computed: {
     showZhifubao () {
       if (!this.zhifubao) {
@@ -83,9 +76,6 @@ export default {
         } else {
           this.toast(data.message);
         }
-      })
-      .catch(function (error) {
-        console.log(error);
       });
     }
   }

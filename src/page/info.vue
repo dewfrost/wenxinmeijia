@@ -32,10 +32,6 @@ export default {
       info: []
     };
   },
-  beforeCreate: function () { // 创建之前
-  },
-  created: function () { // 创建之后
-  },
   beforeMount: function () { // 挂载之前
     // 请求用户消息接口
     this.getInfo();
@@ -63,9 +59,6 @@ export default {
           } else {
             this.toast(data.message);
           }
-        })
-        .catch(function (error) {
-          console.log(error);
         });
     },
     seeInfoDetails (id) {

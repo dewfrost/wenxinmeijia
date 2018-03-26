@@ -45,10 +45,6 @@ export default {
       user: []
     };
   },
-  beforeCreate: function () {
-  },
-  created: function () {
-  },
   beforeMount: function () {
     // 请求本月排行销售排行接口
     this.getRank();

@@ -13,21 +13,6 @@
         </div>
       </div>
     </div>
-    <!-- 空白灰色 -->
-    
-    <!-- 配件专区 -->
-    <!-- <div class="parts" v-if="this.$route.query.id">
-      <div class="details">
-        <div class="details_list" v-for="(item, index) in parts" :key="index" @click="seeDetails(item.id)">
-          <img :src="item.img" alt="商品">
-          <p class="details_name">{{item.name}}</p>
-          <p class="details_info">
-            <span class="red">&yen;&nbsp;<span class="price">{{item.price}}</span></span>
-            <span class="buy" @click.stop="buyGoods(item.id)">立即购买</span>
-          </p>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -41,8 +26,6 @@ export default {
       list: []
     };
   },
-  beforeCreate: function () { // 创建之前
-  },
   created: function () { // 创建之后
     eventBus.$emit('header', false);
   },
@@ -52,7 +35,7 @@ export default {
   mounted: function () {
     this.getHeaderName();
   },
-  updated: function () {
+  beforeUpdate: function () {
     this.getHeaderName();
   },
   methods: {
@@ -71,9 +54,6 @@ export default {
             } else {
               this.toast(data.message);
             }
-          })
-          .catch(function (error) {
-            console.log(error);
           });
       } else {
         // 其他专区
@@ -89,9 +69,6 @@ export default {
             } else {
               this.toast(data.message);
             }
-          })
-          .catch(function (error) {
-            console.log(error);
           });
       }
     },

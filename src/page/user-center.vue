@@ -11,7 +11,7 @@
             <span class="name">{{user.nickname}}</span>
             <span class="user_level">
               <span class="level" :class="'level' + (user.t_class - 2)"></span>
-              <span>{{levelArr[user.t_class]}}</span>
+              <span>{{levelArr[user.t_class - 1]}}</span>
             </span>
           </div>
           <div class="info_bottom">
@@ -56,10 +56,10 @@
     </div>
     <!-- 个人设置 -->
     <div class="set">
-      <router-link tag="div" class="set_list" v-for="(setName, index) in setList" :to="{path: setLink[index]}" :key="index">
+      <div class="set_list" v-for="(setName, index) in setList" :key="index" @click="seeDetails(index)">
         <span class="iconfont" :class="'icon-' + iconfontList[index]"></span>
         <span class="set_name">{{setName}}</span>
-      </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -117,6 +117,30 @@ export default {
     this.getFooter();
   },
   methods: {
+    seeDetails (index) {
+      if (index === 2) {
+        // 请求是否有权限打开二维码
+        this.seeQrcode();
+      } else {
+        this.$router.push({path: this.setLink[index]});
+      }
+    },
+    seeQrcode () {
+      this.axios.get('/user/get_code', {
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            this.$router.push({path: this.setLink[2]});
+          } else {
+            this.modal('提示', data.message, '确定', () => {
+              return false;
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     getOrderSum () {
       this.axios.get('/user/angle', {
       })

@@ -39,12 +39,6 @@ export default {
       user: []
     };
   },
-  beforeCreate: function () {
-    // 创建之前
-  },
-  created: function () {
-    // 创建之后
-  },
   beforeMount: function () {
     // 挂载之前
     // 请求晋级奖励
@@ -60,7 +54,6 @@ export default {
         // 只在goodsDetails页面监听
         if (/promotionAwards/g.test(window.location.href)) {
           if (document.getElementById('content').scrollTop > 100) {
-            console.log(document.getElementById('content').scrollTop);
             this.getHeader('晋级奖励', 'no_transparent');
           } else {
             this.getHeader('晋级奖励', 'promotion_top');

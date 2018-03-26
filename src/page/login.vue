@@ -31,9 +31,6 @@ export default {
       memory: false
     };
   },
-  beforeCreate: function () {
-    // 创建之前
-  },
   created: function () {
     this.readPass();
     // 创建之后
@@ -93,9 +90,6 @@ export default {
           } else {
             this.toast(data.message);
           }
-        })
-        .catch(function (error) {
-          console.log(error);
         });
     }
   }

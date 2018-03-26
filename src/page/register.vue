@@ -46,16 +46,11 @@ export default {
       btntxt: '获取验证码'
     };
   },
-  created: function () {},
-  beforeMount: function () {}, // 挂载之前
   mounted: function () {
     this.getHeader('注册', 'register_top', '登录', function () {
       this.$router.push('login');
     });
-  }, // 挂载之后
-  beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
-  updated: function () {}, // 数据更新后,渲染后调用(禁止)
-  destroyed: function () {}, // 实例销毁后调用
+  },
   methods: {
     // 输入手机号
     isRightPhone: function () {

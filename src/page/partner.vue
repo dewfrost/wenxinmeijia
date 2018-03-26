@@ -102,12 +102,6 @@ export default {
       requestLevel: null
     };
   },
-  beforeCreate: function () {
-    // 创建之前
-  },
-  created: function () {
-    // 创建之后
-  },
   beforeMount: function () {
     // 扫码会员列表
     this.getFreeList(this.page);

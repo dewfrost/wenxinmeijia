@@ -36,12 +36,6 @@ export default {
       user: []
     };
   },
-  beforeCreate: function () {
-    // 创建之前
-  },
-  created: function () {
-    // 创建之后
-  },
   beforeMount: function () {
     // 挂载之前
     // 请求我的账本收入接口
@@ -89,9 +83,6 @@ export default {
           } else {
             this.toast(data.message);
           }
-        })
-        .catch(function (error) {
-          console.log(error);
         });
     },
     // 请求我的账本支出接口
@@ -106,9 +97,6 @@ export default {
           } else {
             this.toast(data.message);
           }
-        })
-        .catch(function (error) {
-          console.log(error);
         });
     }
   }

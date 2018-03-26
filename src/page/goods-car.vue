@@ -48,10 +48,6 @@ export default {
       goodsList: []
     };
   },
-  beforeCreate: function () { // 创建之前
-  },
-  created: function () { // 创建之后
-  },
   beforeMount: function () {
     // 获取购物车列表
     this.getList();
@@ -72,8 +68,6 @@ export default {
     // 计算总价
     this.computedAllPrice();
     this.getFooter();
-  },
-  updated: function () {
   },
   methods: {
     seeGoodsDetails (id) {
@@ -98,9 +92,6 @@ export default {
           } else {
             this.toast(data.message);
           }
-        })
-        .catch(function (error) {
-          console.log(error);
         });
     },
     getFooter () {
@@ -131,6 +122,11 @@ export default {
     },
     // 全选按钮事件
     goAllCheck () {
+      // 如果没有商品，则弹窗提示
+      if (!this.goodsList.length) {
+        this.toast('没有可选中的商品');
+        return false;
+      }
       this.isAllCheck = !this.isAllCheck;
       // 如果全选按钮选中，循环所有商品的按钮为选中，反之亦然
       if (this.isAllCheck) {
@@ -217,9 +213,6 @@ export default {
           } else {
             this.toast(data.message);
           }
-        })
-        .catch(function (error) {
-          console.log(error);
         });
     },
     // 删除事件
@@ -257,9 +250,6 @@ export default {
             } else {
               this.toast(data.message);
             }
-          })
-          .catch(function (error) {
-            console.log(error);
           });
       }
       // 如果商品删完了

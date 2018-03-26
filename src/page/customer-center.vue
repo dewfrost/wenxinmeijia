@@ -47,9 +47,6 @@ export default {
           } else {
             this.toast(data.message);
           }
-        })
-        .catch(function (error) {
-          console.log(error);
         });
     }
   }

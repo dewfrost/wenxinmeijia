@@ -18,10 +18,6 @@ export default {
       info: {}
     };
   },
-  beforeCreate: function () { // 创建之前
-  },
-  created: function () { // 创建之后
-  },
   beforeMount: function () { // 挂载之前
   // 请求用户信息详情接口
     this.getInfoDetails();

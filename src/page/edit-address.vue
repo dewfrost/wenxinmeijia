@@ -33,14 +33,12 @@ export default {
       isSameAddress: {}
     };
   },
-  created: function () {},
   beforeMount: function () {
     this.getAddress();
   }, // 挂载之前
   mounted: function () {
     this.getHeader('编辑收货地址', 'editAddress_top');
   },
-  destroyed: function () {}, // 实例销毁后调用
   methods: {
     // 跳转页面，首先获取数据---接口
     getAddress: function () {
@@ -60,9 +58,6 @@ export default {
           } else {
             this.toast(data.message);
           }
-        })
-        .catch(function (error) {
-          console.log(error);
         });
     },
     selectAddress: function () {
@@ -134,9 +129,6 @@ export default {
         } else {
           this.toast(data.message);
         }
-      })
-      .catch(function (error) {
-        console.log(error);
       });
     }
   }

@@ -16,14 +16,6 @@ export default {
       // 数据
       img: require('../assets/images/success.png')
     };
-  },
-  created: function () {},
-  beforeMount: function () {}, // 挂载之前
-  mounted: function () {
-  },
-  computed: {
-  },
-  methods: {
   }
 };
 </script>

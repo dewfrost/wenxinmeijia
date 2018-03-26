@@ -51,7 +51,6 @@ export default {
       btntxt2: '获取验证码'
     };
   },
-  created: function () {},
   beforeMount: function () {
     this.getPhone(this.user);
   }, // 挂载之前
@@ -61,13 +60,7 @@ export default {
     } else {
       this.getHeader('修改支付密码', 'revisePassword_top');
     }
-  }, // 挂载之后
-  beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
-  updated: function () {}, // 数据更新后,渲染后调用(禁止)
-  beforeDestroy: function () {
-    eventBus.$emit('header', false);
-  }, // 实例销毁前调用,解绑中间层的数据传输
-  destroyed: function () {}, // 实例销毁后调用
+  },
   computed: {
     // 手机号隐藏中间数字
     showPhone () {

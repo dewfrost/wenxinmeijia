@@ -12,7 +12,7 @@
     <div class="center">
       <span class="center_top iconfont icon-chongzhi"> <span class="jilu">充值记录</span> </span>
       <ul>
-        <li class="center_li" v-for="item in user">
+        <li class="center_li" v-for="(item, index) in user" :key="index">
           <div class="center_div">
             <span class="money">&yen; {{item.score}}</span>
           </div>
@@ -34,12 +34,6 @@ export default {
       },
       user: []
     };
-  },
-  beforeCreate: function () {
-    // 创建之前
-  },
-  created: function () {
-    // 创建之后
   },
   beforeMount: function () {
     // 挂载之前

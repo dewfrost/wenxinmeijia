@@ -39,12 +39,6 @@ export default {
       user: []
     };
   },
-  beforeCreate: function () {
-    // 创建之前
-  },
-  created: function () {
-    // 创建之后
-  },
   beforeMount: function () {
     // 挂载之前
     this.getSalary();

@@ -48,16 +48,13 @@ export default {
       balance: ''
     };
   },
-  created: function () {},
   beforeMount: function () {
     // 根据id获取订单信息
     this.getOrderInfo();
   }, // 挂载之前
   mounted: function () {
     this.getHeader('支付', 'payment_top');
-  }, // 挂载之后
-  beforeUpdate: function () {}, // 数据更新时调用,在渲染之前
-  updated: function () {}, // 数据更新后,渲染后调用(禁止)
+  },
   computed: {
     showPhone: function () {
       return this.hidePhone(this.user.phone);

@@ -47,14 +47,11 @@ export default {
       btntxt2: '获取验证码'
     };
   },
-  created: function () {},
   beforeMount: function () {
     this.getPhone(this.user);
   }, // 挂载之前
   mounted: function () {
     this.getHeader('更换手机号', 'changePhone_top');
-  }, // 挂载之后
-  updated: function () {
   },
   computed: {
     // 手机号隐藏中间数字
@@ -181,9 +178,6 @@ export default {
         } else {
           this.toast(data.message);
         }
-      })
-      .catch(function (error) {
-        console.log(error);
       });
     },
     sure: function () {
@@ -214,9 +208,6 @@ export default {
         } else {
           this.toast(data.message);
         }
-      })
-      .catch(function (error) {
-        console.log(error);
       });
     }
   }

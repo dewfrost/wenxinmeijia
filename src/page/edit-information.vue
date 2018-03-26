@@ -22,7 +22,7 @@
       <span class="name">性别</span>
       <span class="details">
         <span class="placeholder" :class="{'selected': user.sex}">{{user.sex || '请选择性别'}}</span>
-        <i class="iconfont" :class="{'icon-shang': showSexSelect, 'icon-jiantou': !showSexSelect}"></i>
+        <i class="iconfont" :class="{'icon-shang': showSexSelect, 'icon-jiantou': !showSexSelect}" v-if="!sexDisabled"></i>
       </span>
       <div class="sex_select" v-show="showSexSelect">
         <div class="select_line" v-for="(item,index) in sexArr" @click="selectSex(index, sexArr)" :key="index">
@@ -35,7 +35,7 @@
       <span class="name">年龄</span>
       <span class="details">
         <span class="placeholder" :class="{'selected': user.age}">{{user.age || '请选择年龄'}}</span>
-        <i class="iconfont" :class="{'icon-shang': showAgeSelect, 'icon-jiantou': !showAgeSelect}"></i>
+        <i class="iconfont" :class="{'icon-shang': showAgeSelect, 'icon-jiantou': !showAgeSelect}" v-if="!ageDisabled"></i>
       </span>
       <div class="sex_select" v-show="showAgeSelect">
         <div class="select_line" v-for="(item,index) in ageArr" @click="selectAge(index, ageArr)" :key="index">

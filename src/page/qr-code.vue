@@ -16,7 +16,6 @@ export default {
       headImg: null,
       endShowImg: null, // 最后生成的图片
       baseUrl: 'http://wenxin.ewtouch.com/',
-      backgroundImg: require('../assets/images/qrcode_bg1.png'),
       imgArr: [
         // require('../assets/images/goods3.png'),
         // require('../assets/images/qrcode_img.png'),
@@ -53,6 +52,10 @@ export default {
   },
   created: function () {
     this.loading();
+  },
+  beforeMount: function () {
+    // 对接口前调用画图
+    // this.NewCanvas();
     // 存储到服务器，否则因为画布污染会报错
     this.pushServer();
     // 微信浏览器请求
@@ -60,12 +63,8 @@ export default {
     //   this.wechatShare();
     // }
   },
-  beforeMount: function () {
-    this.getHeader('', 'qrcode_header');
-    // 对接口前调用画图
-    // this.NewCanvas();
-  },
   mounted: function () {
+    this.getHeader('', 'qrcode_header');
   },
   methods: {
     pushServer: function () {
@@ -85,11 +84,8 @@ export default {
             this.qrcodeImg = data.data.data.img;
             // 用户头像
             this.headImg = data.data.data.headimgurl;
-            // 如果是默认头像
-            if (data.data.data.headimgurl === 'http://wenxin.ewtouch.com/static/headimg/default.png') {
-              this.imgArr.push('./static/headimg/default.png');
-              this.getQrcode();
-            } else if (/wenxin.ewtouch.com\//g.test(this.headImg)) {
+            // 如果图片是同源路径
+            if (/wenxin.ewtouch.com\//g.test(this.headImg)) {
               // 如果头像是同源地址的头像
               this.imgArr.push(this.headImg);
               this.getQrcode();
@@ -99,6 +95,9 @@ export default {
             }
             this.flag = true;
           } else {
+            this.modal('提示', data.data.message, '确定', () => {
+              this.$router.go(-1);
+            }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
             this.loading(false);
           }
         })
@@ -146,7 +145,7 @@ export default {
         })
         .catch(() => {
           this.loading(false);
-          this.modal('错误', '生成出错了，请刷新重试', '确定', () => {
+          this.modal('提示', '生成出错了，请刷新重试', '确定', () => {
             this.$router.go(-1);
           }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
         });

@@ -40,7 +40,6 @@ export default {
       btntxt: '获取验证码'
     };
   },
-  created: function () {},
   beforeMount: function () {
     this.getPhone(this.user);
     // 获取支付宝账号
