@@ -185,7 +185,7 @@ export default {
         }
       span{
         position: absolute;
-        left: 17px;
+        left: 22px;
         top: 5px; 
         color: #fff;
         font-size: 20px;
@@ -202,12 +202,12 @@ export default {
       .money{
         font-size: 24px;
         color: #333;
-        padding-right: 20px;
+        width: 144px;
       }
       .state{
         font-size: 20px;
         color: #999;
-        margin-left: 10px;
+        margin-left: 4px;
       }
     }
       .now{
