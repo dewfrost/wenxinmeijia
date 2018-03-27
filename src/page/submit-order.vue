@@ -104,20 +104,22 @@ export default {
     this.computedEndPrice();
   },
   methods: {
+    // 计算最终显示价格
     computedEndPrice () {
       // 如果选择抵用券
       if (this.selectStatus) {
         // 如果抵用券比商品金额还多，则至少为0元
-        if (parseFloat(this.allPrice + this.freight - this.voucher) < 0) {
-          this.endPrice = '0';
+        if (parseFloat(this.allPrice) + parseFloat(this.freight) - parseFloat(this.voucher) < 0) {
+          this.endPrice = '0.00';
         } else {
-          this.endPrice = parseFloat(this.allPrice + this.freight - this.voucher);
+          this.endPrice = (parseFloat(this.allPrice) + parseFloat(this.freight) - parseFloat(this.voucher)).toFixed(2);
         }
       } else {
-        if (parseFloat(this.allPrice + this.freight) < 0) {
-          this.endPrice = '0';
+        // allPrice是number,freight是字符串
+        if (parseFloat(this.allPrice) + parseFloat(this.freight) < 0) {
+          this.endPrice = '0.00';
         } else {
-          this.endPrice = parseFloat(this.allPrice + this.freight);
+          this.endPrice = (parseFloat(this.allPrice) + parseFloat(this.freight)).toFixed(2);
         }
       }
     },

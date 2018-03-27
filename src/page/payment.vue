@@ -101,7 +101,7 @@ export default {
       this.activeNum = index;
     },
     pay () {
-      if (this.balance < this.price) {
+      if ((this.balance < this.price) && this.activeNum === 2) {
         this.toast('余额不足');
       } else if (this.activeNum !== 2) {
         // 选择的支付类型不是余额

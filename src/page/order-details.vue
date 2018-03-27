@@ -49,7 +49,7 @@
         </div>
         <div class="order_list_info">
           <span class="name">实付款：</span>
-          <span class="price with_money">&yen;&nbsp;{{(parseFloat(order.price) - parseFloat(order.score)) || 0}}</span>
+          <span class="price with_money">&yen;&nbsp;{{order.true_price || 0}}</span>
         </div>
     </div>
     <div class="footer_order" v-if="(pageStatus === 2) || (pageStatus === 3)">

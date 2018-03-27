@@ -15,7 +15,7 @@
       </span>
       <div class="right">
         <span class="all_price" v-if="!goodscarIsEdit">
-          <span class="warn" v-if="goodsNum">不含运费</span>  共计：<span class="small"> ￥</span>
+          <span class="warn" v-if="goodsNum">不含运费</span>共计:&nbsp;<span class="small">&yen;</span>
           <span class="price">{{price}}</span>
         </span>
         <div class="buttons">
@@ -333,7 +333,7 @@ export default {
           background-color: #fff;
           > span{
             color: $color;
-            font-size: 28px;
+            font-size: 26px;
           }
           .warn{
             font-size: 18px;
@@ -346,12 +346,12 @@ export default {
             top: 2px;
           }
           .price{
-            margin-right: 18px;
+            margin-right: 10px;
             color: $color;
           }
         }
         .buttons{
-          width: 220px;
+          width: 200px;
           text-align: center;
           line-height: 80px;
           font-size: 24px;

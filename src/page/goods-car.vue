@@ -272,6 +272,7 @@ export default {
           this.allCheckPrice += this.goodsList[i].num * parseFloat(this.goodsList[i].goods.price);
         }
       }
+      this.allCheckPrice = this.allCheckPrice.toFixed(2);
     }
   }
 };
