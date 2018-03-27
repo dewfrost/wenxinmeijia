@@ -326,7 +326,6 @@ export default {
           display: flex;
           justify-content: flex-end;
           text-align: left;
-          padding-left: 24px;
           line-height: 80px;
           font-size: 24px;
           color: #333;
