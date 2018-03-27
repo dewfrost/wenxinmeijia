@@ -287,9 +287,19 @@ export default {
   }
   .goods_car_wrap{
     min-height: 100%;
-    padding: 90px 0 180px;
+    padding: 110px 0 180px;
     background-color: #f5f5f5;
     position: relative;
+    &::before{
+      content: '';
+      display: block;
+      position: absolute;
+      height: 20px;
+      width: 100%;
+      background-color: #f5f5f5;
+      top: -20px;
+      left: 0;
+    }
     .none_data{
       background: url(../assets/images/none_01.png) no-repeat center center;
       position: absolute;
