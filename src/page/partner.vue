@@ -225,8 +225,11 @@ export default {
       this.canRequest = true;
       // page变为1
       this.page = 1;
+      // 如果选择的是全部
       if (!index) {
         this.getPayList(this.page);
+        this.showCondition = '全部';
+        return false;
       }
       // 请求的等级
       this.requestLevel = index;

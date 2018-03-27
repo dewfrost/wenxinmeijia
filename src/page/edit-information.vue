@@ -200,9 +200,9 @@ export default {
       }
       let result = this.user.nickname.replace(/[\u4e00-\u9fa5]/g, '**');
       let checkName = /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/;
-      if (result.length > 12 || result.length < 0) {
+      if (result.length > 16 || result.length < 0) {
         // 判断长度是否合法
-        this.toast('昵称不能超过12个字符');
+        this.toast('昵称太长');
       } else if (!checkName.test(this.user.nickname)) {
         // 判断昵称填写是否合法xxx
         this.toast('昵称不能有特殊字符');

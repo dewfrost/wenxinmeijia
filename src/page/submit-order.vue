@@ -8,7 +8,7 @@
       </p>
       <i class="iconfont icon-you"></i>
     </div>
-    <div class="new_address" v-if="address">
+    <div class="new_address" v-if="address" @click="selectAddress()">
       <div class="left">
         <span class="info">
           <span class="first_line_left">
@@ -19,7 +19,7 @@
         </span>
         <span class="address_details">地址：{{address.city}} {{address.description}}</span>
       </div>
-      <i class="iconfont icon-you" @click="selectAddress()"></i>
+      <i class="iconfont icon-you"></i>
     </div>
     <!-- 订单 -->
     <div class="details" v-for="(item, index) in goodsInfo" :key="index">
@@ -53,7 +53,7 @@
         <span>运费</span>
         <span> &yen;{{freight}}</span>
       </p>
-      <p class="list" @click="select">
+      <p class="list" @click="selectVoucher">
         <span>
           代金券可抵用
           <span>&nbsp;&yen;{{voucher}}</span>
@@ -198,7 +198,7 @@ export default {
     },
     submit () {
       if (!this.address) {
-        this.toast('请选择收货地址');
+        this.toast('请添加收货地址');
         return false;
       }
       // 如果选中抵用券，传值1，否则不传
@@ -224,8 +224,13 @@ export default {
           console.log(error);
         });
     },
-    // 是否选择
-    select: function () {
+    // 是否选择代金券
+    selectVoucher: function () {
+      // 如果代金券为0
+      if (!parseFloat(this.voucher)) {
+        this.toast('没有可抵用的代金券');
+        return false;
+      }
       this.selectStatus = !this.selectStatus;
     }
   }

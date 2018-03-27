@@ -319,7 +319,7 @@ export default {
     left: 0;
     background: rgba(0, 0, 0, 0.5);
     transform: 0.3s;
-    z-index: 100;
+    z-index: 999;
     .default{
       background-color: #fff;
       position: absolute;
@@ -345,11 +345,13 @@ export default {
         @include border;
       }
       .modal_content{
+        width: 100%;
         padding: 36px 0 44px;
         text-align: left;
         .text{
           line-height: 40px;
           font-size: 24px;
+          flex: 1;
         }
       }
       .btnClass{

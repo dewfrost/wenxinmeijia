@@ -22,15 +22,6 @@ window.eventCookie = new Vue();
 //   }
 // });
 
-router.beforeEach((to, from, next) => {
-  eventBus.$emit('toast', false);
-  eventBus.$emit('loading', false);
-  eventBus.$emit('header', false);
-  eventBus.$emit('modal', false);
-  eventBus.$emit('footer', false);
-  next();
-});
-
 // 公共函数
 
 // 创建ajax
@@ -281,6 +272,11 @@ router.beforeEach((to, from, next) => {
   // 如果在白名单内
   if (Other.join('*').match(to.fullPath.replace('/', '')) || Other.join('*').match(to.name) !== null) {
     next();
+    eventBus.$emit('toast', false);
+    eventBus.$emit('loading', false);
+    eventBus.$emit('header', false);
+    eventBus.$emit('modal', false);
+    eventBus.$emit('footer', false);
   } else {
     Vue.prototype.axios.post('/index/is_login')
       .then(({data}) => {
@@ -300,6 +296,11 @@ router.beforeEach((to, from, next) => {
           }
         } else {
           next();
+          eventBus.$emit('toast', false);
+          eventBus.$emit('loading', false);
+          eventBus.$emit('header', false);
+          eventBus.$emit('modal', false);
+          eventBus.$emit('footer', false);
         }
       })
       .catch(function (error) {
