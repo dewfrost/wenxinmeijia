@@ -4,8 +4,8 @@
     <div class="default" v-if="!show" :style="{ width: modalWidth + '%' }">
       <i class="iconfont icon-close" @click="close"></i>
       <span class="title">{{title}}</span>
-      <div class="modal_content">
-        <span class="text" v-html="content"></span>
+      <div class="modal_content clearfix">
+        <p class="text" v-html="content"></p>
       </div>
       <button class="btnClass" @click="buttonBox(callback)">{{ btnTitle }}</button>
     </div>
@@ -351,7 +351,8 @@ export default {
         .text{
           line-height: 40px;
           font-size: 24px;
-          flex: 1;
+          width: 100%;
+          float: right;
         }
       }
       .btnClass{

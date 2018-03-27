@@ -38,7 +38,7 @@ Vue.prototype.axios = axios.create({
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 });
 
-Vue.prototype.getVoucherModal = function (price) {
+Vue.prototype.getVoucherModal = function (price, callback) {
   // 如果localStorage里面有isGetVoucher
   if (localStorage.isGetVoucher) {
     return false;
@@ -47,10 +47,11 @@ Vue.prototype.getVoucherModal = function (price) {
       title: '￥' + price,
       show: 'voucher',
       btnTitle: '立即领取',
-      callback: function () {
-        localStorage.isGetVoucher = JSON.stringify('yes');
-        Vue.prototype.toast('领取成功');
-      }
+      callback: callback
+      // function () {
+      //   localStorage.isGetVoucher = JSON.stringify('yes');
+      //   Vue.prototype.toast('领取成功');
+      // }
     });
   }
 };

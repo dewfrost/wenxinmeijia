@@ -84,12 +84,41 @@ export default {
   },
   mounted: function () {
     this.getFooter();
-    // 展示代金券弹窗,参数为金额
-    // this.getVoucherModal(this.voucherNum);
+    this.hasVoucher();
     // 检查是否是IOS
     this.checkIsIos();
   },
   methods: {
+    // 是否还没领取代金券，是的话获取代金券金额
+    hasVoucher () {
+      this.axios.get('/user/coupon', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.voucherNum = data.data;
+            // 展示代金券弹窗,参数为金额
+            this.getVoucherModal(this.voucherNum, () => {
+              this.doGetVoucher();
+            });
+          } else {
+            // this.toast(data.message);
+          }
+        });
+    },
+    // 执行领取事件
+    doGetVoucher () {
+      this.axios.post('/user/coupon', {
+      })
+        .then(({data}) => {
+          console.log(data);
+          if (data.status === 1) {
+            this.toast('领取成功');
+          } else {
+            // this.toast(data.message);
+          }
+        });
+    },
     getCarouselImg () {
       this.axios.get('/index/lunbo', {
       })
@@ -119,7 +148,7 @@ export default {
           if (data.status === 1) {
             this.areaList = data.data;
           } else {
-            this.toast(data.message);
+            // this.toast(data.message);
           }
         });
     },
