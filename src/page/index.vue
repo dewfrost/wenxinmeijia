@@ -94,7 +94,6 @@ export default {
       this.axios.get('/user/coupon', {
       })
         .then(({data}) => {
-          console.log(data);
           if (data.status === 1) {
             this.voucherNum = data.data;
             // 展示代金券弹窗,参数为金额

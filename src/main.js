@@ -40,20 +40,16 @@ Vue.prototype.axios = axios.create({
 
 Vue.prototype.getVoucherModal = function (price, callback) {
   // 如果localStorage里面有isGetVoucher
-  if (localStorage.isGetVoucher) {
-    return false;
-  } else {
-    eventBus.$emit('modal', {
-      title: '￥' + price,
-      show: 'voucher',
-      btnTitle: '立即领取',
-      callback: callback
-      // function () {
-      //   localStorage.isGetVoucher = JSON.stringify('yes');
-      //   Vue.prototype.toast('领取成功');
-      // }
-    });
-  }
+  // if (localStorage.isGetVoucher) {
+  //   return false;
+  // } else {
+  eventBus.$emit('modal', {
+    title: '￥' + price,
+    show: 'voucher',
+    btnTitle: '立即领取',
+    callback: callback
+  });
+  // }
 };
 
 // 滚动事件
@@ -320,7 +316,7 @@ Vue.prototype.axios.interceptors.response.use(function (response) {
   // 对返回的错误进行一些处理
   Vue.prototype.loading(false);
   if (error.message.includes('timeout')) {
-    Vue.prototype.toast('网络错误', 'icon-close');
+    // Vue.prototype.toast('网络错误', 'icon-close');
   };
   return Promise.reject(error);
 });

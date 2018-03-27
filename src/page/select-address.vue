@@ -92,7 +92,7 @@ export default {
           {
             inner: '新增收货地址',
             callback: () => {
-              that.$router.push('addAddress');
+              that.$router.replace('addAddress');
             }
           }
         ]

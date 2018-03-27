@@ -40,13 +40,32 @@ export default {
         area: ['请选择']
       },
       select: false,
-      type: null
+      type: null,
+      isFirstAddress: false
     };
+  },
+  beforeMount: function () {
+    // 获取地址列表是否为空来判断是否强制第一条设置成默认
+    this.getAddressList();
   },
   mounted: function () {
     this.getHeader('添加新地址', 'addAddress_top');
   },
   methods: {
+    getAddressList () {
+      this.axios.get('/address/addressList', {
+      })
+      .then(({data}) => {
+        if (data.status === 1) {
+          if (!data.data.length) {
+            this.isFirstAddress = true;
+            this.select = true;
+          }
+        } else {
+          // this.toast(data.message);
+        }
+      });
+    },
     selectAddress: function () {
       let that = this;
       eventBus.$emit('modal', {
@@ -121,6 +140,10 @@ export default {
     },
     // 切换是否为默认地址
     defaultSelect: function () {
+      if (this.isFirstAddress) {
+        this.toast('系统默认第一条为默认地址');
+        return false;
+      }
       this.select = !this.select;
     }
   }
