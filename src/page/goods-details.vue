@@ -28,7 +28,7 @@
     <!-- 参数列表 -->
     <div class="content">
       <div class="type"> 商品参数</div>
-      <div class="goods_param_mess" v-html="parameterHtml">
+      <div class="goods_param_mess clearfix" v-html="parameterHtml">
           <!-- <span class="goods_param_list" v-for="(item,index) in param" :key="index">
             <span class="goods_param_list_tit">
               {{item.title}}
@@ -44,7 +44,7 @@
       <div class="goods_Details_title">
         <span>商品详请</span>
       </div>
-      <div class="goods_details_tag" v-html="detailsHtml"></div>
+      <div class="goods_details_tag clearfix" v-html="detailsHtml"></div>
     </div>
   </div>
 </template>
@@ -382,6 +382,13 @@ export default {
       color: #000;
       padding:20px;
       font-size:22px;
+      p{
+        width: 100%;
+        float: right;
+        span{
+          font-size: 24px;
+        }
+      }
       .goods_param_list{
         line-height:42px;
         width: 100%;
@@ -429,6 +436,11 @@ export default {
       padding: 0 20px;
       img{
         width: 640px;
+        text-align: center;
+      }
+      p{
+        width: 100%;
+        float: right;
       }
     }
   }

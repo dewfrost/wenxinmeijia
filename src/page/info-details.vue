@@ -1,12 +1,11 @@
 <template>
   <div class="infoDetails">
-    <div class="details">
+    <div class="details clearfix">
       <div class="top">
         <span class="title">{{info.title}}</span>
         <span class="time">{{info.create_time}}</span>
       </div>
-      <div class="center" v-html="info.content">
-      </div>
+      <p class="center" v-html="info.content"></p>
     </div>
   </div>
 </template>
@@ -88,23 +87,14 @@ export default {
         }
       }
       .center{
-       width: 100%;
+        width: 100%;
         padding:0 30px;
         font-size: 22px;
         color: #666;
         line-height: 40px;
-        width: 100%;
         word-wrap: break-word;
-        p{
-          width: 100%;
-          float: right;
-          margin-top: 15px;
-        }
-        span{
-          width: 100%;
-          float: right;
-          margin-top: 15px;
-        }
+        width: 100%;
+        float: right;
       }
     }
   }

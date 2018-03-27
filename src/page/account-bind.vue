@@ -33,7 +33,7 @@ export default {
   }, // 挂载之前
   mounted: function () {
     this.getHeader('账户绑定', 'accountBind_top');
-  },
+  }, // 挂载之后
   computed: {
     showZhifubao () {
       if (!this.zhifubao) {
