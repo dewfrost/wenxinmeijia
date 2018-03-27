@@ -2,7 +2,7 @@
   <div class="payment">
     <p class="payment_money">
       <span>应付金额</span>
-      <span class="color">￥{{price || 0}}</span>
+      <span class="color"> &yen; {{price || 0}}</span>
     </p>
     <span class="select">选择支付方式</span>
     <div class="list">
@@ -12,7 +12,7 @@
           <span>{{item.title}}</span>
         </div>
         <div class="right">
-          <span class="f_x_9" v-if="index === 2">￥{{balance || 0}}</span>
+          <span class="f_x_9" v-if="index === 2"> &yen; {{balance || 0}}</span>
           <i class="iconfont" :class="{'icon-30xuanzhongyuanxingfill' : activeNum === index, 'icon-30xuanzhongyuanxing' : activeNum !== index}"></i>
         </div>
       </div>

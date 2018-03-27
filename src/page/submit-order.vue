@@ -47,16 +47,16 @@
     <div class="information">
       <p class="list">
         <span>商品金额</span>
-        <span> &yen;{{allPrice}}</span>
+        <span> &yen;&nbsp;{{allPrice}}</span>
       </p>
       <p class="list">
         <span>运费</span>
-        <span> &yen;{{freight}}</span>
+        <span> &yen;&nbsp;{{freight}}</span>
       </p>
       <p class="list" @click="selectVoucher">
         <span>
           代金券可抵用
-          <span>&nbsp;&yen;{{voucher}}</span>
+          <span>&nbsp;&yen;&nbsp;{{voucher}}</span>
         </span>
         <i class="iconfont" :class="{'icon-30xuanzhongyuanxingfill': selectStatus,'icon-30xuanzhongyuanxing': !selectStatus}"></i>
       </p>
