@@ -16,11 +16,26 @@ export default {
       qr_code: require('../assets/images/qr_code.png')
     };
   },
-  beforeMount: function () {}, // 挂载之前
+  beforeMount: function () {
+    this.getSubmit();
+  }, // 挂载之前
   mounted: function () {
     this.getHeader('账户绑定', 'weixinBind_top');
   },
   methods: {
+    getSubmit () {
+      this.axios.post('/login/bindwx')
+      .then(({data}) => {
+        if (data.status === 1) {
+          this.qr_code = data.data;
+        } else {
+          // 获取失败
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
   }
 };
 </script>
