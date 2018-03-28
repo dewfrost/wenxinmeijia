@@ -406,6 +406,7 @@ export default {
     }
   }
   .goods_Details{
+    padding-bottom: 20px;
     padding-top: 90px;
     margin-top: -90px;
     .goods_Details_title{
