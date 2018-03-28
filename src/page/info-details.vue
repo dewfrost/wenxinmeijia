@@ -88,7 +88,7 @@ export default {
       }
       .center{
         width: 100%;
-        padding:0 30px;
+        padding: 20px 30px 0;
         font-size: 22px;
         color: #666;
         line-height: 40px;

@@ -11,7 +11,7 @@
     <div class="center">
       <ul>
         <li class="account_li" v-for="(item, index) in user" :key="index">
-          <div>
+          <div class="list">
             <i class="icon iconfont" :class="iconArr[item.type - 1]"></i>
             <div class="user">
               <div class="account_div">{{item.remark}}</div>
@@ -32,7 +32,7 @@ export default {
     return {
       isRequest: false,
       tabActive: 1,
-      iconArr: ['icon-jiankangshangcheng', 'icon-web__jiangli', 'icon-xinzi', 'icon-huojian', 'icon-tixian', 'icon-huokuanyifu'],
+      iconArr: ['icon-jiankangshangcheng', 'icon-web__jiangli', 'icon-xinzi', 'icon-huojian', 'icon-tixian', 'icon-huokuanyifu', 'icon-my_light'],
       user: []
     };
   },
@@ -148,11 +148,11 @@ export default {
   }
   .center{
     span{
-      display: inline-block;
-      padding: 0 8px;
-      padding-top: 40px;
-      font-size: 20px;
-      color: #999;
+      // display: inline-block;
+      // padding: 0 8px;
+      // padding-top: 40px;
+      // font-size: 20px;
+      // color: #999;
       &.icon-xinzi{
         font-size: 23px;
         padding-left: 25px;
@@ -163,11 +163,19 @@ export default {
       margin-bottom: 20px;
       .account_li{
         width: 92%;
-        margin: auto;
+        margin: 0 auto;
         border-bottom: 1px solid #e6e6e6;
-        .iconfont{
-          font-size: 28px;
-          margin: 16px 18px 0 0;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        align-items: center;
+        .list{
+          padding: 20px 0;
+          .iconfont{
+            font-size: 28px;
+            padding-right: 20px;
+            padding-top: 6px;
             &.icon-jiankangshangcheng{
               color: #24a5fe;
             }
@@ -186,22 +194,23 @@ export default {
             &.icon-xinzi{
               color: #fd9611;
             }
-        }
-        .user{
+            &.icon-my_light{
+              color: #000;
+            }
+          }
+          .user{
           display: flex;
           flex-direction: column;
-        }
-        div{
+          }
+          div{
           display: flex;
           justify-content: space-between;
           .account_div{
-            margin-top: 15px;
+            margin-bottom: 6px;
             color: #333;
             font-size: 24px;
-          
           }
           .account_time{
-            margin-bottom: 15px;
             color: #999;
             font-size: 20px;
           }
@@ -209,6 +218,7 @@ export default {
         display: flex;
         justify-content: space-between;
       }
+        }
       .account_span{
         font-size: 24px;
         color: #333;

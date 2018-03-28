@@ -161,6 +161,24 @@ export default {
         .then(({data}) => {
           if (data.status === 1) {
             this.swiperInfo = data.data;
+            let result;
+            for (let i = 0; i < this.swiperInfo.length; i++) {
+              result = this.swiperInfo[i].description.replace(/[\u4e00-\u9fa5]/g, '**');
+              if (result.length >= 48) {
+                let endString = '';
+                let tempstrting;
+                for (let j = 0; i < this.swiperInfo[i].description.length; j++) {
+                  endString += this.swiperInfo[i].description[j];
+                  tempstrting = endString.replace(/[\u4e00-\u9fa5]/g, '**');
+                  if (tempstrting.length >= 46) {
+                    this.swiperInfo[i].description = endString + '···';
+                    break;
+                  }
+                }
+              } else {
+                continue;
+              }
+            }
           } else {
             this.toast(data.message);
           }

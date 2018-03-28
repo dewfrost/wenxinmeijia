@@ -99,14 +99,17 @@ export default {
       margin: auto;
       .list_top{
         .title{
-          padding: 0 20px;
           height: 80px;
           line-height: 80px;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
           justify-content: space-between;
           font-size: 24px;
           border-bottom: 1px solid #e6e6e6;
-          width: 96%;
+          width: 92%;
           margin: auto;
           &.title1{
             color:#333;
@@ -122,18 +125,19 @@ export default {
         }
       }
       .center{
-        width: 96%;
-        height: 112px;
+        width: 100%;
+        height: 100px;
         line-height: 40px;
         padding: 22px 20px;
         font-size: 22px;
         margin: 0 auto;
         color: #999;
-        line-height: 1.4;
+        line-height: 1.6;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
         /*! autoprefixer: off */
         -webkit-box-orient: vertical;
         /* autoprefixer: on */
