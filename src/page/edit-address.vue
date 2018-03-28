@@ -88,7 +88,7 @@ export default {
     },
     // 点击确认跳转编辑收货地址
     link: function () {
-      let nameResult = this.user.name.replace(/[\u4e00-\u9fa5]/g, '**'); //一个汉字相当于两个字符
+      let nameResult = this.user.name.replace(/[\u4e00-\u9fa5]/g, '**'); // 一个汉字相当于两个字符
       if (this.user.name === this.isSameAddress.name && this.user.phone === this.isSameAddress.phone && this.user.description === this.isSameAddress.description && this.area.join(' ') === this.isSameAddress.city) {
         this.toast('地址没有改动');
       } else if (!this.user.name) {
