@@ -100,9 +100,7 @@ export default {
             this.getVoucherModal(this.voucherNum, () => {
               this.doGetVoucher();
             });
-          } else {
-            // this.toast(data.message);
-          }
+          } else {}
         });
     },
     // 执行领取事件
@@ -113,6 +111,9 @@ export default {
           console.log(data);
           if (data.status === 1) {
             this.toast('领取成功');
+          } else if (data.status === 10000) {
+            // 未登录
+            this.$router.push('login');
           } else {
             // this.toast(data.message);
           }
