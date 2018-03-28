@@ -164,13 +164,13 @@ export default {
             let result;
             for (let i = 0; i < this.swiperInfo.length; i++) {
               result = this.swiperInfo[i].description.replace(/[\u4e00-\u9fa5]/g, '**');
-              if (result.length >= 48) {
+              if (result.length >= 45) {
                 let endString = '';
                 let tempstrting;
                 for (let j = 0; i < this.swiperInfo[i].description.length; j++) {
                   endString += this.swiperInfo[i].description[j];
                   tempstrting = endString.replace(/[\u4e00-\u9fa5]/g, '**');
-                  if (tempstrting.length >= 46) {
+                  if (tempstrting.length >= 45) {
                     this.swiperInfo[i].description = endString + '···';
                     break;
                   }
@@ -346,7 +346,7 @@ export default {
     }
     .list{
       flex: 1;
-      padding-left: 64px;
+      padding-left: 34px;
       display: flex;
       align-items: center;
       height: 40px;
@@ -376,9 +376,23 @@ export default {
     .more{
       // min-width: 120px;
       padding-left: 10px;
-      height: 18px;
-      line-height: 18px;
-      border-left: 2px solid #999;
+      height: 40px;
+      line-height: 40px;
+      position: absolute;
+      right: 20px;
+      top: 44%;
+      transform: translateY(-50%);
+      &::before{
+        position: absolute;
+        content: '';
+        display: block;
+        width: 2px;
+        height: 1em;
+        background-color: #666;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
     }
   }
   .nav{
