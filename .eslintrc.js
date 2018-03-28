@@ -19,7 +19,8 @@ module.exports = {
   globals: {
     "eventBus": true,
     "eventCookie": true,
-    "axios": true
+    "axios": true,
+    "WeixinJSBridge": true
   },
   // add your custom rules here
   'rules': {

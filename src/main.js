@@ -292,12 +292,16 @@ router.beforeEach((to, from, next) => {
             router.push('login');
           }
         } else {
-          next();
-          eventBus.$emit('toast', false);
-          eventBus.$emit('loading', false);
-          eventBus.$emit('header', false);
-          eventBus.$emit('modal', false);
-          eventBus.$emit('footer', false);
+          if (to.name === 'order') {
+            next();
+          } else {
+            next();
+            eventBus.$emit('toast', false);
+            eventBus.$emit('loading', false);
+            eventBus.$emit('header', false);
+            eventBus.$emit('modal', false);
+            eventBus.$emit('footer', false);
+          }
         }
       })
       .catch(function (error) {

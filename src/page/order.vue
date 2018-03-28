@@ -78,9 +78,6 @@ export default {
   mounted: function () {
     this.getHeader('我的订单', 'order_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },
-  updated: function () {
-    this.getHeader('我的订单', 'order_top');
-  },
   methods: {
     changeType: function (index) {
       this.status = index;

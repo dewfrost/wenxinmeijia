@@ -592,8 +592,8 @@ export default {
                 border-left-color: transparent;
               }
               &.is_focus{
-                box-shadow: inset 0 0 1px 2px #ffe5e6;
-                border: 1px solid #ffe5e6;
+                box-shadow: inset 0 0 1px 2px #f9d5dd;
+                border: 1px solid #f9d5dd;
                 margin-left: -1px;
               }
             }

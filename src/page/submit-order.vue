@@ -47,7 +47,7 @@
     <div class="information">
       <p class="list">
         <span>商品金额</span>
-        <span> &yen;&nbsp;{{allPrice}}</span>
+        <span> &yen;&nbsp;{{parseFloat(allPrice).toFixed(2)}}</span>
       </p>
       <p class="list">
         <span>运费</span>

@@ -103,14 +103,67 @@ export default {
     pay () {
       if ((this.balance < this.price) && this.activeNum === 2) {
         this.toast('余额不足');
-      } else if (this.activeNum !== 2) {
-        // 选择的支付类型不是余额
+      } else if (this.activeNum === 0) {
+        // 选择的支付类型是支付宝
         this.toast('王政还没写好接口');
+      } else if (this.activeNum === 1) {
+        // 选择的支付类型是微信
+        this.payWechat();
       } else {
         this.goPay(this.$route.query.id, () => {
           this.$router.push('paymentSuccess');
         });
       }
+    },
+    payWechat () {
+      this.axios.post('/order_pay/wy_pay', {
+        id: this.$route.query.id,
+        type: 'weixin'
+      })
+        .then(({data}) => {
+          if (data.status === 1) {
+            this.wechatPay(data.data);
+          } else {
+            this.toast(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 微信支付
+    wechatPay (data) {
+      if (!WeixinJSBridge) {
+        if (document.addEventListener) {
+          document.addEventListener('WeixinJSBridgeReady', this.jsApiCall, false);
+        } else if (document.attachEvent) {
+          document.attachEvent('WeixinJSBridgeReady', this.jsApiCall);
+          document.attachEvent('onWeixinJSBridgeReady', this.jsApiCall);
+        }
+      } else {
+        this.jsApiCall(data);
+      }
+    },
+    // 微信支付接口调用
+    jsApiCall: function (data) {
+      let submitData = {
+        'appId': data.appId,
+        'nonceStr': data.nonceStr,
+        'package': data.package,
+        'paySign': data.paySign,
+        'signType': data.signType,
+        'timeStamp': data.timeStamp
+      };
+      WeixinJSBridge.invoke('getBrandWCPayRequest', submitData, (res) => {
+        let result = res.err_msg;
+        if (result === 'get_brand_wcpay_request:ok') {
+          // 支付成功
+          this.toast(result);
+        } else {
+          // 显示支付错误信息
+          this.toast(result);
+        }
+      });
     }
   }
 };

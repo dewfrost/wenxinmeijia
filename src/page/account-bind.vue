@@ -73,6 +73,7 @@ export default {
       .then(({data}) => {
         if (data.status === 1) {
           this.zhifubao = data.data[0].zhifubao;
+          this.wechat = data.data[0].weixin;
         } else {
           this.toast(data.message);
         }
