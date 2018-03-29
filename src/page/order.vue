@@ -20,7 +20,7 @@
             <div class="price">
               <span class="money">
                 <span class="money_new"><span class="money_small">&yen;</span> {{parseFloat(list.gprice).toFixed(2)}}</span>
-                <span class="money_old" v-if="list.zhekou && (parseFloat(list.zhekou) !== parseFloat(list.gprice))"><span class="money_small">&yen;</span> {{parseFloat(list.gprice).toFixed(2)}}</span>
+                <span class="money_old" v-if="list.zhekou && (parseFloat(list.zhekou) !== parseFloat(list.gprice))"><span class="money_small">&yen;</span> {{parseFloat(list.zhekou).toFixed(2)}}</span>
               </span>
               <span class="goodsnum">x{{list.gnum}}</span>
             </div>
