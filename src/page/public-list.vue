@@ -11,7 +11,9 @@
           <span class="list_top" >
             <span class="title" :class="{'title1': item.read, 'title2': !item.read}">{{item.title}}<i class="iconfont icon-you"></i></span>
           </span>
-          <div class="center">{{item.description}}</div>
+          <div class="center">{{item.description}}
+          </div>
+          <span class="blank"></span>
         </div>
       </div>
      <div class="bottom" v-if="list.length && isRequest">已经到底了...</div>
@@ -125,14 +127,15 @@ export default {
         }
       }
       .center{
+        word-wrap: break-word;
         width: 100%;
-        height: 100px;
+        height: 60px;
         line-height: 40px;
-        padding: 22px 20px;
+        margin-top: 20px;
+        padding: 0 20px;
         font-size: 22px;
-        margin: 0 auto;
         color: #999;
-        line-height: 1.6;
+        line-height: 1.4;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -142,6 +145,12 @@ export default {
         -webkit-box-orient: vertical;
         /* autoprefixer: on */
       }
+      .blank{
+          width: 100%;
+          height: 20px;
+          display: block;
+          background: #fff;
+        }
     }
     
   }
