@@ -1,5 +1,5 @@
 <template>
-   <div class="orderd" :class="{'none_footer': (order.status === 1) || (order.status === 3)}">
+   <div class="order_wrap" :class="{'none_footer': (order.status === 1) || (order.status === 3)}">
      <div class="top">
        <div class="orderd_top left">
          <span class="number">订单编号：{{order.order_sn}}</span>
@@ -196,7 +196,7 @@ export default {
 
 <style lang="scss">
 @import "../assets/css/base.scss";
-.orderd{
+.order_wrap{
   background: #fff;
   padding: 90px 0 80px 0;
   &.none_footer{
