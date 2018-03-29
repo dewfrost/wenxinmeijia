@@ -18,7 +18,10 @@
           <div class="right">
             <div class="one">{{list.gname}}</div>
             <div class="price">
-              <span class="money"> &yen;&nbsp;<span class="money_big">{{list.gprice}}</span>  </span>
+              <span class="money">
+                <span class="money_new"><span class="money_small">&yen;</span> {{parseFloat(list.gprice).toFixed(2)}}</span>
+                <span class="money_old" v-if="list.zhekou && (parseFloat(list.zhekou) !== parseFloat(list.gprice))"><span class="money_small">&yen;</span> {{parseFloat(list.gprice).toFixed(2)}}</span>
+              </span>
               <span class="goodsnum">x{{list.gnum}}</span>
             </div>
           </div>
@@ -258,9 +261,21 @@ export default {
           .money{
             font-size: 20px;
             color: $color;
-            .money_big{
+            .money_new{
               font-size: 26px;
               margin-left: -2px;
+              .money_small{
+                font-size: 20px;
+              }
+            }
+            .money_old{
+              font-size: 22px;
+              margin-left: 10px;
+              text-decoration: line-through;
+              color: #999;
+              .money_small{
+                font-size: 20px;
+              }
             }
           }
           .goodsnum{

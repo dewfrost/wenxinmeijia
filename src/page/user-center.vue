@@ -346,7 +346,7 @@ export default {
     }
     .list{
       flex: 1;
-      padding-left: 34px;
+      padding-left: 40px;
       display: flex;
       align-items: center;
       height: 40px;
