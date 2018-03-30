@@ -57,13 +57,8 @@
           <span class="price deduction">-&nbsp;&yen;&nbsp;{{order.score || 0}}</span>
         </div>
         <div class="order_list_info">
-<<<<<<< HEAD
-          <span class="name">{{pageStatus === 0 ? '需付款：' : '实付款：'}}</span>
-          <span class="price with_money">&yen;&nbsp;{{order.true_price || 0}}</span>
-=======
           <span class="name">{{pageStatus === 0 ? '需付款' : '实付款'}}</span>
           <span class="price with_money">&yen;&nbsp;{{parseFloat(order.true_price).toFixed(2) || 0}}</span>
->>>>>>> 3377dce16e16a47662b346375fa7b08b44f15b62
         </div>
     </div>
     <div class="footer_order" v-if="(pageStatus === 2) || (pageStatus === 3)">

@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="details_address">
-      <textarea id="details-address" placeholder="请填写详细地址" v-model="user.details_address"></textarea>
+      <textarea class="details_add" id="details-address" placeholder="请填写详细地址" v-model="user.details_address"></textarea>
     </div>
     <div class="default" @click="defaultSelect">
       <span>设为默认</span>
@@ -184,7 +184,7 @@ export default {
     }
   }
   .details_address{
-    textarea{
+    .details_add{
       background: #fff;
       border-bottom: 1px solid #eaeaea;
       width: 100%;

@@ -70,7 +70,7 @@ export default {
       details: [],
       // 配件专区
       parts: [],
-      voucherNum: '10.00' // 代金券金额
+      voucherNum: '' // 代金券金额
     };
   },
   beforeMount: function () {
@@ -107,7 +107,7 @@ export default {
       this.axios.post('/user/coupon', {
       })
         .then(({data}) => {
-          console.log(data);
+          // console.log(data);
           if (data.status === 1) {
             this.toast('领取成功');
           } else if (data.status === 10000) {

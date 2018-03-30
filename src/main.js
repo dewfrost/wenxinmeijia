@@ -281,7 +281,7 @@ router.beforeEach((to, from, next) => {
         if (data.status !== 1) {
           console.log(to.name === 'userCenter');
           if (to.name === 'userCenter') {
-            Vue.prototype.modal('提示', '注册成功后才能注册个人中心，快去注册吧！', '立即注册', () => {
+            Vue.prototype.modal('提示', '注册成功后才能进入个人中心，快去注册吧！', '立即注册', () => {
               router.push('register');
             });
           } else if (to.name === 'submitOrder') {

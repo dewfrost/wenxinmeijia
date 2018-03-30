@@ -8,7 +8,7 @@
       <span>修改支付密码</span>
       <i class="iconfont icon-you"></i>
     </div>
-    <button class="link" @click="link">退出登录</button>
+    <button class="link" @click="link" v-if="!isWechat()">退出登录</button>
   </div>
 </template>
 
