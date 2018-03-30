@@ -15,8 +15,8 @@
         <i class="iconfont icon-you"></i>
       </div>
     </div>
-    <div class="details_address">
-      <textarea class="details_add" id="details-address" placeholder="请填写详细地址" v-model="user.details_address" ref="textArea"></textarea>
+    <div class="details_address clearfix">
+      <textarea class="details_add" id="details-address" placeholder="请填写详细地址" v-model="user.details_address"></textarea>
     </div>
     <div class="default" @click="defaultSelect">
       <span>设为默认</span>
@@ -50,7 +50,6 @@ export default {
   },
   mounted: function () {
     this.getHeader('添加新地址', 'addAddress_top');
-    this.showSelect();
   },
   methods: {
     getAddressList () {
@@ -146,22 +145,6 @@ export default {
         return false;
       }
       this.select = !this.select;
-    },
-    showSelect () {
-      let slace = eventBus.slace;
-      if (navigator.userAgent.indexOf('UCBrowser') > -1) {
-        this.$refs.textArea.style['transform'] = 'scale(' + (1 / slace) + ')';
-        this.$refs.textArea.style['-ms-transform'] = 'scale(' + (1 / slace) + ')';
-        this.$refs.textArea.style['-moz-transform'] = 'scale(' + (1 / slace) + ')';
-        this.$refs.textArea.style['-webkit-transform'] = 'scale(' + (1 / slace) + ')';
-        this.$refs.textArea.style['-o-transform'] = 'scale(' + (1 / slace) + ')';
-        this.$refs.textArea.style('padding', '0 20');
-        this.$refs.textArea.style.marginLeft = 0 + 'px';
-        this.$refs.textArea.style.marginRight = 0 + 'px';
-        this.$refs.textArea.style.fontSize = 10 + 'px';
-      } else {
-        this.$refs.textArea.style.fontSize = 24 + 'px';
-      }
     }
   }
 };
@@ -205,16 +188,15 @@ export default {
     .details_add{
       background: #fff;
       border-bottom: 1px solid #eaeaea;
-      width: 100%;
-      height: 140px;
+      width: 640px;
+      display: block;
+      min-height: 140px;
+      line-height: 32px;
       resize: none;
-      padding: 0 30px;
       font-size: 24px;
       color: #333;
       font-family: '微软雅黑';
-      padding: 18px 30px 0;
-      line-height: 33px;
-      transform-origin: top left;
+      padding: 24px 30px 0;
       display: flex;
       flex: 1;
     }
