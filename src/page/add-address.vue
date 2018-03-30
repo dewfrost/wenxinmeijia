@@ -149,7 +149,7 @@ export default {
     },
     showSelect () {
       let slace = eventBus.slace;
-      if(navigator.userAgent.indexOf('UCBrowser') > -1) {
+      if (navigator.userAgent.indexOf('UCBrowser') > -1) {
         this.$refs.textArea.style['transform'] = 'scale(' + (1 / slace) + ')';
         this.$refs.textArea.style['-ms-transform'] = 'scale(' + (1 / slace) + ')';
         this.$refs.textArea.style['-moz-transform'] = 'scale(' + (1 / slace) + ')';
