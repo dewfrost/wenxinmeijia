@@ -158,7 +158,8 @@ export default {
         let result = res.err_msg;
         if (result === 'get_brand_wcpay_request:ok') {
           // 支付成功
-          this.toast(result);
+          this.toast('支付成功');
+          this.$router.replace('paymentSuccess');
         } else {
           // 显示支付错误信息
           this.toast(result);
