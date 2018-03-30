@@ -156,10 +156,10 @@ export default {
         this.$refs.textArea.style['-webkit-transform'] = 'scale(' + (1 / slace) + ')';
         this.$refs.textArea.style['-o-transform'] = 'scale(' + (1 / slace) + ')';
         this.$refs.textArea.style('padding', '0 20');
-        this.$refs.textArea.style.paddingLeft = 20 +'px';
-        this.$refs.textArea.style.paddingRight = 20 +'px';
+        this.$refs.textArea.style.paddingLeft = 20 + 'px';
+        this.$refs.textArea.style.paddingRight = 20 + 'px';
       } else {
-        this.$refs.textArea.style.fontSize = 24 +'px';
+        this.$refs.textArea.style.fontSize = 24 + 'px';
       }
     }
   }
