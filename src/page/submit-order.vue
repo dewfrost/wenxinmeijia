@@ -39,7 +39,7 @@
               {{parseFloat(item.zhekou).toFixed(2)}}
             </span>
           </span>
-          <span class="number">x{{numList ? numList[index] : '1'}}</span>
+          <span class="number">x{{numList ? numList[index] : goodsNum}}</span>
         </p>
       </div>
     </div>
@@ -80,6 +80,7 @@ export default {
   name: 'submitOrder',
   data () {
     return {
+      goodsNum: this.$route.query.num,
       address: null,
       goodsInfo: [], // 商品列表
       allPrice: '0', // 商品总金额
@@ -124,7 +125,7 @@ export default {
       }
     },
     getInfo () {
-      // 如果query值有id，则是商品一件下单，有gid则是购物车下单
+      // 如果query值有id，则是商品下单，有gid则是购物车下单
       if (this.$route.query.id) {
         this.axios.post('/order_pay/front_order', {
           gid: this.$route.query.id,
@@ -229,7 +230,7 @@ export default {
       // 如果代金券为0
       if (!parseFloat(this.voucher)) {
         this.toast('没有可抵用的代金券');
-      } else if (this.endPrice < 1000) {
+      } else if (parseFloat(this.allPrice) < 1000) {
         this.toast('订单金额达到1000才可以使用代金券');
       } else {
         this.selectStatus = !this.selectStatus;
