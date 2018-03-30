@@ -37,7 +37,7 @@ export default {
   computed: {
     showZhifubao () {
       if (!this.zhifubao) {
-        return '未绑定';
+        return '去绑定';
       } else if ((/@/g).test(this.zhifubao)) {
         return this.zhifubao.replace(/(\w{2})\w*(@)/, '$1***$2');
       } else {
