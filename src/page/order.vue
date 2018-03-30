@@ -117,7 +117,7 @@ export default {
       this.$router.push({path: 'payment', query: {id: id}});
     },
     seeOrderDetails: function (status, id) {
-      this.$router.push({ path: 'orderDetails', query: {status: status, id: id} });
+      this.$router.push({path: 'orderDetails', query: {status: status, id: id}});
     },
     // 确认收货
     receipt (index, id) {
@@ -125,7 +125,7 @@ export default {
       // 第一个参数，订单号， 第二个参数成功事件，第三个参数，事件类型
       this.goPay(id, function () {
         that.toast('确认收货成功');
-        that.$router.push({ path: 'order', query: {status: 3} })
+        that.$router.push({path: 'order', query: {status: 3}});
       }, 'endOrder');
     },
     // 请求我的订单

@@ -32,7 +32,7 @@ export default {
     return {
       isRequest: false,
       tabActive: 1,
-      iconArr: ['icon-jiankangshangcheng', 'icon-web__jiangli', 'icon-xinzi', 'icon-huojian', 'icon-tixian', 'icon-huokuanyifu', 'icon-my_light'],
+      iconArr: ['icon-jiankangshangcheng', 'icon-web__jiangli', 'icon-xinzi', 'icon-huojian', 'icon-tixian', 'icon-huokuanyifu', 'icon-chongzhi1'],
       user: []
     };
   },
@@ -194,8 +194,8 @@ export default {
             &.icon-xinzi{
               color: #fd9611;
             }
-            &.icon-my_light{
-              color: #000;
+            &.icon-chongzhi1{
+              color: #ef0606;
             }
           }
           .user{
