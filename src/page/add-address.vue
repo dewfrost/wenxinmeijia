@@ -196,7 +196,7 @@ export default {
     width: 640px;
     .details_add{
       margin-top: 30px;
-      margin-left: 140px;
+      margin-left: 120px;
       background: #fff;
       border-bottom: 1px solid #eaeaea;
       width: 100%;
