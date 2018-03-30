@@ -32,11 +32,11 @@
           <span class="price">
             <span class="now_price">
               <span class="yen"> &yen; </span>
-              {{item.price}}
+              {{parseFloat(item.price).toFixed(2)}}
             </span>
             <span class="old_price" v-if="item.zhekou">
               <span class="yen"> &yen; </span>
-              {{item.zhekou}}
+              {{parseFloat(item.zhekou).toFixed(2)}}
             </span>
           </span>
           <span class="number">x{{numList ? numList[index] : '1'}}</span>
@@ -229,9 +229,11 @@ export default {
       // 如果代金券为0
       if (!parseFloat(this.voucher)) {
         this.toast('没有可抵用的代金券');
-        return false;
+      } else if (this.endPrice < 1000) {
+        this.toast('订单金额达到1000才可以使用代金券');
+      } else {
+        this.selectStatus = !this.selectStatus;
       }
-      this.selectStatus = !this.selectStatus;
     }
   }
 };

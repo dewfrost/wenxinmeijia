@@ -294,6 +294,7 @@ router.beforeEach((to, from, next) => {
         } else {
           if (to.name === 'order') {
             next();
+            eventBus.$emit('footer', false);
           } else {
             next();
             eventBus.$emit('toast', false);

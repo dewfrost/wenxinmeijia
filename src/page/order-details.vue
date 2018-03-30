@@ -1,5 +1,5 @@
 <template>
-   <div class="orderd" :class="{'none_footer': (order.status === 1) || (order.status === 3)}">
+   <div class="order_wrap" :class="{'none_footer': (order.status === 1) || (order.status === 3)}">
      <div class="top">
        <div class="orderd_top left">
          <span class="number">订单编号：{{order.order_sn}}</span>
@@ -28,7 +28,16 @@
           <div class="right">
             <div class="one">{{item.gname}}</div>
               <div class="price">
-                <span class="money"> &yen;<span class="money_big">{{item.gprice}}</span>  </span>
+                <span class="money">
+                  <span class="money_new">
+                    <span class="moner_small">&yen;</span>
+                    {{parseFloat(item.gprice).toFixed(2)}}
+                  </span>
+                  <span class="money_old" v-if="item.zhekou && (parseFloat(item.zhekou) !== parseFloat(item.gprice))">
+                    <span class="moner_small">&yen;</span>
+                    {{parseFloat(item.zhekou).toFixed(2)}}
+                  </span>
+                </span>
                 <span class="goodsnum">x{{item.gnum}}</span>
               </div>
           </div>
@@ -37,7 +46,7 @@
     <div class="list_info_wrap">
         <div class="order_list_info">
           <span class="name order_money">订单金额</span>
-          <span class="price">&yen;&nbsp;{{order.price || 0}}</span>
+          <span class="price">&yen;&nbsp;{{parseFloat(order.price).toFixed(2) || 0}}</span>
         </div>
         <div class="order_list_info">
           <span class="name">运费：</span>
@@ -48,8 +57,13 @@
           <span class="price deduction">-&nbsp;&yen;&nbsp;{{order.score || 0}}</span>
         </div>
         <div class="order_list_info">
+<<<<<<< HEAD
           <span class="name">{{pageStatus === 0 ? '需付款：' : '实付款：'}}</span>
           <span class="price with_money">&yen;&nbsp;{{order.true_price || 0}}</span>
+=======
+          <span class="name">{{pageStatus === 0 ? '需付款' : '实付款'}}</span>
+          <span class="price with_money">&yen;&nbsp;{{parseFloat(order.true_price).toFixed(2) || 0}}</span>
+>>>>>>> 3377dce16e16a47662b346375fa7b08b44f15b62
         </div>
     </div>
     <div class="footer_order" v-if="(pageStatus === 2) || (pageStatus === 3)">
@@ -196,7 +210,7 @@ export default {
 
 <style lang="scss">
 @import "../assets/css/base.scss";
-.orderd{
+.order_wrap{
   background: #fff;
   padding: 90px 0 80px 0;
   &.none_footer{
@@ -323,9 +337,21 @@ export default {
           .money{
             font-size: 20px;
             color: $color;
-            .money_big{
+            .money_new{
               font-size: 26px;
               padding-left: 4px;
+              .money_small{
+                font-size: 20px;
+              }
+            }
+            .money_old{
+              font-size: 22px;
+              margin-left: 10px;
+              text-decoration: line-through;
+              color: #999;
+              .money_small{
+                font-size: 20px;
+              }
             }
           }
           .goodsnum{

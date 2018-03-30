@@ -146,9 +146,9 @@ export default {
             // 轮播图片
             this.swiperImg = data.data.lunbo;
             // 商品详情
-            this.detailsHtml = data.data.description;
+            this.detailsHtml = data.data.content;
             // 参数详情
-            this.parameterHtml = data.data.content;
+            this.parameterHtml = data.data.description;
             this.goods = data.data;
             // 底部购物车数量
             this.goodsCarSum = data.data.cart_num;
