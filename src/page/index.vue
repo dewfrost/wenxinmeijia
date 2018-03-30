@@ -109,7 +109,7 @@ export default {
         .then(({data}) => {
           // console.log(data);
           if (data.status === 1) {
-            this.toast('领取成功');
+            this.toast('您已成功领取代金券' + this.voucherNum + '元，可在支付时使用');
           } else if (data.status === 10000) {
             // 未登录
             this.$router.push('login');

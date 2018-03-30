@@ -62,6 +62,7 @@
       <img :src="voucherImg" alt="">
       <i class="iconfont icon-close" @click="close"></i>
       <span class="price">{{title}}</span>
+      <span class="range">仅限商品专区使用</span>
       <button class="btnClass" @click="buttonBox(callback)">{{ btnTitle }}</button>
     </div>
   </div>
@@ -92,7 +93,7 @@ export default {
         hide: true
       },
       select: [],
-      voucherImg: require('../assets/images/vouchers.png'),
+      voucherImg: require('../assets/images/voucher.png'),
       user: {
         phone: '',
         code: '',
@@ -396,6 +397,14 @@ export default {
         font-size: 80px;
         display: block;
         color: #F95C4F;
+      }
+      .range{
+        position: absolute;
+        bottom: 32%;
+        left: 51%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 26px;
       }
       .btnClass{
         width: 90%;

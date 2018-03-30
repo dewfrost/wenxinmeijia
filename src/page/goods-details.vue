@@ -223,7 +223,7 @@ export default {
       this.getGoodsFooter(this.goodsCarSum, () => {
         this.addGoods();
       }, () => {
-        this.$router.push({path: 'submitOrder', query: {id: this.$route.query.id}});
+        this.$router.push({path: 'submitOrder', query: {id: this.$route.query.id, num: this.goodsNum}});
       });
     }
   },
