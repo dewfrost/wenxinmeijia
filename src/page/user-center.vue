@@ -46,11 +46,11 @@
     <!-- 累计收益 -->
     <div class="add">
       <div class="add_list">
-        <span class="money">{{moneyList[0] || 0}}</span>
+        <span class="money">{{moneyList[0] || 0.00}}</span>
         <span class="add_name">累计收益</span>
       </div>
       <router-link tag="div" class="add_list" v-for="(addName, index) in addList" :to="{path: add[index], query:{status: index}}" :key="index">
-        <span class="money">{{moneyList[index + 1] || 0}}</span>
+        <span class="money">{{moneyList[index + 1] || 0.00}}</span>
         <span class="add_name">{{addName}}</span>
       </router-link>
     </div>
@@ -126,20 +126,7 @@ export default {
       }
     },
     seeQrcode () {
-      this.axios.get('/user/get_code', {
-      })
-        .then(({data}) => {
-          if (data.status === 1) {
-            this.$router.push({path: this.setLink[2]});
-          } else {
-            this.modal('提示', data.message, '确定', () => {
-              return false;
-            });
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      this.$router.push({path: this.setLink[2]});
     },
     getOrderSum () {
       this.axios.get('/user/angle', {
