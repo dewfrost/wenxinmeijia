@@ -38,7 +38,7 @@
     </div>
     <!-- 提交订单底部 -->
     <div class="footer_submit" v-if="type === 'submit'">
-      <span class="all_price">合计：<span class="small">￥</span><span>{{price}}</span></span>
+      <span class="all_price">合计：<span class="small">&yen;</span><span>{{price}}</span></span>
       <div class="buttons">
       	<span @click="button[0].callback">提交订单</span>
       </div>

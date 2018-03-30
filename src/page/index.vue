@@ -11,7 +11,6 @@
       </swiper>
       <div class="swiper-pagination"></div>
     </div>
-    <!-- <img :src="img" alt="商品"> -->
     <div class="goods_list">
       <!-- 商品专区 -->
       <p class="title">&nbsp;商品专区&nbsp;</p>

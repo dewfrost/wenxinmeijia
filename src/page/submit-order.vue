@@ -240,6 +240,7 @@ export default {
 @import "../assets/css/base.scss";
 .submitOrder{
   padding-top: 90px;
+  padding-bottom: 80px;
   min-height: 100%;
   background: #f5f5f5;
   .address{
