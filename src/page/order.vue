@@ -125,7 +125,7 @@ export default {
       // 第一个参数，订单号， 第二个参数成功事件，第三个参数，事件类型
       this.goPay(id, function () {
         that.toast('确认收货成功');
-        that.orderData.splice(index, 1);
+        that.$router.push({ path: 'order', query: {status: 3} })
       }, 'endOrder');
     },
     // 请求我的订单
