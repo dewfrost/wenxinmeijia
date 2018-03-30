@@ -196,7 +196,7 @@ export default {
     width: 640px;
     .details_add{
       margin-top: 30px;
-      margin-left: 156px;
+      margin-left: 150px;
       background: #fff;
       border-bottom: 1px solid #eaeaea;
       width: 100%;
@@ -206,14 +206,14 @@ export default {
       font-size: 16px;
       color: #333;
       font-family: '微软雅黑';
-      padding: 10px 30px 0;
+      padding: 0px 30px 0;
       line-height: 33px;
       // display: flex;
       // flex: 1;
     }
   }
   .default{
-    margin-top: 50px;
+    margin-top: 70px;
     line-height: 85px;
     padding: 0 30px;
     display: flex;
