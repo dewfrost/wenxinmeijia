@@ -188,7 +188,7 @@ export default {
     .details_add{
       background: #fff;
       border-bottom: 1px solid #eaeaea;
-      width: 100%;
+      width: 640px;
       height: 170px;
       resize: none;
       padding: 0 30px;

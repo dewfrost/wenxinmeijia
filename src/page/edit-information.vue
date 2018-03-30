@@ -192,7 +192,7 @@ export default {
       }
     },
     submit: function () {
-      if ((this.isSameInfo.headimgurl === this.user.headimgurl) && (this.isSameInfo.nickname === this.user.nickname)) {
+      if ((this.isSameInfo.headimgurl === this.user.headimgurl) && (this.isSameInfo.nickname === this.user.nickname) && (this.isSameInfo.sex === this.user.sex) && (this.isSameInfo.age === this.user.age)) {
         this.toast('资料没有改动');
       } else if (!this.user.nickname) {
         this.toast('请填写用户昵称');
