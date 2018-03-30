@@ -205,13 +205,13 @@ export default {
       background: #fff;
       border-bottom: 1px solid #eaeaea;
       width: 100%;
-      height: 110px;
+      height: 140px;
       resize: none;
       padding: 0 30px;
       font-size: 24px;
       color: #333;
       font-family: '微软雅黑';
-      padding: 0px 30px 0;
+      padding: 18px 30px 0;
       line-height: 33px;
       transform-origin: top left;
       // display: flex;
@@ -219,7 +219,7 @@ export default {
     }
   }
   .default{
-    margin-top: 60px;
+    margin-top: 20px;
     line-height: 85px;
     padding: 0 30px;
     display: flex;
