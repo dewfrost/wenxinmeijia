@@ -157,7 +157,7 @@ export default {
         this.$refs.textArea.style['-o-transform'] = 'scale(' + (1 / slace) + ')';
         this.style('padding', '20');
       } else {
-        this.style('fontSize', '20');
+        // this.style('fontSize', '20');
       }
     }
   }
@@ -206,7 +206,7 @@ export default {
       height: 110px;
       resize: none;
       padding: 0 30px;
-      font-size: 14px;
+      font-size: 24px;
       color: #333;
       font-family: '微软雅黑';
       padding: 0px 30px 0;
