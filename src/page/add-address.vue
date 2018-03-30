@@ -148,7 +148,7 @@ export default {
       this.select = !this.select;
     },
     showSelect () {
-      let slace = eventBus.slace
+      let slace = eventBus.slace;
       this.$refs.textArea.style['transform'] = 'scale(' + (1 / slace) + ')';
       this.$refs.textArea.style['-ms-transform'] = 'scale(' + (1 / slace) + ')';
       this.$refs.textArea.style['-moz-transform'] = 'scale(' + (1 / slace) + ')';
@@ -195,23 +195,25 @@ export default {
   .details_address{
     width: 640px;
     .details_add{
+      margin-top: 30px;
+      margin-left: 156px;
       background: #fff;
       border-bottom: 1px solid #eaeaea;
-      width: 640px;
-      height: 170px;
+      width: 100%;
+      height: 110px;
       resize: none;
       padding: 0 30px;
-      font-size: 24px;
+      font-size: 16px;
       color: #333;
       font-family: '微软雅黑';
-      padding: 25px 30px 0;
+      padding: 10px 30px 0;
       line-height: 33px;
       // display: flex;
       // flex: 1;
     }
   }
   .default{
-    margin-top: 20px;
+    margin-top: 50px;
     line-height: 85px;
     padding: 0 30px;
     display: flex;
