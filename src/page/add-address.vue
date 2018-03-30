@@ -149,11 +149,13 @@ export default {
     },
     showSelect () {
       let slace = eventBus.slace;
-      this.$refs.textArea.style['transform'] = 'scale(' + (1 / slace) + ')';
-      this.$refs.textArea.style['-ms-transform'] = 'scale(' + (1 / slace) + ')';
-      this.$refs.textArea.style['-moz-transform'] = 'scale(' + (1 / slace) + ')';
-      this.$refs.textArea.style['-webkit-transform'] = 'scale(' + (1 / slace) + ')';
-      this.$refs.textArea.style['-o-transform'] = 'scale(' + (1 / slace) + ')';
+      if(navigator.userAgent.indexOf('UCBrowser') > -1) {
+        this.$refs.textArea.style['transform'] = 'scale(' + (1 / slace) + ')';
+        this.$refs.textArea.style['-ms-transform'] = 'scale(' + (1 / slace) + ')';
+        this.$refs.textArea.style['-moz-transform'] = 'scale(' + (1 / slace) + ')';
+        this.$refs.textArea.style['-webkit-transform'] = 'scale(' + (1 / slace) + ')';
+        this.$refs.textArea.style['-o-transform'] = 'scale(' + (1 / slace) + ')';
+      }
     }
   }
 };
@@ -195,8 +197,6 @@ export default {
   .details_address{
     width: 640px;
     .details_add{
-      margin-top: 30px;
-      margin-left: 120px;
       background: #fff;
       border-bottom: 1px solid #eaeaea;
       width: 100%;
@@ -208,6 +208,7 @@ export default {
       font-family: '微软雅黑';
       padding: 0px 30px 0;
       line-height: 33px;
+      transform-origin: top left;
       // display: flex;
       // flex: 1;
     }
