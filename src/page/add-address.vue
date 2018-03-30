@@ -196,14 +196,14 @@ export default {
     width: 640px;
     .details_add{
       margin-top: 30px;
-      margin-left: 150px;
+      margin-left: 140px;
       background: #fff;
       border-bottom: 1px solid #eaeaea;
       width: 100%;
       height: 110px;
       resize: none;
       padding: 0 30px;
-      font-size: 16px;
+      font-size: 14px;
       color: #333;
       font-family: '微软雅黑';
       padding: 0px 30px 0;
@@ -213,7 +213,7 @@ export default {
     }
   }
   .default{
-    margin-top: 70px;
+    margin-top: 60px;
     line-height: 85px;
     padding: 0 30px;
     display: flex;
