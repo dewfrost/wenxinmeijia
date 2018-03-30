@@ -8,7 +8,7 @@
       <span>修改支付密码</span>
       <i class="iconfont icon-you"></i>
     </div>
-    <button class="link" @click="link" v-if="!isWechat()">退出登录</button>
+    <div class="link" @click="link" v-if="!isWechat()">退出登录</div>
   </div>
 </template>
 
@@ -99,6 +99,7 @@ export default {
   .link{
     width: 500px;
     line-height: 68px;
+    text-align: center;
     background: $color;
     color: #fff;
     display: block;
