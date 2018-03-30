@@ -49,8 +49,8 @@ export default {
     this.getAddressList();
   },
   mounted: function () {
-    this.showSelect();
     this.getHeader('添加新地址', 'addAddress_top');
+    this.showSelect();
   },
   methods: {
     getAddressList () {
@@ -215,8 +215,8 @@ export default {
       padding: 18px 30px 0;
       line-height: 33px;
       transform-origin: top left;
-      // display: flex;
-      // flex: 1;
+      display: flex;
+      flex: 1;
     }
   }
   .default{
