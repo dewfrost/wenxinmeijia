@@ -155,9 +155,9 @@ export default {
         this.$refs.textArea.style['-moz-transform'] = 'scale(' + (1 / slace) + ')';
         this.$refs.textArea.style['-webkit-transform'] = 'scale(' + (1 / slace) + ')';
         this.$refs.textArea.style['-o-transform'] = 'scale(' + (1 / slace) + ')';
-        this.style('padding','20');
+        this.style('padding', '20');
       } else {
-        this.style('fontSize','20');
+        this.style('fontSize', '20');
       }
     }
   }
