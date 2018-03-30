@@ -25,6 +25,15 @@
         <div class="freight" :class="{'wu': !goods.freight}">运费：{{goods.freight || "免运费"}}</div>
       </div>
     </div>
+    <!-- 改变数量 -->
+    <div class="change_num">
+      <span class="name">选择数量</span>
+      <span class="edit_sum">
+        <span class="reduce" @click.stop="changeNum(1)">-</span>
+        <span class="sum">{{goodsNum}}</span>
+        <span class="add" @click.stop="changeNum(0)">+</span>
+      </span>
+    </div>
     <!-- 参数列表 -->
     <div class="content">
       <div class="type"> 商品参数</div>
@@ -60,6 +69,7 @@ export default {
         price: null,
         name: ''
       },
+      goodsNum: 1, // 数量
       goodsCarSum: 0,
       // 轮播图配置
       swiperOption: { // 以下配置不懂的，可以去swiper官网看api，链接http://www.swiper.com.cn/api/
@@ -135,6 +145,18 @@ export default {
         }
       });
     },
+    // 增删商品数量
+    changeNum (type) {
+      if (type) {
+        if (this.goodsNum === 1) {
+          return false;
+        } else {
+          this.goodsNum --;
+        }
+      } else {
+        this.goodsNum ++;
+      }
+    },
     getDetails (id) {
       this.axios.get('/goods/goods_detail', {
         params: {
@@ -179,7 +201,7 @@ export default {
     },
     addGoods: function () {
       this.axios.post('/cart/add', {
-        num: 1,
+        num: this.goodsNum,
         gid: this.$route.query.id
       })
         .then(({data}) => {
@@ -188,6 +210,7 @@ export default {
             // this.goodsCarSum++;
             // this.getFooter();
             this.getDetails(this.$route.query.id);
+            this.goodsNum = 1;
           } else {
             this.toast(data.message);
           }
@@ -355,6 +378,66 @@ export default {
        color: #999;
        margin-top: 5px;
      }
+    }
+  }
+  .change_num{
+    height: 80px;
+    line-height: 80px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: relative;
+    margin-bottom: 20px;
+    font-size: 24px;
+    &::after{
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      height: 20px;
+      background-color: #f5f5f5;
+      width: 100%;
+    }
+    .edit_sum{
+      border: 1px solid #999;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      .reduce{
+        padding: 0 14px;
+        position: relative;
+        &::before{
+          position: absolute;
+          content: '';
+          display: block;
+          height: 1em;
+          width: 1px;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: #999;
+        }
+      }
+      .sum{
+        padding: 0 30px;
+      }
+      .add{
+        padding: 0 12px;
+        position: relative;
+        &::before{
+          position: absolute;
+          content: '';
+          display: block;
+          height: 1em;
+          width: 1px;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: #999;
+        }
+      }
     }
   }
   .content{
