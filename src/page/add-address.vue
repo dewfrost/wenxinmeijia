@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="details_address">
-      <textarea class="details_add" id="details-address" placeholder="请填写详细地址" v-model="user.details_address"></textarea>
+      <textarea class="details_add" id="details-address" placeholder="请填写详细地址" v-model="user.details_address" ref="textArea"></textarea>
     </div>
     <div class="default" @click="defaultSelect">
       <span>设为默认</span>
@@ -49,6 +49,7 @@ export default {
     this.getAddressList();
   },
   mounted: function () {
+    this.showSelect();
     this.getHeader('添加新地址', 'addAddress_top');
   },
   methods: {
@@ -145,6 +146,14 @@ export default {
         return false;
       }
       this.select = !this.select;
+    },
+    showSelect () {
+      let slace = eventBus.slace
+      this.$refs.textArea.style['transform'] = 'scale(' + (1 / slace) + ')';
+      this.$refs.textArea.style['-ms-transform'] = 'scale(' + (1 / slace) + ')';
+      this.$refs.textArea.style['-moz-transform'] = 'scale(' + (1 / slace) + ')';
+      this.$refs.textArea.style['-webkit-transform'] = 'scale(' + (1 / slace) + ')';
+      this.$refs.textArea.style['-o-transform'] = 'scale(' + (1 / slace) + ')';
     }
   }
 };
@@ -197,8 +206,8 @@ export default {
       font-family: '微软雅黑';
       padding: 25px 30px 0;
       line-height: 33px;
-      display: flex;
-      flex: 1;
+      // display: flex;
+      // flex: 1;
     }
   }
   .default{

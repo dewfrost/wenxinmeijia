@@ -101,6 +101,7 @@
           sessionStorage.mediaHeight = this.heightBox;
         }
         let slace = this.widthBox / 640;
+        eventBus.slace = slace;
         // body
         let BigBox = document.getElementsByTagName('body')[0];
         BigBox.style.width = this.widthBox + 'px';
