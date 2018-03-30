@@ -184,6 +184,7 @@ export default {
     }
   }
   .details_address{
+    width: 640px;
     .details_add{
       background: #fff;
       border-bottom: 1px solid #eaeaea;
