@@ -39,7 +39,7 @@
               {{parseFloat(item.zhekou).toFixed(2)}}
             </span>
           </span>
-          <span class="number">x{{numList ? numList[index] : goodsNum}}</span>
+          <span class="number">x{{numList ? numList[index] : computedGoodsNum}}</span>
         </p>
       </div>
     </div>
@@ -104,6 +104,17 @@ export default {
     this.getFooter();
     this.computedEndPrice();
   },
+  computed: {
+    computedGoodsNum () {
+      if (this.goodsNum === null) {
+        return 1;
+      } else if (Math.abs(this.goodsNum) === 0) {
+        return 1;
+      } else {
+        return Math.round(Math.abs(this.goodsNum));
+      }
+    }
+  },
   methods: {
     // 计算最终显示价格
     computedEndPrice () {
@@ -129,7 +140,7 @@ export default {
       if (this.$route.query.id) {
         this.axios.post('/order_pay/front_order', {
           gid: this.$route.query.id,
-          num: this.$route.query.num || 1
+          num: this.computedGoodsNum || 1
         })
           .then(({data}) => {
             if (data.status === 1) {

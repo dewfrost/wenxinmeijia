@@ -4,6 +4,7 @@ import router from './router/app';
 import axios from 'axios';
 import Qs from 'qs';
 import './assets/css/base.scss';
+require('es6-promise').polyfill();
 
 Vue.config.productionTip = false;
 // 传参组件
@@ -270,8 +271,8 @@ router.beforeEach((to, from, next) => {
   if (Other.join('*').match(to.fullPath.replace('/', '')) || Other.join('*').match(to.name) !== null) {
     next();
     eventBus.$emit('toast', false);
-    eventBus.$emit('loading', false);
     eventBus.$emit('header', false);
+    eventBus.$emit('loading', false);
     eventBus.$emit('modal', false);
     eventBus.$emit('footer', false);
   } else {
@@ -297,8 +298,8 @@ router.beforeEach((to, from, next) => {
           } else {
             next();
             eventBus.$emit('toast', false);
-            eventBus.$emit('loading', false);
             eventBus.$emit('header', false);
+            eventBus.$emit('loading', false);
             eventBus.$emit('modal', false);
             eventBus.$emit('footer', false);
           }

@@ -142,10 +142,11 @@ export default {
         if (!data) {
           this.show = false;
         } else {
-          if (this.$route.name === 'info') {
-            // 如果是info页面请求未读消息数量
-            this.getNoRead();
-          }
+          // if (this.$route.name === 'info') {
+          //   // 如果是info页面请求未读消息数量
+          //   this.getNoRead();
+          // }
+          this.getNoRead();
           this.show = true;
           this.navShow = data.navShow;
           this.button = data.button;
