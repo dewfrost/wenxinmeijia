@@ -114,11 +114,11 @@ export default {
       } else if (parseFloat(this.price) > parseFloat(this.applyPrice)) {
         this.toast('可用提现金额不足');
       } else if (this.activeNum === 0 && !this.wechatIsBind) {
-        this.modal('提示', '提现需绑定微信账号，快去绑定吧！', '去绑定', (index) => {
+        this.modal('提示', '提现需绑定微信账号，快去绑定吧！', '去绑定', () => {
           this.$router.push({path: 'weixinBind'});
         });
-      } else if (!this.alipay_id) {
-        this.modal('提示', '提现需绑定支付宝账号，快去绑定吧！', '去绑定', (index) => {
+      } else if (this.activeNum === 1 && !this.alipay_id) {
+        this.modal('提示', '提现需绑定支付宝账号，快去绑定吧！', '去绑定', () => {
           this.$router.push({path: 'zfbBind'});
         });
       } else {
