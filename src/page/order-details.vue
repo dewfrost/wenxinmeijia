@@ -142,7 +142,7 @@ export default {
                 // 第一个参数，订单号， 第二个参数成功事件，第三个参数，事件类型
                 that.goPay(this.$route.query.id, function () {
                   that.toast('确认收货成功');
-                  that.$router.push({path: 'order', query: {status: 3}});
+                  that.$router.replace({path: 'order', query: {status: 3}});
                 }, 'endOrder');
               }
             }
