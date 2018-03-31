@@ -94,13 +94,14 @@
         }
       },
       showWindowSize: function () { // 更改变形
-        if (sessionStorage.mediaHeight && sessionStorage.mediaHeight !== 0) {
-          this.heightBox = parseFloat(sessionStorage.mediaHeight);
-        } else {
-          this.heightBox = parseFloat(this.$refs.appHeight.clientHeight);
-          sessionStorage.mediaHeight = this.heightBox;
-        }
+        // if (sessionStorage.mediaHeight && sessionStorage.mediaHeight !== 0) {
+        //   this.heightBox = parseFloat(sessionStorage.mediaHeight);
+        // } else {
+        this.heightBox = parseFloat(this.$refs.appHeight.clientHeight);
+        sessionStorage.mediaHeight = this.heightBox;
+        // }
         let slace = this.widthBox / 640;
+        eventBus.slace = slace;
         // body
         let BigBox = document.getElementsByTagName('body')[0];
         BigBox.style.width = this.widthBox + 'px';

@@ -1,9 +1,3 @@
-/*
- * @Author: mikey.zhaopeng 
- * @Date: 2018-03-30 18:24:15 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-03-30 18:26:01
- */
 <template>
   <div class="user_center">
     <!-- 个人信息 -->

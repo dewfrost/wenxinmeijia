@@ -517,7 +517,6 @@ export default {
       }
     }
     .goods_details_tag{
-      padding: 0 20px;
       img{
         width: 640px;
         text-align: center;

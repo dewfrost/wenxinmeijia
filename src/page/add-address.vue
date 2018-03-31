@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="details_address">
-      <textarea class="details_add" id="details-address" placeholder="请填写详细地址" v-model="user.details_address"></textarea>
+      <p class="details_add" contenteditable="true" id="details-address" placeholder="请填写详细地址" v-model="user.details_address"></p>
     </div>
     <div class="default" @click="defaultSelect">
       <span>设为默认</span>
@@ -185,20 +185,20 @@ export default {
   }
   .details_address{
     width: 640px;
+    background: #fff;
+    padding: 24px 30px 24px;
     .details_add{
-      background: #fff;
-      border-bottom: 1px solid #eaeaea;
       width: 100%;
-      height: 170px;
+      min-height: 140px;
+      line-height: 32px;
       resize: none;
-      padding: 0 30px;
       font-size: 24px;
       color: #333;
       font-family: '微软雅黑';
-      padding: 25px 30px 0;
-      line-height: 33px;
-      display: flex;
       flex: 1;
+      border: 1px solid #eaeaea;
+      word-break: break-all;
+      outline: none;
     }
   }
   .default{

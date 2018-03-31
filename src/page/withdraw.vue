@@ -185,7 +185,7 @@ export default {
         }
       span{
         position: absolute;
-        left: 22px;
+        left: 20px;
         top: 5px; 
         color: #fff;
         font-size: 20px;
