@@ -186,8 +186,7 @@ export default {
   .details_address{
     width: 640px;
     background: #fff;
-      padding: 24px 30px 24px;
-    
+    padding: 24px 30px 24px;
     .details_add{
       width: 100%;
       min-height: 140px;
