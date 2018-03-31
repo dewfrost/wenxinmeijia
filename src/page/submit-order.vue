@@ -106,7 +106,9 @@ export default {
   },
   computed: {
     computedGoodsNum () {
-      if (Math.abs(this.goodsNum) === 0) {
+      if (this.goodsNum === null) {
+        return 1;
+      } else if (Math.abs(this.goodsNum) === 0) {
         return 1;
       } else {
         return Math.round(Math.abs(this.goodsNum));
