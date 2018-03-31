@@ -270,8 +270,8 @@ router.beforeEach((to, from, next) => {
   if (Other.join('*').match(to.fullPath.replace('/', '')) || Other.join('*').match(to.name) !== null) {
     next();
     eventBus.$emit('toast', false);
-    eventBus.$emit('loading', false);
     eventBus.$emit('header', false);
+    eventBus.$emit('loading', false);
     eventBus.$emit('modal', false);
     eventBus.$emit('footer', false);
   } else {
@@ -297,8 +297,8 @@ router.beforeEach((to, from, next) => {
           } else {
             next();
             eventBus.$emit('toast', false);
-            eventBus.$emit('loading', false);
             eventBus.$emit('header', false);
+            eventBus.$emit('loading', false);
             eventBus.$emit('modal', false);
             eventBus.$emit('footer', false);
           }
