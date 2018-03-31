@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="details_address">
-      <p class="details_add" id="details-address" contenteditable="true" placeholder="请填写详细地址" v-model="user.description"></p>
+      <textarea id="details-address" placeholder="请填写详细地址" v-model="user.description"></textarea>
     </div>
     <button @click="link">确认</button>
   </div>
@@ -168,19 +168,19 @@ export default {
   .details_address{
     width: 640px;
     background: #fff;
-    padding: 24px 30px 24px;
-    .details_add{
-      width: 100%;
-      min-height: 140px;
-      line-height: 32px;
+    textarea{
+      border-bottom: 1px solid #eaeaea;
       resize: none;
+      padding: 0 30px;
       font-size: 24px;
       color: #333;
       font-family: '微软雅黑';
+      padding: 25px 30px 0;
+      line-height: 33px;
+      display: flex;
       flex: 1;
-      border: 1px solid #eaeaea;
-      word-break: break-all;
-      outline: none;
+      width: 100%;
+      height: 170px;
     }
   }
   button{
