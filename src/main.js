@@ -4,6 +4,7 @@ import router from './router/app';
 import axios from 'axios';
 import Qs from 'qs';
 import './assets/css/base.scss';
+require('es6-promise').polyfill();
 
 Vue.config.productionTip = false;
 // 传参组件
