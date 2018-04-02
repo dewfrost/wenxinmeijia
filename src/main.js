@@ -190,10 +190,10 @@ Vue.prototype.hideString = function (str) {
 
 // loading加载
 Vue.prototype.loading = function (boolean) {
-  if (!boolean) {
-    eventBus.$emit('loading', false);
-  } else {
+  if (boolean || boolean === undefined) {
     eventBus.$emit('loading', true);
+  } else {
+    eventBus.$emit('loading', false);
   }
 };
 
@@ -256,7 +256,7 @@ Vue.prototype.getCode = function (phone, type, callback, catchback) {
 // 添加一个请求拦截器
 Vue.prototype.axios.interceptors.request.use(function (config) {
   // 在请求发送之前做一些事
-  Vue.prototype.loading();
+  eventBus.$emit('loading', true);
   return config;
 }, function (error) {
   // 当出现请求错误是做一些事
@@ -314,12 +314,11 @@ router.beforeEach((to, from, next) => {
 // 添加一个返回拦截器
 Vue.prototype.axios.interceptors.response.use(function (response) {
   // 对返回的数据进行一些处理
-  Vue.prototype.loading(false);
+  eventBus.$emit('loading', false);
   // 路由白名单
   return response;
 }, function (error) {
   // 对返回的错误进行一些处理
-  Vue.prototype.loading(false);
   if (error.message.includes('timeout')) {
     // Vue.prototype.toast('网络错误', 'icon-close');
   };

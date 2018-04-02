@@ -51,7 +51,6 @@ export default {
     };
   },
   created: function () {
-    eventBus.$emit('loading', true);
   },
   beforeMount: function () {
     // 对接口前调用画图
@@ -74,6 +73,7 @@ export default {
       this.axios.get('/user/get_code')
         .then((data) => {
           if (data.data.status === 1) {
+            this.loading();
             // 如果本地有缓存的图片，不用往服务器上传图
             this.inOutStorage(data);
             // 用户名字
@@ -98,7 +98,7 @@ export default {
             this.modal('提示', data.data.message, '确定', () => {
               this.$router.go(-1);
             }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
-            eventBus.$emit('loading', false);
+            this.loading(false);
           }
         })
         .catch(function (error) {
@@ -111,7 +111,7 @@ export default {
       this.tempData[1] = (data.data.data.headimgurl);
       // 如果当前获取到的用户信息和缓存里的有变动，则二维码重新加载，否则用缓存里面的图片
       if (localStorage.storageEndImg && localStorage.tempData && data.data.data.nickname === JSON.parse(localStorage.tempData)[0] && data.data.data.headimgurl === JSON.parse(localStorage.tempData)[1]) {
-        eventBus.$emit('loading', false);
+        this.loading(false);
         this.flag = true;
         this.endShowImg = JSON.parse(localStorage.storageEndImg);
         return false;
@@ -144,7 +144,7 @@ export default {
           }
         })
         .catch(() => {
-          eventBus.$emit('loading', false);
+          this.loading(false);
           this.modal('提示', '生成出错了，请刷新重试', '确定', () => {
             this.$router.go(-1);
           }); // 第一个参数：弹窗头部标题；第二个参数：弹窗内容文字；第三个参数：按钮名字；第四个参数：按钮的回调函数
@@ -206,7 +206,7 @@ export default {
       localStorage.storageEndImg = JSON.stringify(this.endShowImg);
       // 把名字、头像、二维码缓存到本地存储
       localStorage.tempData = JSON.stringify(this.tempData);
-      eventBus.$emit('loading', false);
+      this.loading(false);
     },
     wechatShare () {
       // wx是微信sdk的方法，需要下载包----weixin-js-sdk

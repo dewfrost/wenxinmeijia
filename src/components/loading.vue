@@ -32,7 +32,7 @@ export default {
         if (boolean) {
           this.timeOut = setTimeout(() => {
             this.loadShow = boolean;
-          }, 300);
+          }, 100);
         } else {
           clearTimeout(this.timeOut);
           this.loadShow = boolean;
