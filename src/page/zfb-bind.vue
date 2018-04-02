@@ -16,7 +16,7 @@
       <label for="password">登录密码</label>
       <input id="password" type="password" placeholder="请输入您在本平台的登录密码" v-model= 'user.password'>
     </div>
-    <div class="bind">
+    <div class="bind fixed">
       <label for="code">验证码</label>
       <input id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
       <button class="modify-btn" :class="{'send-sms' : isSend, 'no-send-sms': !isSend}" @click ='sendSMS' :disabled ='disabled || sendSMSTime >0'>{{btntxt}}</button>
@@ -111,7 +111,7 @@ export default {
     link: function () {
       if (!this.user.idCode) {
         this.toast('支付宝账号不能为空');
-      } else if (!/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$|^(?:13\d|15\d|18\d)-?\d{5}(\d{3}|\*{3})$/.test(this.user.idCode)) {
+      } else if (!/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$|^(?:13\d|15\d|17\d|18\d)-?\d{5}(\d{3}|\*{3})$/.test(this.user.idCode)) {
         this.toast('支付宝账号输入不合法');
       } else if (!this.user.name) {
         this.toast('真实姓名不能为空');
@@ -160,6 +160,14 @@ export default {
     height: 20px;
     background: #f5f5f5;
   }
+  .fixed{
+    position: relative;
+    #code{
+      position: absolute;
+      top: 36%;
+      right: 32%;
+    }
+  }
   .bind{
     line-height: 85px;
     background: #fff;
@@ -169,7 +177,6 @@ export default {
     justify-content: space-between;
     #code{
       width: 165px;
-      margin-right: -130px;
     }
     input{
       width: 355px;
