@@ -101,7 +101,7 @@ export default {
   },
   beforeCreate: function () { // 创建之前
   },
-  created: function () { // 创建之后
+  created: function () {
   },
   beforeMount: function () {
     // 获取订单角标
@@ -115,6 +115,10 @@ export default {
   },
   mounted: function () {
     this.getFooter();
+    // this.loading();
+    // setTimeout(() => {
+    //   this.loading(false);
+    // }, 2000);
   },
   methods: {
     seeDetails (index) {
