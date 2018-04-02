@@ -32,7 +32,8 @@ export default {
     return {
       isRequest: false,
       tabActive: 1,
-      iconArr: ['icon-jiankangshangcheng', 'icon-web__jiangli', 'icon-xinzi', 'icon-huojian', 'icon-tixian', 'icon-huokuanyifu', 'icon-chongzhi1'],
+      // iconArr: ['icon-jiankangshangcheng', 'icon-web__jiangli', 'icon-xinzi', 'icon-huojian', 'icon-tixian', 'icon-huokuanyifu', 'icon-chongzhi1'],
+      iconArr: ['icon-jiankangshangcheng', 'icon-web__jiangli', 'icon-xinzi', 'icon-huojian', 'icon-tixian', '', 'icon-chongzhi1', 'icon-huokuanyifu'],
       user: []
     };
   },
