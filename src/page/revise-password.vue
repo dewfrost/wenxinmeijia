@@ -4,12 +4,12 @@
       <label for="phone">手机号</label>
       <input id="phone" type="text" placeholder="请输入您的手机号"  v-model= 'showPhone' @input = 'isRightPhone' :disabled="phoneDisablrd">
     </div>
-    <div class="bind"  v-if="this.$route.query.type === 'login'">
+    <div class="bind"  v-if="this.$route.query.type === 'login'" fixed>
       <label for="code">验证码</label>
       <input  class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
       <button class="modify_btn" :class="{'send-sms' : isSend1, 'no-send-sms': !isSend1}" @click ='sendSMS1' :disabled ='disabled1 || sendSMSTime1 >0'>{{btntxt1}}</button>
     </div>
-    <div class="bind" v-if="this.$route.query.type === 'pay'">
+    <div class="bind" v-if="this.$route.query.type === 'pay'" fixed>
       <label for="code">验证码</label>
       <input  class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
       <button class="modify_btn" :class="{'send-sms' : isSend2, 'no-send-sms': !isSend2}" @click ='sendSMS2' :disabled ='disabled2 || sendSMSTime2 >0'>{{btntxt2}}</button>
@@ -257,6 +257,14 @@ export default {
     width: 100px;
     height: 20px;
     background: #f5f5f5;
+  }
+  .fixed{
+    position: relative;
+    #code{
+      position: absolute;
+      top: 38%;
+      right: 30%;
+    }
   }
   .bind{
     line-height: 85px;

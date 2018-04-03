@@ -115,6 +115,7 @@ export default {
     $route (to, from) {
       if (to.name === 'index1') {
         this.navRoute = 'index';
+        this.$router.push('/');
       } else {
         this.navRoute = to.name;
       }

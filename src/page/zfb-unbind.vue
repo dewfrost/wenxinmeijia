@@ -12,7 +12,7 @@
       <label for="password">登录密码</label>
       <input id="password" type="password" placeholder="请输入您在本平台的登录密码" v-model= 'user.password'>
     </div>
-    <div class="bind">
+    <div class="bind fixed">
       <label for="code">验证码</label>
       <input class="idcode" id="code" type="number" placeholder="请输入验证码" v-model= 'user.code'>
       <button class="modify_btn" :class="{'send-sms' : isSend, 'no-send-sms': !isSend}" @click ='sendSMS' :disabled ='disabled || sendSMSTime >0'>{{btntxt}}</button>
@@ -177,6 +177,14 @@ export default {
     width: 100px;
     height: 20px;
     background: #f5f5f5;
+  }
+  .fixed{
+    position: relative;
+    #code{
+      position: absolute;
+      top: 38%;
+      right: 30%;
+    }
   }
   .bind{
     line-height: 85px;
