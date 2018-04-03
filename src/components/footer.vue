@@ -45,7 +45,7 @@
     </div>
     <!-- 底部导航 -->
     <div v-show="navShow" class="footer_tab">
-      <div class="footerNav" v-for="(item,index) in nav" @click="toggle(index)"  :class="{ 'navTitle-xz' : item.router === navRoute}" :key="item.id">
+      <div class="footerNav" v-for="(item,index) in nav" @click="toggle(index)"  :class="{ 'navTitle-xz' : navRoute.indexOf(item.router) >= 0}" :key="item.id">
       	<span class="iconfont" :class="[item.router === navRoute ? item.class1 : item.class ]"></span>
       	<span class="nav-title">{{item.title}}</span>
         <span class="no_read" v-if="(index === 2) && noReadMessage">{{noReadMessage}}</span>
@@ -115,7 +115,6 @@ export default {
     $route (to, from) {
       if (to.name === 'index1') {
         this.navRoute = 'index';
-        this.$router.push('/');
       } else {
         this.navRoute = to.name;
       }
