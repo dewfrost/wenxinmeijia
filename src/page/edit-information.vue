@@ -140,7 +140,7 @@ export default {
       } else {
         let fm = new window.FormData();
         fm.append('picname', this.file);
-        this.axios.post('http://wenxin.ewtouch.com/static/upload.php', fm, {headers: {'Content-Type': 'multipart/form-data'}, transformRequest: [function (data) { return data; }]})
+        this.axios.post('http://51zhijianxiu.cn/static/upload.php', fm, {headers: {'Content-Type': 'multipart/form-data'}, transformRequest: [function (data) { return data; }]})
           .then(({data}) => {
             if (data.status === 1) {
               this.user.headimgurl = data.url;

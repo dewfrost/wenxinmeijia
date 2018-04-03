@@ -15,7 +15,7 @@ export default {
       userId: null,
       headImg: null,
       endShowImg: null, // 最后生成的图片
-      baseUrl: 'http://wenxin.ewtouch.com/',
+      baseUrl: 'http://51zhijianxiu.cn/',
       imgArr: [
         // require('../assets/images/goods3.png'),
         // require('../assets/images/qrcode_img.png'),
