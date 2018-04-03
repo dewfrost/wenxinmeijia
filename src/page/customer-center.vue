@@ -4,7 +4,7 @@
       <img :src="qr_code" alt="">
     </div>
     <p>微信公众号二维码</p>
-    <a href="tel:400-000-0000">
+    <a :href="'tel:' + phone">
       <div class="list">
         <span>客服电话</span>
         <span>{{phone}}</span>

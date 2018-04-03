@@ -20,7 +20,7 @@ export default {
     this.getSubmit();
   }, // 挂载之前
   mounted: function () {
-    this.getHeader('账户绑定', 'weixinBind_top');
+    this.getHeader('微信绑定', 'weixinBind_top');
   },
   methods: {
     getSubmit () {
