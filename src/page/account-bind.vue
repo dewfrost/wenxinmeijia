@@ -25,7 +25,7 @@ export default {
     return {
       // 数据
       wechat: false,
-      zhifubao: ''
+      zhifubao: '152854454243131'
     };
   },
   beforeMount: function () {

@@ -27,7 +27,7 @@ window.eventCookie = new Vue();
 
 // 创建ajax
 Vue.prototype.axios = axios.create({
-  baseURL: 'http://wx.ewtouch.com/index/',
+  baseURL: 'http://houtai.51zhijianxiu.cn/index/',
   timeout: 10000,
   withCredentials: true,
  // 这时候我们通过Qs.stringify转换为表单查询参数
