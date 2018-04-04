@@ -1,7 +1,7 @@
 <template>
   <div class="submitOrder">
     <!-- 收货地址 -->
-    <div class="address" v-if="!address" @click="selectAddress()">
+    <div class="address" v-if="!address" @click="addAddress()">
       <p class="add_adddress">
         <i class="iconfont icon-tianjia1"></i>
         <span >添加收货地址</span>
@@ -196,6 +196,9 @@ export default {
       }
       // 计算总计金额
       this.computedEndPrice();
+    },
+    addAddress () {
+      this.$router.push('addAddress');
     },
     selectAddress () {
       this.$router.push('selectAddress');
