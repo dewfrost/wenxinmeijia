@@ -69,11 +69,11 @@ export default {
     },
     // 获取验证码
     sendSMS: function () {
-      this.disabled = true;
       // 判断手机号是否为空
       if (!this.user.phone) {
         this.toast('手机号不能为空');
       } else {
+        this.disabled = true;
         // 获取验证码
         this.getCode(this.user.phone, 1, () => {
           this.sendSMSTime = 60;
@@ -246,6 +246,7 @@ export default {
           padding-right: 29px;
         }
         > input {
+          height: 72px;
           font-size: 24px;
           line-height: 72px;
           display: flex;

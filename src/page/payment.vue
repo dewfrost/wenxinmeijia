@@ -162,7 +162,7 @@ export default {
           this.$router.replace('paymentSuccess');
         } else {
           // 显示支付错误信息
-          this.toast(result);
+          this.toast('已取消支付');
         }
       });
     }

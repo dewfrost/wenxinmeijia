@@ -2,7 +2,7 @@
   <div class="changePhone">
     <div class="bind" v-if="step === 1">
       <label for="phone">当前手机号</label>
-      <input id="phone" type="text" placeholder="请输入您的手机号"  v-model= 'showPhone' @input='isRightPhone' :disabled="phoneDisablrd">
+      <input id="phone" type="text" placeholder="请输入您的手机号"  v-model= 'showPhone' @input='isRightPhone' :disabled="this.user.phone ? true : false">
     </div>
     <div class="bind" v-if="step === 2">
       <label for="phone">新手机号</label>
@@ -36,7 +36,6 @@ export default {
         code: '',
         newCode: ''
       },
-      phoneDisablrd: false,
       isSend1: false,
       isSend2: false,
       sendSMSTime1: 0,

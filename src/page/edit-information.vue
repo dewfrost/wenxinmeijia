@@ -88,9 +88,11 @@ export default {
       this.user.age = obj[parseInt(index)];
     },
     getAgeArr () {
-      for (let i = 1; i < 120; i++) {
+      this.ageArr = ['12岁及以下'];
+      for (let i = 13; i < 80; i++) {
         this.ageArr.push(i);
       }
+      this.ageArr.push('80岁及以上');
     },
     getInfo () {
       this.axios.get('/user/info', {
@@ -140,7 +142,7 @@ export default {
       } else {
         let fm = new window.FormData();
         fm.append('picname', this.file);
-        this.axios.post('http://51zhijianxiu.cn/static/upload.php', fm, {headers: {'Content-Type': 'multipart/form-data'}, transformRequest: [function (data) { return data; }]})
+        this.axios.post('https://51zhijianxiu.cn/static/upload.php', fm, {headers: {'Content-Type': 'multipart/form-data'}, transformRequest: [function (data) { return data; }]})
           .then(({data}) => {
             if (data.status === 1) {
               this.user.headimgurl = data.url;

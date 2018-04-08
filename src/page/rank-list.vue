@@ -9,7 +9,7 @@
       <p>此页面暂无内容</p>
     </div>
     <div class="center">
-      <span class="iconfont icon-ranking"> <span class="paihang">本月排行</span> </span>
+      <span class="iconfont icon-ranking"> <span class="paihang">{{tabActive === 1 ? '销售排行' : '本月收入'}}</span> </span>
       <ul>
         <li class="rank_li" v-for="(item, index) in user" :key="index">
           <div class="rank_one">
@@ -123,6 +123,9 @@ export default {
   background: transparent;
   color: #fff;
   border: none;
+  .icon-zuo{
+    display: none;
+  }
 }
 .rankList {
   background: url(../assets/images/account.png) no-repeat;

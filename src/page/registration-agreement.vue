@@ -1,5 +1,5 @@
 <template>
-  <div class="agreement" data-title="用户注册协议" data-url="" data-right="">
+  <div class="agreement clearfix" data-title="用户注册协议" data-url="" data-right="">
     <p>本协议由您与青岛指尖秀科技有限公司有限公司（以下简称“指尖秀科技”）共同缔结，本协议具有合同效力。</p>
     <p>本协议中协议双方合称协议方，指尖秀科技有限公司在协议中亦称为“指尖秀科技”。</p>
     <p>一、协议内容及签署</p>
@@ -104,6 +104,8 @@ export default {
       text-align: justify;
       color: #666;
       padding: 0 20px;
+      width: 100%;
+      float: right;
       &.title {
         color: #000;
         padding-top: 10px;
