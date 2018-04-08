@@ -3,7 +3,7 @@
     <div class="qr_code">
       <img :src="qr_code" alt="">
     </div>
-    <p>微信公众号二维码</p>
+    <p>微信客服二维码</p>
     <a :href="'tel:' + phone">
       <div class="list">
         <span>客服电话</span>
