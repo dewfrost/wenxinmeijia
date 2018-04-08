@@ -2,7 +2,7 @@
   <div class="revisePassword">
     <div class="bind">
       <label for="phone">手机号</label>
-      <input id="phone" type="text" placeholder="请输入您的手机号"  v-model= 'showPhone' @input = 'isRightPhone' :disabled="phoneDisablrd">
+      <input id="phone" type="text" placeholder="请输入您的手机号"  v-model= 'showPhone' @input = 'isRightPhone' :disabled="this.user.phone ? true : false">
     </div>
     <div class="bind"  v-if="this.$route.query.type === 'login'" fixed>
       <label for="code">验证码</label>
@@ -40,7 +40,6 @@ export default {
         password: '',
         pas: ''
       },
-      phoneDisablrd: false,
       isSend1: false,
       isSend2: false,
       sendSMSTime1: 0,
