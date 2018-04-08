@@ -93,7 +93,6 @@ export default {
         this.ageArr.push(i);
       }
       this.ageArr.push('80岁及以上');
-      console.log(this.ageArr);
     },
     getInfo () {
       this.axios.get('/user/info', {
