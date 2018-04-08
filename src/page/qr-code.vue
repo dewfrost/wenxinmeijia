@@ -15,7 +15,7 @@ export default {
       userId: null,
       headImg: null,
       endShowImg: null, // 最后生成的图片
-      baseUrl: 'http://51zhijianxiu.cn/',
+      baseUrl: 'https://51zhijianxiu.cn/',
       imgArr: [
         // require('../assets/images/goods3.png'),
         // require('../assets/images/qrcode_img.png'),
