@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-// import wx from 'weixin-js-sdk';
+import wx from 'weixin-js-sdk';
 export default {
   name: 'qrCode',
   data: function () {
@@ -57,10 +57,6 @@ export default {
     // this.NewCanvas();
     // 存储到服务器，否则因为画布污染会报错
     this.pushServer();
-    // 微信浏览器请求
-    // if (navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) {
-    //   this.wechatShare();
-    // }
   },
   mounted: function () {
     this.getHeader('', 'qrcode_header');
@@ -70,7 +66,11 @@ export default {
       this.getStart();
     },
     getStart: function () {
-      this.axios.get('/user/get_code')
+      this.axios.get('/user/get_code', {
+        params: {
+          url: window.location.href.split('#')[0]
+        }
+      })
         .then((data) => {
           if (data.data.status === 1) {
             this.loading();
@@ -92,6 +92,10 @@ export default {
             } else {
               // 否则，存到本地服务器
               this.saveServerImg(this.headImg, 1, this.userId, this.baseUrl + 'static/upload1.php');
+            }
+            // 微信浏览器请求
+            if (navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) {
+              this.wechatShare(data);
             }
             this.flag = true;
           } else {
@@ -208,62 +212,46 @@ export default {
       localStorage.tempData = JSON.stringify(this.tempData);
       this.loading(false);
     },
-    wechatShare () {
+    wechatShare (data) {
       // wx是微信sdk的方法，需要下载包----weixin-js-sdk
-      // this.axios.post('/users/QRCode', {
-      //   url: window.location.href.split('#')[0]
-      // })
-      //   .then((data) => {
-      //     if (data.data.status === 200) {
-      //       // console.log(data.data.data.jsapi_config);
-      //       let _data = data.data.data.jsapi_config;
-      //       let _code = data.data.data.number;
-      //       wx.config({
-      //         debug: false,
-      //         appId: _data.appId,
-      //         timestamp: _data.timestamp,
-      //         nonceStr: _data.nonceStr,
-      //         signature: _data.signature,
-      //         jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareWeibo']
-      //       });
-      //       wx.ready(function () {
-      //         wx.onMenuShareAppMessage({
-      //           title: '季利亚', // 分享标题
-      //           desc: '全球精选————轻奢购物网站', // 分享描述
-      //           link: 'http://api.jiliya.net.cn/home/wechat/BrowserType?number=' + _code, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-      //           imgUrl: 'http://www.jiliya.net.cn/static/qrcodeimg/logo.png', // 分享图标
-      //           type: '', // 分享类型,music、video或link，不填默认为link
-      //           dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-      //           success: function () {
-      //             // alert('分享成功');
-      //             eventBus.$emit('toast', {message: '分享成功'});
-      //           },
-      //           cancel: function () {
-      //             // alert('分享已取消');
-      //             eventBus.$emit('toast', {message: '分享已取消'});
-      //           }
-      //         });
-      //         wx.onMenuShareTimeline({
-      //           title: '季利亚', // 分享标题
-      //           link: 'http://api.jiliya.net.cn/home/wechat/BrowserType?number=' + _code, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-      //           imgUrl: 'http://www.jiliya.net.cn/static/qrcodeimg/logo.png', // 分享图标
-      //           success: function () {
-      //             // alert('分享成功');
-      //             eventBus.$emit('toast', {message: '分享成功'});
-      //           },
-      //           cancel: function () {
-      //             // alert('分享已取消');
-      //             eventBus.$emit('toast', {message: '分享已取消'});
-      //           }
-      //         });
-      //       });
-      //     } else {
-      //       eventBus.$emit('toast', {message: data.message});
-      //     }
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
+      let _data = data.data.data.config;
+      // let _code = data.data.data.id;
+      let _link = data.data.data.link;
+      wx.config({
+        debug: false,
+        appId: _data.appId,
+        timestamp: _data.timestamp,
+        nonceStr: _data.nonceStr,
+        signature: _data.signature,
+        jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline']
+      });
+      wx.ready(function () {
+        wx.onMenuShareAppMessage({
+          title: '指尖秀科技', // 分享标题
+          desc: '秀在指尖', // 分享描述
+          link: _link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: 'https://51zhijianxiu.cn/static/qrcodeimg/logo.png', // 分享图标
+          type: '', // 分享类型,music、video或link，不填默认为link
+          dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+          success: function () {
+            // alert('分享成功');
+          },
+          cancel: function () {
+            // alert('分享已取消');
+          }
+        });
+        wx.onMenuShareTimeline({
+          title: '指尖秀科技', // 分享标题
+          link: _link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: 'https://51zhijianxiu.cn/static/qrcodeimg/logo.png', // 分享图标
+          success: function () {
+            // alert('分享成功');
+          },
+          cancel: function () {
+            // alert('分享已取消');
+          }
+        });
+      });
     }
   }
 };

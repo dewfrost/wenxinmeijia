@@ -130,7 +130,8 @@ export default {
       }
     },
     seeQrcode () {
-      this.$router.push({path: this.setLink[2]});
+      // this.$router.push({path: this.setLink[2]});
+      window.location.href = '/qrCode';
     },
     getOrderSum () {
       this.axios.get('/user/angle', {
