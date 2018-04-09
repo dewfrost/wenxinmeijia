@@ -234,8 +234,6 @@ export default {
       border: 1px solid $color;
       border-radius: 34px;
       > label.iconfont {
-        height: 72px;
-        line-height: 72px;
         display: inline-block;
         display: flex;
         align-items: center;
@@ -268,6 +266,9 @@ export default {
         }
       }
       button {
+        white-space: nowrap;
+        height: 72px;
+        line-height: 72px;
         background: #fff;
         color: #ff517b;
         border: none;
