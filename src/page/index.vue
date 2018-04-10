@@ -299,6 +299,8 @@ export default {
         img{
           width: 284px;
           height: 284px;
+          position: absolute;
+          z-index: 0;
         }
         .details_name{
           font-style: 22px;
@@ -312,12 +314,15 @@ export default {
           /* autoprefixer: on */
           padding: 5px 18px 0;
           font-size: 22px;
+          padding-top: 292px;
+          position: relative;
+          z-index: 1;
         }
         .details_info{
           width: 270px;
           display: flex;
           justify-content: space-between;
-          margin-top: 20px;
+          margin-top: 18px;
           font-size: 20px;
           .red{
             color: $color;

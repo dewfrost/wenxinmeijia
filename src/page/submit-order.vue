@@ -106,7 +106,8 @@ export default {
   },
   computed: {
     computedGoodsNum () {
-      if (this.goodsNum === null) {
+      console.log(this.goodsNum);
+      if (this.goodsNum === undefined) {
         return 1;
       } else if (Math.abs(this.goodsNum) === 0) {
         return 1;
