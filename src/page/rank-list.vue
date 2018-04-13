@@ -50,6 +50,7 @@ export default {
     this.getRank();
   },
   mounted: function () {
+    eventBus.$emit('footer', {navShow: true});
     this.scrollOn();
     this.getHeader('排行榜', 'rank_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
   },

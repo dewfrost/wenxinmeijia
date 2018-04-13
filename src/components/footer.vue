@@ -44,11 +44,18 @@
       </div>
     </div>
     <!-- 底部导航 -->
-    <div v-show="navShow" class="footer_tab">
-      <div class="footerNav" v-for="(item,index) in nav" @click="toggle(index)"  :class="{ 'navTitle-xz' : navRoute && navRoute.indexOf(item.router) >= 0}" :key="item.id">
+    <div v-show="navShow" class="footer_tab" v-if="isWechat()">
+      <div class="footerNav" v-for="(item,index) in nav" @click="toggle(index, nav)"  :class="{ 'navTitle-xz' : navRoute && navRoute.indexOf(item.router) >= 0}" :key="item.id">
       	<span class="iconfont" :class="[item.router === navRoute ? item.class1 : item.class ]"></span>
       	<span class="nav-title">{{item.title}}</span>
         <span class="no_read" v-if="(index === 2) && noReadMessage">{{noReadMessage}}</span>
+      </div>
+    </div>
+    <div v-show="navShow" class="footer_tab" v-if="!isWechat()">
+      <div class="footerNav" v-for="(item,index) in nav2" @click="toggle(index, nav2)"  :class="{ 'navTitle-xz' : navRoute && navRoute.indexOf(item.router) >= 0}" :key="item.id">
+      	<span class="iconfont" :class="[item.router === navRoute ? item.class1 : item.class ]"></span>
+      	<span class="nav-title">{{item.title}}</span>
+        <span class="no_read" v-if="(index === 3) && noReadMessage">{{noReadMessage}}</span>
       </div>
     </div>
   </div>
@@ -91,6 +98,34 @@ export default {
           class1: 'icon-cart_fill_light',
           title: '购物车',
           router: 'goodsCar'
+        }, {
+          class: 'icon-Information_light',
+          class1: 'icon-Information_fill_lig',
+          title: '消息',
+          router: 'info'
+        }, {
+          class: 'icon-my_light',
+          class1: 'icon-my_fill_light',
+          title: '我的',
+          router: 'userCenter'
+        }
+      ],
+      nav2: [
+        {
+          class: 'icon-home_light',
+          class1: 'icon-home_fill_light',
+          title: '首页',
+          router: 'index'
+        }, {
+          class: 'icon-cart_light',
+          class1: 'icon-cart_fill_light',
+          title: '购物车',
+          router: 'goodsCar'
+        }, {
+          class: 'icon-jifenshangcheng',
+          class1: 'icon-jifenshangcheng1',
+          title: '排行榜',
+          router: 'rankList'
         }, {
           class: 'icon-Information_light',
           class1: 'icon-Information_fill_lig',
@@ -164,8 +199,8 @@ export default {
     getRoute: function () {
       this.navRoute = this.$route.name;
     },
-    toggle: function (index) {
-      this.$router.push({path: this.nav[index].router});
+    toggle: function (index, obj) {
+      this.$router.push({path: obj[index].router});
     },
     goGoodsCar () {
       this.$router.push({path: 'goodsCar'});
@@ -208,7 +243,7 @@ export default {
     	.footerNav{
     		flex-grow: 1;
     		color:#666;
-        &:nth-child(3){
+        &:nth-last-child(2){
           position: relative;
           .no_read{
             position: absolute;

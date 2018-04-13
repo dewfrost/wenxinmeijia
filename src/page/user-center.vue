@@ -44,7 +44,7 @@
       </router-link>
     </div>
     <!-- 累计收益 -->
-    <div class="add">
+    <div class="add" v-if="!isWechat()">
       <div class="add_list">
         <span class="money">{{moneyList[0] || 0.00}}</span>
         <span class="add_name">累计收益</span>
@@ -56,15 +56,20 @@
     </div>
     <!-- 个人设置 -->
     <div class="set">
-      <div class="set_list" v-for="(setName, index) in setList" :key="index" @click="seeDetails(index)">
+      <div class="set_list" v-for="(setName, index) in setList" :key="index" @click="seeDetails(index)" v-if="!(isWechat() && [0, 1].includes(index))">
         <span class="iconfont" :class="'icon-' + iconfontList[index]"></span>
         <span class="set_name">{{setName}}</span>
+      </div>
+      <div class="set_list copy_btn" @click="copy()" :data-clipboard-text="copyLink" v-if="isWechat()">
+        <span class="iconfont icon-copy"></span>
+        <span class="set_name">复制链接</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Clipboard from 'clipboard';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 export default {
   name: 'userCenter',
@@ -96,7 +101,8 @@ export default {
       add: ['withdraw', 'moneyAccount', 'recommendAwards', 'managementSalary', 'promotionAwards'],
       setList: ['我的账本', '我的伙伴', '二维码', '收货地址', '客服中心', '更换手机号', '账户绑定', '账号设置'],
       iconfontList: ['qianbao', 'kehu', 'erweima', 'dingwei', 'zuoji', 'dianhuaben', 'youhuiquan', 'hekriconshebeisuokai'],
-      setLink: ['accountBook', 'partner', 'qrCode', 'manageAddress', 'customerCenter', 'changePhone', 'accountBind', 'settingAccount']
+      setLink: ['accountBook', 'partner', 'qrCode', 'manageAddress', 'customerCenter', 'changePhone', 'accountBind', 'settingAccount'],
+      copyLink: '' // 复制要分享的链接
     };
   },
   beforeCreate: function () { // 创建之前
@@ -112,6 +118,10 @@ export default {
     this.getCarouselList();
     // 获取累计收益列表
     this.getMoneylList();
+    // 微信中获取要分享的链接
+    if (this.isWechat()) {
+      this.getCopyLink();
+    }
   },
   mounted: function () {
     this.getFooter();
@@ -121,6 +131,22 @@ export default {
     // }, 2000);
   },
   methods: {
+    getCopyLink () {
+      this.axios.get('/user/get_code_url').then(({data}) => {
+        if (data.status === 1) {
+          this.copyLink = data.data;
+          this.copyBtn = new Clipboard('.copy_btn');
+        } else {
+          this.toast(data.message);
+        }
+      });
+    },
+    copy () {
+      // this.toast('复制成功，若未成功请手动复制该链接');
+      this.modal('复制成功，若未成功请手动复制', this.copyLink, '确定', function () {
+        return false;
+      });
+    },
     seeDetails (index) {
       if (index === 2) {
         // 请求是否有权限打开二维码
@@ -490,7 +516,7 @@ export default {
   .set{
     flex-flow: wrap;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     position: relative;
     margin-top: 20px;
     &:before{

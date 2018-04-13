@@ -28,7 +28,7 @@ export default {
     this.getList();
   },
   mounted: function () {
-    this.getHeader('公告详情', 'public_top'); // 第一个参数：header名字；第二个参数：添加的class类名；第三个参数：header右边的名字
+    this.getHeader('公告详情', 'public_top');
   },
   methods: {
     // 请求公告列表

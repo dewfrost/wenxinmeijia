@@ -350,6 +350,7 @@ export default {
         padding: 36px 0 44px;
         text-align: left;
         .text{
+          word-break: break-word;
           line-height: 40px;
           font-size: 24px;
           width: 100%;

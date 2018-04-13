@@ -29,8 +29,8 @@
     name: 'app',
     data () {
       return {// 数据
-        widthBox: 0, // 盒子宽
-        heightBox: 0, // 盒子高
+        widthBox: window.innerWidth, // 盒子宽
+        heightBox: window.innerHeight, // 盒子高
         transitionName: 'slide-right',
         roter: this.$route.name,
         scrollRouteArr: [
@@ -38,9 +38,7 @@
         ]
       };
     },
-    beforeMount: function () { // 挂载之前
-      this.widthBox = window.screen.width;
-      this.heightBox = window.screen.height;
+    beforeMount: function () {
     },
     watch: {
       // 页面切换方式
@@ -56,6 +54,14 @@
           return (this.transitionName = 'slide-bottom');
         }
       }
+    },
+    computed: {
+      // widthBox () {
+      //   return window.innerWidth;
+      // },
+      // heightBox () {
+      //   return window.innerHeight;
+      // }
     },
     mounted: function () {
       this.showWindowSize();
@@ -94,12 +100,13 @@
         }
       },
       showWindowSize: function () { // 更改变形
-        if (sessionStorage.mediaHeight && sessionStorage.mediaHeight !== 0) {
-          this.heightBox = parseFloat(sessionStorage.mediaHeight);
-        } else {
-          this.heightBox = parseFloat(this.$refs.appHeight.clientHeight);
-          sessionStorage.mediaHeight = this.heightBox;
-        }
+        // if (sessionStorage.mediaHeight && sessionStorage.mediaHeight !== 0) {
+        //   this.heightBox = parseFloat(sessionStorage.mediaHeight);
+        // } else {
+        //   this.heightBox = parseFloat(this.$refs.appHeight.clientHeight);
+        //   sessionStorage.mediaHeight = this.heightBox;
+        // }
+        this.heightBox = parseFloat(this.$refs.appHeight.clientHeight);
         let slace = this.widthBox / 640;
         eventBus.slace = slace;
         // body
@@ -144,7 +151,7 @@
 </script>
 
 <style lang="scss">
-  @import url("//at.alicdn.com/t/font_577847_1g7xs47ra88jv2t9.css");
+  @import url("//at.alicdn.com/t/font_577847_h421pfbac8cwhfr.css");
   /* 样式重置reset */
   *, ::before, ::after {
     box-sizing: border-box
