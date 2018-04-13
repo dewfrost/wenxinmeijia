@@ -60,7 +60,7 @@
         <span class="iconfont" :class="'icon-' + iconfontList[index]"></span>
         <span class="set_name">{{setName}}</span>
       </div>
-      <div class="set_list copy_btn" @click="copy()" :data-clipboard-text="copyLink" v-if="isWechat()">
+      <div class="set_list copy_btn" @click="copy()" :data-clipboard-text="copyLink">
         <span class="iconfont icon-copy"></span>
         <span class="set_name">复制链接</span>
       </div>
@@ -118,10 +118,8 @@ export default {
     this.getCarouselList();
     // 获取累计收益列表
     this.getMoneylList();
-    // 微信中获取要分享的链接
-    if (this.isWechat()) {
-      this.getCopyLink();
-    }
+    // 获取要分享的链接
+    this.getCopyLink();
   },
   mounted: function () {
     this.getFooter();
@@ -486,17 +484,17 @@ export default {
       display: block;
       background: #f5f5f5;
     }
-    &:after{
-      content: '';
-      display: block;
-      position: absolute;
-      top: 50%;
-      height: 1px;
-      background-color: #e6e6e6;
-      width: 90%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+    // &:after{
+    //   content: '';
+    //   display: block;
+    //   position: absolute;
+    //   top: 50%;
+    //   height: 1px;
+    //   background-color: #e6e6e6;
+    //   width: 90%;
+    //   left: 50%;
+    //   transform: translate(-50%, -50%);
+    // }
     .add_list{
       width: 33.3333%;
       padding: 30px 0;
