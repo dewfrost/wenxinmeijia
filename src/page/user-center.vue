@@ -484,17 +484,17 @@ export default {
       display: block;
       background: #f5f5f5;
     }
-    // &:after{
-    //   content: '';
-    //   display: block;
-    //   position: absolute;
-    //   top: 50%;
-    //   height: 1px;
-    //   background-color: #e6e6e6;
-    //   width: 90%;
-    //   left: 50%;
-    //   transform: translate(-50%, -50%);
-    // }
+    &:after{
+      content: '';
+      display: block;
+      position: absolute;
+      top: 50%;
+      height: 1px;
+      background-color: #e6e6e6;
+      width: 90%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
     .add_list{
       width: 33.3333%;
       padding: 30px 0;
@@ -527,17 +527,17 @@ export default {
       display: block;
       background: #f5f5f5;
     }
-    &:after{
-      content: '';
-      display: block;
-      position: absolute;
-      top: 50%;
-      height: 1px;
-      background-color: #e6e6e6;
-      width: 90%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+    // &:after{
+    //   content: '';
+    //   display: block;
+    //   position: absolute;
+    //   top: 50%;
+    //   height: 1px;
+    //   background-color: #e6e6e6;
+    //   width: 90%;
+    //   left: 50%;
+    //   transform: translate(-50%, -50%);
+    // }
     .set_list{
       width: 25%;
       padding: 30px 0;

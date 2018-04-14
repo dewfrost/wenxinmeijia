@@ -103,32 +103,37 @@ export default {
     pay () {
       if ((this.balance < this.price) && this.activeNum === 2) {
         this.toast('余额不足');
-      } else if (this.activeNum === 0) {
-        // 选择的支付类型是支付宝
-        this.toast('王政还没写好接口');
-      } else if (this.activeNum === 1) {
-        // 选择的支付类型是微信
-        this.payWechat();
+      } else if (this.activeNum !== 2) {
+        // 选择的支付类型是微信和支付宝
+        this.payOther();
       } else {
         this.goPay(this.$route.query.id, () => {
           this.$router.push('paymentSuccess');
         });
       }
     },
-    payWechat () {
+    payOther () {
+      let type;
+      if (this.activeNum === 1) {
+        type = 'weixin';
+      } else {
+        type = 'zhifubao';
+      }
       this.axios.post('/order_pay/wy_pay', {
         id: this.$route.query.id,
-        type: 'weixin'
+        type: type
       })
         .then(({data}) => {
           if (data.status === 1) {
-            this.wechatPay(data.data);
+            // 微信
+            if (this.activeNum === 1) {
+              this.wechatPay(data.data);
+            } else { // 支付宝
+              window.location.href = data.data;
+            }
           } else {
             this.toast(data.message);
           }
-        })
-        .catch(function (error) {
-          console.log(error);
         });
     },
     // 微信支付
