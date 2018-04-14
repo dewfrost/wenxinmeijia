@@ -29,8 +29,8 @@
     name: 'app',
     data () {
       return {// 数据
-        widthBox: window.innerWidth, // 盒子宽
-        heightBox: window.innerHeight, // 盒子高
+        widthBox: 0, // 盒子宽
+        heightBox: 0, // 盒子高
         transitionName: 'slide-right',
         roter: this.$route.name,
         scrollRouteArr: [
@@ -39,6 +39,7 @@
       };
     },
     beforeMount: function () {
+      this.getBoxSize();
     },
     watch: {
       // 页面切换方式
@@ -55,14 +56,6 @@
         }
       }
     },
-    computed: {
-      // widthBox () {
-      //   return window.innerWidth;
-      // },
-      // heightBox () {
-      //   return window.innerHeight;
-      // }
-    },
     mounted: function () {
       this.showWindowSize();
       this.$nextTick(function () {
@@ -75,10 +68,16 @@
     beforeUpdate: function () { // 数据更新时调用,在渲染之前
       this.showWindowSize();
     },
-    updated: function () {}, // 数据更新后,渲染后调用(禁止)
-    beforeDestroy: function () {}, // 实例销毁前调用,解绑中间层的数据传输
-    destroyed: function () {}, // 实例销毁后调用
     methods: {
+      getBoxSize () {
+        if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+          this.widthBox = window.screen.width;
+          this.heightBox = window.screen.height;
+        } else {
+          this.widthBox = window.innerWidth;
+          this.heightBox = window.innerHeight;
+        }
+      },
       isWechat () {
         if (navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) {
           return true;
